@@ -1,6 +1,6 @@
 {
   "name": "avantstay-ui",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -26,6 +26,16 @@
     "typescript": "3.3.3333"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "devDependencies": {
+    "@storybook/react": "^5.0.0",
+    "@storybook/addon-actions": "^5.0.0",
+    "@storybook/addon-links": "^5.0.0",
+    "@storybook/addons": "^5.0.0",
+    "@babel/core": "^7.3.4",
+    "babel-loader": "^8.0.5"
   }
 }

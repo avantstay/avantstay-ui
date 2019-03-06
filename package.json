@@ -1,9 +1,9 @@
 {
   "name": "avantstay-ui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "dependencies": {
     "@types/classnames": "^2.2.7",
     "@types/date-fns": "^2.6.0",

@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "outDir": "dist"
+    "outDir": "lib"
   },
   "include": [
     "src"

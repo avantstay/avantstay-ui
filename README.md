@@ -2,7 +2,7 @@
 
 ## Install it
 
-`yarn add https://github.com/avantstay/avantstay-ui.git#v0.0.3`
+`yarn add https://github.com/avantstay/avantstay-ui.git#v0.0.4`
 
 ## Use it
 

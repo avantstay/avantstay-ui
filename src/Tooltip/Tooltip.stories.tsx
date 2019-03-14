@@ -35,7 +35,7 @@ Stories
               ligula
               volutpat.
             </td>
-            <td>
+            <td align="right">
               <Tooltip
                 tip={
                   <div>

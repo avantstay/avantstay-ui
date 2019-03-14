@@ -94,7 +94,7 @@ export default function Tooltip({
   const hGravity = {
 
     [HorizontalGravity.left]: () =>
-      left - simulatedWidth + 50 > 0
+      left - simulatedWidth + 40 > 0
         ? HorizontalGravity.left
         : left - simulatedWidth / 2 > 0
         ? HorizontalGravity.center
@@ -102,7 +102,9 @@ export default function Tooltip({
 
     [HorizontalGravity.center]: () =>
       left - simulatedWidth / 2 > 0
+        ? right + simulatedWidth / 2 < documentWidth
         ? HorizontalGravity.center
+        : HorizontalGravity.left
         : HorizontalGravity.right,
 
     [HorizontalGravity.right]: () =>
@@ -113,6 +115,8 @@ export default function Tooltip({
         : HorizontalGravity.left,
 
   }[preferredHorizontalGravity as HorizontalGravity]()
+
+  console.log(right, simulatedWidth, documentWidth, right + simulatedWidth / 2, preferredHorizontalGravity, hGravity)
 
   const anchorTop = {
     [VerticalGravity.top]   : top,

@@ -21,6 +21,7 @@ Stories
           volutpat.
         </p>
         <table style={{ width: '100%' }}>
+          <tbody>
           <tr>
             <td style={{ width: '50%' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
@@ -37,9 +38,20 @@ Stories
             </td>
             <td align="right">
               <Tooltip
+                wrapper="span"
+                maxWidth={300}
                 tip={
                   <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      In fermentum quis turpis nec dictum. Ut finibus ante at
+                      pretium mollis.
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      In fermentum quis turpis nec dictum. Ut finibus ante at
+                      pretium mollis.
+                    </p>
                   </div>
                 }
                 style={{ display: 'inline-block', background: 'yellow' }}
@@ -65,8 +77,13 @@ Stories
             </td>
             <td>
               <Tooltip
-                tip={<div><h2>Cool tip 2</h2><ul><li>One</li><li>Two</li></ul></div>}
-                preferredHorizontalGravity={HorizontalGravity.left}
+                tip={<div><h2>Cool tip 2</h2>
+                  <ul>
+                    <li>One</li>
+                    <li>Two</li>
+                  </ul>
+                </div>}
+                preferredHorizontalGravity={HorizontalGravity.right}
                 preferredVerticalGravity={VerticalGravity.bottom}
                 style={{ display: 'inline-block', background: 'yellow' }}
               >
@@ -75,6 +92,7 @@ Stories
               </Tooltip>
             </td>
           </tr>
+          </tbody>
         </table>
         <p>
           Phasellus eu efficitur nulla, pretium sagittis augue. Class aptent

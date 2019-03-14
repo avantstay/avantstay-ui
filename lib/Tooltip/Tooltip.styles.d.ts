@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { HorizontalGravity, VerticalGravity } from './Tooltip';
 interface TipContainerProps {
-    vSpacing: number;
     maxWidth: number | string;
     top: number;
     left: number;

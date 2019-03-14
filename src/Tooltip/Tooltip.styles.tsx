@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components'
 import { HorizontalGravity, VerticalGravity } from './Tooltip'
 
 interface TipContainerProps {
-  vSpacing: number
   maxWidth: number | string
   top: number
   left: number
@@ -35,16 +34,7 @@ export const TipContainer: React.FC<TipContainerProps> = styled.div<TipContainer
   top: ${p => p.top}px;
   left: ${p => p.left}px;
   background: ${p => p.backgroundColor};
-  z-index: 999;
-  transform: 
-    translateY(${p => p.vGravity === VerticalGravity.top
-  ? `calc(-100% - ${arrowHeight + p.vSpacing}px)`
-  : `calc(${arrowHeight + p.vSpacing}px)` }) 
-    translateX(${p => ({
-  center: '-50%',
-  left: `calc(-100% + ${arrowHeight * 4}px)`,
-  right: `-${arrowHeight * 4}px`
-}[p.hGravity]) });  
+  z-index: 999; 
   opacity: 0;
   animation: ${appearIn} 200ms forwards;
   color: ${p => p.textColor};
@@ -73,6 +63,7 @@ export const TipContainer: React.FC<TipContainerProps> = styled.div<TipContainer
 `
 
 export const SimulatedTipContainer: React.FC<SimulatedTipContainerProps & any> = styled.div<SimulatedTipContainerProps>`
+  display: inline-block;
   max-width: ${p => typeof p.maxWidth === 'number' ? `${p.maxWidth}px` : p.maxWidth};
   padding: ${p => typeof p.padding === 'number' ? `${p.padding}px` : p.padding}; 
 `

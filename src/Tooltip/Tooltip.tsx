@@ -38,6 +38,7 @@ export interface TooltipProps {
 }
 
 const portalElement = document.createElement('div')
+portalElement.style.overflow = 'hidden'
 document.body.appendChild(portalElement)
 
 const simulatedPortal = (() => {
@@ -70,8 +71,10 @@ export default function Tooltip({
   const wrapperRef = useRef(null)
   const simulatedContainerRef = useRef(null)
   const scrollableParent = useScrollableParent(wrapperRef.current)
-  const { height, width, left, top, right, bottom } = useElementOffset(wrapperRef.current)
-  const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(simulatedContainerRef)
+  const { height, width, left, top, right, bottom } = useElementOffset(
+    wrapperRef.current)
+  const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(
+    simulatedContainerRef)
   const { documentWidth, documentHeight } = getDocumentDimensions()
   const extraHeight = arrowHeight + verticalSpacing
 
@@ -94,7 +97,7 @@ export default function Tooltip({
   const hGravity = {
 
     [HorizontalGravity.left]: () =>
-      left - simulatedWidth + 40 > 0
+      left - simulatedWidth + (width / 2) + 40 > 0
         ? HorizontalGravity.left
         : left - simulatedWidth / 2 > 0
         ? HorizontalGravity.center
@@ -108,7 +111,7 @@ export default function Tooltip({
         : HorizontalGravity.right,
 
     [HorizontalGravity.right]: () =>
-      right + simulatedWidth < documentWidth
+      right + simulatedWidth - (width / 2) < documentWidth
         ? HorizontalGravity.right
         : right + simulatedWidth / 2 < documentWidth
         ? HorizontalGravity.center
@@ -116,17 +119,17 @@ export default function Tooltip({
 
   }[preferredHorizontalGravity as HorizontalGravity]()
 
-  console.log(right, simulatedWidth, documentWidth, right + simulatedWidth / 2, preferredHorizontalGravity, hGravity)
-
   const anchorTop = {
-    [VerticalGravity.top]   : top,
-    [VerticalGravity.bottom]: top + height,
+    [VerticalGravity.top]   : top - simulatedHeight - arrowHeight -
+    verticalSpacing,
+    [VerticalGravity.bottom]: top + height + arrowHeight + verticalSpacing,
   }[vGravity]
 
   const anchorLeft = {
-    [HorizontalGravity.center]: left + (width / 2),
-    [HorizontalGravity.left]  : left,
-    [HorizontalGravity.right] : left + width,
+    [HorizontalGravity.center]: left + (width / 2) - simulatedWidth / 2,
+    [HorizontalGravity.left]  : left + (width / 2) - simulatedWidth + 4 *
+    arrowHeight,
+    [HorizontalGravity.right] : left + (width / 2) - 4 * arrowHeight,
   }[hGravity]
 
   return (
@@ -159,7 +162,6 @@ export default function Tooltip({
           <TipContainer
             padding={tipContainerPadding}
             borderRadius={tipContainerBorderRadius}
-            vSpacing={verticalSpacing}
             vGravity={vGravity}
             hGravity={hGravity}
             backgroundColor={backgroundColor}

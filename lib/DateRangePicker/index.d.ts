@@ -1,2 +1,2 @@
-import { default as _DateRangePicker } from './DateRangePicker';
-export default _DateRangePicker;
+import { default as _ } from './DateRangePicker';
+export default _;

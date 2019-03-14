@@ -30,7 +30,6 @@ export interface TooltipProps {
   tipContainerPadding?: number | string,
   tipContainerBorderRadius?: number | string,
   vSpacing?: number,
-  portalElement?: HTMLElement,
   wrapper?: React.PureComponent | React.FC | React.Component | React.ClassicComponent | string,
   preferredVerticalGravity?: VerticalGravity,
   preferredHorizontalGravity?: HorizontalGravity,
@@ -38,8 +37,8 @@ export interface TooltipProps {
   children: React.ReactNode
 }
 
-const portal = document.createElement('div')
-document.body.appendChild(portal)
+const portalElement = document.createElement('div')
+document.body.appendChild(portalElement)
 
 const simulatedPortal = (() => {
   const el = document.createElement('div')
@@ -64,7 +63,6 @@ export default function Tooltip({
                                   children,
                                   tipContainerPadding = '14px 20px 15px 20px',
                                   tipContainerBorderRadius = 3,
-                                  portalElement = portal,
                                 }: TooltipProps) {
 
   const Component: any = wrapper

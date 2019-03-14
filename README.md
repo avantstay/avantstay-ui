@@ -2,12 +2,13 @@
 
 ## Install it
 
-`yarn add https://github.com/avantstay/avantstay-ui.git#v0.0.10`
+`yarn add https://github.com/avantstay/avantstay-ui.git#v0.1.0`
 
 ## Use it
 
 ```
 import DateRangePicker from 'avantstay-ui/lib/DateRangePicker'
+import Tooltip from 'avantstay-ui/lib/Tooltip'
 
 <DateRangePicker 
   show={true|false}
@@ -19,4 +20,20 @@ import DateRangePicker from 'avantstay-ui/lib/DateRangePicker'
   onChange={...}
   onInit={...}
 />
+
+<Tooltip
+  className={...}
+  style={...}
+  tip={...}                        // ReactNode
+  vSpacing={...}                   // Default: 5
+  backgroundColor={...}            // Default: #003459
+  maxWidth={...}                   // Default: 200
+  wrapper={...}                    // Default: div
+  preferredVerticalGravity={...}   // Default: VerticalGravity.top
+  preferredHorizontalGravity={...} // Default: HorizontalGravity.center
+  tipContainerBorderRadius={...}   // Default: 3
+  tipContainerPadding={...}        // Default: 14px 20px 15px 20px
+>
+  Triggering content
+</Tooltip>
 ```

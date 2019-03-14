@@ -29,7 +29,7 @@ export interface TooltipProps {
   maxWidth?: number | string,
   tipContainerPadding?: number | string,
   tipContainerBorderRadius?: number | string,
-  vSpacing?: number,
+  verticalSpacing?: number,
   wrapper?: React.PureComponent | React.FC | React.Component | React.ClassicComponent | string,
   preferredVerticalGravity?: VerticalGravity,
   preferredHorizontalGravity?: HorizontalGravity,
@@ -53,7 +53,7 @@ export default function Tooltip({
                                   wrapper = 'div',
                                   preferredVerticalGravity = VerticalGravity.top,
                                   preferredHorizontalGravity = HorizontalGravity.center,
-                                  vSpacing = 5,
+                                  verticalSpacing = 5,
                                   backgroundColor = '#003459',
                                   textColor = 'white',
                                   maxWidth = 200,
@@ -73,7 +73,7 @@ export default function Tooltip({
   const { height, width, left, top, right, bottom } = useElementOffset(wrapperRef.current)
   const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(simulatedContainerRef)
   const { documentWidth, documentHeight } = getDocumentDimensions()
-  const extraHeight = arrowHeight + vSpacing
+  const extraHeight = arrowHeight + verticalSpacing
 
   useScrollToHideTip(scrollableParent, showTip, setShowTip)
 
@@ -155,7 +155,7 @@ export default function Tooltip({
           <TipContainer
             padding={tipContainerPadding}
             borderRadius={tipContainerBorderRadius}
-            vSpacing={vSpacing}
+            vSpacing={verticalSpacing}
             vGravity={vGravity}
             hGravity={hGravity}
             backgroundColor={backgroundColor}

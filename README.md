@@ -2,7 +2,7 @@
 
 ## Install it
 
-`yarn add https://github.com/avantstay/avantstay-ui.git#v0.1.0`
+`yarn add https://github.com/avantstay/avantstay-ui.git#v0.1.2`
 
 ## Use it
 
@@ -25,7 +25,7 @@ import Tooltip from 'avantstay-ui/lib/Tooltip'
   className={...}
   style={...}
   tip={...}                        // ReactNode
-  vSpacing={...}                   // Default: 5
+  verticalSpacing={...}            // Default: 5
   backgroundColor={...}            // Default: #003459
   maxWidth={...}                   // Default: 200
   wrapper={...}                    // Default: div

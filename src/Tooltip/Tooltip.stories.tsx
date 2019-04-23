@@ -38,7 +38,6 @@ Stories
             </td>
             <td align="right">
               <Tooltip
-                wrapper="span"
                 maxWidth={300}
                 tip={
                   <div>
@@ -54,10 +53,11 @@ Stories
                     </p>
                   </div>
                 }
-                style={{ display: 'inline-block', background: 'yellow' }}
               >
+                <span>
                 Need help? Lorem ipsum dolor sit amet<br/>
                 Etiam ac rhoncus elit, ut iaculis turpis.
+                  </span>
               </Tooltip>
             </td>
           </tr>
@@ -87,8 +87,10 @@ Stories
                 preferredVerticalGravity={VerticalGravity.bottom}
                 style={{ display: 'inline-block', background: 'yellow' }}
               >
-                Need help? Lorem ipsum dolor sit amet<br/>
-                Etiam ac rhoncus elit, ut iaculis turpis.
+                <div style={{ display: 'inline-block', background: 'yellow' }}>
+                  Need help? Lorem ipsum dolor sit amet<br/>
+                  Etiam ac rhoncus elit, ut iaculis turpis.
+                </div>
               </Tooltip>
             </td>
           </tr>

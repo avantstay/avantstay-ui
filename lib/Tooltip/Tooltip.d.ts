@@ -17,10 +17,9 @@ export interface TooltipProps {
     tipContainerPadding?: number | string;
     tipContainerBorderRadius?: number | string;
     verticalSpacing?: number;
-    wrapper?: React.PureComponent | React.FC | React.Component | React.ClassicComponent | string;
     preferredVerticalGravity?: VerticalGravity;
     preferredHorizontalGravity?: HorizontalGravity;
     tip: React.ReactNode;
     children: React.ReactNode;
 }
-export default function Tooltip({ wrapper, preferredVerticalGravity, preferredHorizontalGravity, verticalSpacing, backgroundColor, textColor, maxWidth, style, className, tip, children, tipContainerPadding, tipContainerBorderRadius, }: TooltipProps): JSX.Element;
+export default function Tooltip({ preferredVerticalGravity, preferredHorizontalGravity, verticalSpacing, backgroundColor, textColor, maxWidth, tip, children, tipContainerPadding, tipContainerBorderRadius, }: TooltipProps): JSX.Element;

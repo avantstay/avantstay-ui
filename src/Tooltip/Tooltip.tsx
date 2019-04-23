@@ -30,7 +30,6 @@ export interface TooltipProps {
   tipContainerPadding?: number | string,
   tipContainerBorderRadius?: number | string,
   verticalSpacing?: number,
-  wrapper?: React.PureComponent | React.FC | React.Component | React.ClassicComponent | string,
   preferredVerticalGravity?: VerticalGravity,
   preferredHorizontalGravity?: HorizontalGravity,
   tip: React.ReactNode,
@@ -51,22 +50,22 @@ const simulatedPortal = (() => {
 })()
 
 export default function Tooltip({
-                                  wrapper = 'div',
                                   preferredVerticalGravity = VerticalGravity.top,
                                   preferredHorizontalGravity = HorizontalGravity.center,
                                   verticalSpacing = 5,
                                   backgroundColor = '#003459',
                                   textColor = 'white',
                                   maxWidth = 200,
-                                  style,
-                                  className,
                                   tip,
                                   children,
                                   tipContainerPadding = '14px 20px 15px 20px',
                                   tipContainerBorderRadius = 3,
                                 }: TooltipProps) {
 
-  const Component: any = wrapper
+  // const childElement = ReactDOM.findDOMNode(children as any)
+  //
+  // console.log(childElement)
+
   const [showTip, setShowTip] = useState(false)
   const wrapperRef = useRef(null)
   const simulatedContainerRef = useRef(null)
@@ -145,17 +144,12 @@ export default function Tooltip({
           </SimulatedTipContainer>
         ), simulatedPortal)
       }
-      <Component
-        ref={wrapperRef}
-        style={style}
-        className={className}
-        onMouseEnter={() => setShowTip(true)}
-        onMouseLeave={() => setShowTip(false)}
-        onMouseMove={() => !showTip && setShowTip(true)}
-      >
-        {children}
-      </Component>
-
+      {React.cloneElement(children as any, {
+        ref         : wrapperRef,
+        onMouseEnter: () => setShowTip(true),
+        onMouseLeave: () => setShowTip(false),
+        onMouseMove : () => !showTip && setShowTip(true),
+      })}
       {
         showTip &&
         ReactDOM.createPortal((

@@ -49,31 +49,39 @@ const simulatedPortal = (() => {
   return el
 })()
 
-export default function Tooltip({
-                                  preferredVerticalGravity = VerticalGravity.top,
-                                  preferredHorizontalGravity = HorizontalGravity.center,
-                                  verticalSpacing = 5,
-                                  backgroundColor = '#003459',
-                                  textColor = 'white',
-                                  maxWidth = 200,
-                                  tip,
-                                  children,
-                                  tipContainerPadding = '14px 20px 15px 20px',
-                                  tipContainerBorderRadius = 3,
-                                }: TooltipProps) {
-
-  // const childElement = ReactDOM.findDOMNode(children as any)
-  //
-  // console.log(childElement)
+export default function Tooltip(props: TooltipProps) {
+  const {
+    preferredVerticalGravity = VerticalGravity.top,
+    preferredHorizontalGravity = HorizontalGravity.center,
+    verticalSpacing = 5,
+    backgroundColor = '#003459',
+    textColor = 'white',
+    maxWidth = 200,
+    tip,
+    children,
+    tipContainerPadding = '14px 20px 15px 20px',
+    tipContainerBorderRadius = 3,
+  } = props
 
   const [showTip, setShowTip] = useState(false)
   const wrapperRef = useRef(null)
   const simulatedContainerRef = useRef(null)
   const scrollableParent = useScrollableParent(wrapperRef.current)
-  const { height, width, left, top, right, bottom } = useElementOffset(
-    wrapperRef.current)
-  const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(
-    simulatedContainerRef)
+
+  const {
+    height,
+    width,
+    left,
+    top,
+    right,
+    bottom,
+  } = useElementOffset(wrapperRef.current)
+
+  const {
+    simulatedHeight,
+    simulatedWidth,
+  } = useSimulatedContainerDimensions(simulatedContainerRef)
+
   const { documentWidth, documentHeight } = getDocumentDimensions()
   const extraHeight = arrowHeight + verticalSpacing
 

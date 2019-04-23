@@ -22,4 +22,4 @@ export interface TooltipProps {
     tip: React.ReactNode;
     children: React.ReactNode;
 }
-export default function Tooltip({ preferredVerticalGravity, preferredHorizontalGravity, verticalSpacing, backgroundColor, textColor, maxWidth, tip, children, tipContainerPadding, tipContainerBorderRadius, }: TooltipProps): JSX.Element;
+export default function Tooltip(props: TooltipProps): JSX.Element;

@@ -9,6 +9,7 @@
 ```
 import DateRangePicker from 'avantstay-ui/lib/DateRangePicker'
 import Tooltip from 'avantstay-ui/lib/Tooltip'
+import DropDownMenu from 'avantstay-ui/lib/DropDownMenu'
 
 <DateRangePicker
   show={true|false}

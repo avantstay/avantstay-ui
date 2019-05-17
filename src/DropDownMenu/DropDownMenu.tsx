@@ -27,7 +27,6 @@ type DropDownMenuProps = {
   children?: React.ReactNode;
   position: "right" | "left" | "center";
   title?: string;
-  router?: any;
   items: Array<itemsProps>;
 };
 
@@ -113,15 +112,7 @@ export class DropDownMenu extends React.PureComponent<
         const item = this.props.items[highlightIndex];
 
         setTimeout(() => {
-          if (
-            item.route &&
-            this.props.router &&
-            this.props.router.history.push
-          ) {
-            this.props.router.history.push(item.route);
-          } else if (item.action) {
-            item.action();
-          }
+          item.action();
         }, 100);
 
         this.onClickOut();
@@ -175,10 +166,7 @@ export class DropDownMenu extends React.PureComponent<
     const { className, trigger, children, items, position, title } = this.props;
 
     return (
-      <DropDownMenuRoot
-        // innerRef={(it: any) => this.root = it}
-        className={className}
-      >
+      <DropDownMenuRoot className={className}>
         <HiddenLabel htmlFor={this.id}>Dropdown search</HiddenLabel>
         <SearchField
           id={this.id}
@@ -206,7 +194,6 @@ export class DropDownMenu extends React.PureComponent<
                 <MenuItem
                   key={it.searchable || it.label}
                   highlight={i === highlightIndex ? "true" : "false"}
-                  to={it.route ? it.route : ""}
                   onClick={this.handleItemOnClick(it)}
                 >
                   {it.label}

@@ -11,10 +11,6 @@ type MenuItemListProps = {
 };
 
 type MenuItemProps = {
-  to?: string;
-  //https://github.com/styled-components/styled-components/issues/1198
-  // hightlight was passed as string instead of boolean to avoid this
-  // anoying error with react-router
   highlight: string;
 };
 

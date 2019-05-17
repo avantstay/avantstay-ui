@@ -1,15 +1,15 @@
-import { storiesOf } from "@storybook/react";
 import React from "react";
+import { storiesOf } from "@storybook/react";
+import centered from "@storybook/addon-centered/react";
+import { withKnobs, text, boolean, number } from "@storybook/addon-knobs";
 import DropDownMenu from "./DropDownMenu";
 
+type Position = "left" | "right" | "center" | undefined;
 const DropDownMenuStories = storiesOf("DropDownMenu", module);
 
-DropDownMenuStories.add("Default usage", () => (
-  <div
-    style={{
-      paddingLeft: "45%"
-    }}
-  >
+DropDownMenuStories.addDecorator(centered)
+  .addDecorator(withKnobs)
+  .add("Default usage", () => (
     <DropDownMenu
       items={[
         {
@@ -19,8 +19,8 @@ DropDownMenuStories.add("Default usage", () => (
           action: () => {}
         }
       ]}
+      position={"right"}
     >
       Menu label
     </DropDownMenu>
-  </div>
-));
+  ));

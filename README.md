@@ -10,12 +10,12 @@
 import DateRangePicker from 'avantstay-ui/lib/DateRangePicker'
 import Tooltip from 'avantstay-ui/lib/Tooltip'
 
-<DateRangePicker 
+<DateRangePicker
   show={true|false}
-  startDate={...} 
-  endDate={...} 
-  minDate={...} 
-  maxDate={...} 
+  startDate={...}
+  endDate={...}
+  minDate={...}
+  maxDate={...}
   onClose={...}
   onChange={...}
   onInit={...}
@@ -36,4 +36,17 @@ import Tooltip from 'avantstay-ui/lib/Tooltip'
 >
   Triggering content
 </Tooltip>
+
+<DropDownMenu
+  items={[
+    {
+      label: "First item",
+      searchable: "firstItem",
+      disabled: true|false,
+      action: () => {}
+    }
+  ]}
+>
+  <p>Menu label</p>
+</DropDownMenu>
 ```

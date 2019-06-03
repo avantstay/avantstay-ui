@@ -28,6 +28,8 @@ export interface DateRangePickerProps {
     format?: any;
     lang?: any;
     show: boolean;
+    showApply?: boolean;
+    applyLabel?: string;
     disableDaysBeforeToday?: any;
     shownDate?: any;
     showMonthArrow?: any;
@@ -50,6 +52,8 @@ declare class DateRangePicker extends Component<DateRangePickerProps, DateRangeP
         rangedCalendars: boolean;
         twoStepChange: boolean;
         clearButtonLabel: string;
+        showApply: boolean;
+        applyLabel: string;
     };
     step: number;
     calendarContainerRef: React.RefObject<any>;

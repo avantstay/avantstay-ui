@@ -39,23 +39,26 @@ export const CalendarContainer = styled.div<{
   }
 
   & .rdr-DateRange {
-    display: inline-flex;
     padding: 20px;
-    ${(p: any) => p.showApply && 'padding-bottom: 87px;'}
     background: white;
     box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.08);
-
-    ${MAXW_SM_SCREEN} {
+    display: flex;
+    flex-direction: column;
+    
+    & > div {
       display: inline-flex;
-      flex-direction: column;
-      padding: 20px;
-      padding-bottom: 80px;
-      min-height: 100%;
-      justify-content: center;
-    }
-
-    & * {
-      transition: all 0ms;
+  
+      ${MAXW_SM_SCREEN} {
+        display: inline-flex;
+        flex-direction: column;
+        padding: 20px;
+        min-height: 100%;
+        justify-content: center;
+      }
+  
+      & * {
+        transition: all 0ms;
+      }
     }
   }
 
@@ -376,14 +379,17 @@ export const IconAngleLeft = styled(AngleLeftIcon)`
 `
 
 export const ApplyButton = styled.button`
-  font-size: 14px;
-  font-weight: bold;
   text-align: center;
-  padding: 15px 28px;
+  padding: 10px 20px;
   cursor: pointer;
   color: #ffffff;
   background-color: #0091e3;
   border: none;
+  border-radius: 3px;
+  outline: none;
+  margin: 15px 0 0 auto;
+  font-size: 14px;
+  font-weight: 500;
 
   &:hover {
     background-color: rgba(0, 145, 227, 0.67);
@@ -392,10 +398,4 @@ export const ApplyButton = styled.button`
   &:active {
     background-color: rgb(0, 100, 177);
   }
-`
-
-export const ApplyContainer = styled.div`
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
 `

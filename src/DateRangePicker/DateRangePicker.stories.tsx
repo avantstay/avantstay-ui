@@ -7,18 +7,29 @@ import DateRangePicker from './'
 const DateRangePickerStories = storiesOf('DatePicker', module)
 DateRangePickerStories.addDecorator(withKnobs)
 
-DateRangePickerStories
-  .add('Default usage', () => (
+DateRangePickerStories.add('Default usage', () => (
+  <DateRangePicker
+    show={boolean('show', true)}
+    onChange={action('DateRangePicker[onChange]')}
+    onClose={action('DateRangePicker[onClose]')}
+    onInit={action('DateRangePicker[onInit]')}
+  />
+))
+  .add('With start and end date', () => (
     <DateRangePicker
       show={boolean('show', true)}
+      startDate={text('startDate', '2019-01-01')}
+      endDate={text('endDate', '2019-01-10')}
       onChange={action('DateRangePicker[onChange]')}
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}
     />
   ))
-  .add('With start and end date', () => (
+  .add('With apply button', () => (
     <DateRangePicker
       show={boolean('show', true)}
+      showApply={boolean('showApply', true)}
+      applyLabel={text('applyLabel', 'Apply')}
       startDate={text('startDate', '2019-01-01')}
       endDate={text('endDate', '2019-01-10')}
       onChange={action('DateRangePicker[onChange]')}

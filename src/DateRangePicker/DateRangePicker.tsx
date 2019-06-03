@@ -16,6 +16,8 @@ import {
   ClearButtonContainer,
   CloseButton,
   IconClose,
+  ApplyButton,
+  ApplyContainer,
 } from './Calendar.styles'
 import { defaultClasses } from './enums'
 
@@ -24,62 +26,65 @@ const calendarRoot = document.createElement('div')
 document.body.appendChild(calendarRoot)
 
 export type AnyDate = Date | string | number
-export type DateMaker = (() => AnyDate)
+export type DateMaker = () => AnyDate
 
 export type DateRange<T = AnyDate> = {
-  startDate: AnyDate | T,
+  startDate: AnyDate | T
   endDate: AnyDate | T
 }
 
 export interface DateRangePickerProps {
-  className?: string,
-  clearButtonLabel?: string,
-  firstDayOfWeek?: number,
-  calendars?: string | number,
-  startDate?: AnyDate | DateMaker,
-  endDate?: AnyDate | DateMaker,
-  minDate?: AnyDate | DateMaker,
-  maxDate?: AnyDate | DateMaker,
-  dateLimit?: DateMaker,
-  linkedCalendars?: boolean,
-  twoStepChange?: boolean,
-  onInit?: (range: DateRange<undefined>) => void,
-  onChange?: (range: DateRange<undefined>, source?: any) => void,
-  specialDays?: Array<any>,
-  offsetPositive?: boolean,
-  classNames?: { [name: string]: boolean },
+  className?: string
+  clearButtonLabel?: string
+  firstDayOfWeek?: number
+  calendars?: string | number
+  startDate?: AnyDate | DateMaker
+  endDate?: AnyDate | DateMaker
+  minDate?: AnyDate | DateMaker
+  maxDate?: AnyDate | DateMaker
+  dateLimit?: DateMaker
+  linkedCalendars?: boolean
+  twoStepChange?: boolean
+  onInit?: (range: DateRange<undefined>) => void
+  onChange?: (range: DateRange<undefined>, source?: any) => void
+  specialDays?: Array<any>
+  offsetPositive?: boolean
+  classNames?: { [name: string]: boolean }
   rangedCalendars?: boolean
-  format?: any,
-  lang?: any,
-  show: boolean,
-  disableDaysBeforeToday?: any,
-  shownDate?: any,
-  showMonthArrow?: any,
-  onClose?: any,
+  format?: any
+  lang?: any
+  show: boolean
+  showApply?: boolean
+  applyLabel?: string
+  disableDaysBeforeToday?: any
+  shownDate?: any
+  showMonthArrow?: any
+  onClose?: any
 }
 
 export interface DateRangePickerState {
-  range: DateRange<undefined>,
-  link: any,
+  range: DateRange<undefined>
+  link: any
   linkStepsCount: number
 }
 
-const getDate = (
-  date: AnyDate | DateMaker, defaultValue: AnyDate = ''): AnyDate => {
+const getDate = (date: AnyDate | DateMaker, defaultValue: AnyDate = ''): AnyDate => {
   return (typeof date === 'function' ? date() : date) || defaultValue
 }
 
 class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerState> {
   static defaultProps = {
-    linkedCalendars : true,
-    format          : 'DD/MM/YYYY',
-    calendars       : 2,
-    offsetPositive  : true,
-    classNames      : {},
-    specialDays     : [],
-    rangedCalendars : false,
-    twoStepChange   : false,
+    linkedCalendars: true,
+    format: 'DD/MM/YYYY',
+    calendars: 2,
+    offsetPositive: true,
+    classNames: {},
+    specialDays: [],
+    rangedCalendars: false,
+    twoStepChange: false,
     clearButtonLabel: 'Clear',
+    showApply: false,
+    applyLabel: 'Apply',
   }
 
   step = 0
@@ -98,8 +103,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     this.positioningRef = React.createRef()
 
     this.state = {
-      range         : { startDate, endDate },
-      link          : linkedCalendars && endDate,
+      range: { startDate, endDate },
+      link: linkedCalendars && endDate,
       linkStepsCount: 0,
     }
   }
@@ -115,19 +120,18 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
   componentWillReceiveProps(nextProps: DateRangePickerProps) {
     if (nextProps.startDate || nextProps.endDate) {
-      const startDate = nextProps.startDate &&
-        startOfDay(getDate(nextProps.startDate))
+      const startDate = nextProps.startDate && startOfDay(getDate(nextProps.startDate))
       const endDate = nextProps.endDate && endOfDay(getDate(nextProps.endDate))
-      const oldStartDate = this.props.startDate &&
-        startOfDay(getDate(this.props.startDate))
-      const oldEndDate = this.props.endDate &&
-        endOfDay((getDate(this.props.endDate)))
+      const oldStartDate = this.props.startDate && startOfDay(getDate(this.props.startDate))
+      const oldEndDate = this.props.endDate && endOfDay(getDate(this.props.endDate))
 
-      if (!isEqual(startDate as Date, oldStartDate as Date) ||
-        !isEqual(endDate as Date, oldEndDate as Date)) {
+      if (
+        !isEqual(startDate as Date, oldStartDate as Date) ||
+        !isEqual(endDate as Date, oldEndDate as Date)
+      ) {
         this.setRange({
           startDate: startDate || oldStartDate,
-          endDate  : endDate || oldEndDate,
+          endDate: endDate || oldEndDate,
         })
       }
     }
@@ -146,8 +150,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   }
 
   onClickOut = (e: MouseEvent) => {
-    if (!isDescendant(this.calendarContainerRef.current, e.target))
-      this.props.onClose()
+    if (!isDescendant(this.calendarContainerRef.current, e.target)) this.props.onClose()
   }
 
   orderRange = (range: DateRange<undefined>) => {
@@ -159,17 +162,15 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     return {
       startDate: endDate,
-      endDate  : startDate,
+      endDate: startDate,
     }
   }
 
-  setRange = (
-    range: DateRange<undefined>, source?: any, triggerChange?: boolean) => {
+  setRange = (range: DateRange<undefined>, source?: any, triggerChange?: boolean) => {
     const { onChange } = this.props
     range = this.orderRange(range)
 
-    this.setState({ range },
-      () => triggerChange && onChange && onChange(range, source))
+    this.setState({ range }, () => triggerChange && onChange && onChange(range, source))
   }
 
   handleSelect = (date: DateRange | AnyDate, source: any) => {
@@ -184,7 +185,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     const range = {
       startDate: startDate,
-      endDate  : endDate,
+      endDate: endDate,
     }
 
     switch (this.step) {
@@ -200,8 +201,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
         break
     }
 
-    const triggerChange = !this.props.twoStepChange || this.step === 0 &&
-      this.props.twoStepChange
+    const triggerChange = !this.props.twoStepChange || (this.step === 0 && this.props.twoStepChange)
 
     this.setRange(range, source, triggerChange)
   }
@@ -211,14 +211,13 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     this.setState({
       linkStepsCount: linkStepsCount - direction,
-      link          : addMonths(link, direction),
+      link: addMonths(link, direction),
     })
   }
 
   clearRange = () => {
     this.setRange({ startDate: undefined, endDate: undefined })
-    this.props.onChange &&
-    this.props.onChange({ startDate: undefined, endDate: undefined })
+    this.props.onChange && this.props.onChange({ startDate: undefined, endDate: undefined })
   }
 
   resetPosition = () => {
@@ -252,16 +251,16 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       showMonthArrow,
       onClose,
       show,
+      showApply,
+      applyLabel,
       clearButtonLabel,
     } = this.props
 
     const { range, link } = this.state
 
     const classes = { ...defaultClasses, ...classNames }
-    const yearsDiff = getYear(range.endDate as Date) -
-      getYear(range.startDate as Date)
-    const monthsDiff = getMonth(range.endDate as Date) -
-      getMonth(range.startDate as Date)
+    const yearsDiff = getYear(range.endDate as Date) - getYear(range.startDate as Date)
+    const monthsDiff = getMonth(range.endDate as Date) - getMonth(range.startDate as Date)
     const diff = yearsDiff * 12 + monthsDiff
     const calendarsCount = Number(calendars) - 1
 
@@ -274,6 +273,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             show={show}
             top={this.offsetTop}
             left={this.offsetLeft}
+            showApply={showApply}
           >
             <div className={classes.dateRange}>
               {(() => {
@@ -283,8 +283,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                 for (let i = calendarsCount; i >= 0; i--) {
                   const offset = offsetPositive ? i : -i
                   const realDiff = offsetPositive ? diff : -diff
-                  const realOffset = (rangedCalendars && i == calendarsCount &&
-                    diff != 0) ? realDiff : offset
+                  const realOffset = rangedCalendars && i == calendarsCount && diff != 0 ? realDiff : offset
 
                   _calendars[_method](
                     <Calendar
@@ -307,26 +306,35 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                     />,
                   )
                 }
-                return ([
+                return [
                   _calendars[0],
                   <ClearButtonContainer key="clearButton">
-                    <ClearButton
-                      show={range.startDate || range.endDate}
-                      onClick={this.clearRange}
-                    >
+                    <ClearButton show={range.startDate || range.endDate} onClick={this.clearRange}>
                       {clearButtonLabel}
                     </ClearButton>
-                    <CloseButton
-                      onClick={onClose}>
-                      <IconClose/>
+                    <CloseButton onClick={onClose}>
+                      <IconClose />
                     </CloseButton>
                   </ClearButtonContainer>,
                   _calendars[1],
-                ])
+                ]
               })()}
+              {showApply && (
+                <ApplyContainer>
+                  <ApplyButton
+                    onClick={(e: any) => {
+                      this.props.onChange!(range)
+                      onClose()
+                    }}
+                  >
+                    {applyLabel}
+                  </ApplyButton>
+                </ApplyContainer>
+              )}
             </div>
-          </CalendarContainer>
-          , calendarRoot)}
+          </CalendarContainer>,
+          calendarRoot,
+        )}
       </div>
     )
   }

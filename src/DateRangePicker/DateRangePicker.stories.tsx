@@ -7,61 +7,34 @@ import DateRangePicker from './'
 const DateRangePickerStories = storiesOf('DatePicker', module)
 DateRangePickerStories.addDecorator(withKnobs)
 
-DateRangePickerStories.add('Default usage', () => (
-  <div>
-    <p>
-      First first first first first first first first first first first first first first first
-      first first first first first first first first first first first first first first first
-      first first first first first first first first first first first first first first first
-      first first first first first first first first first first first first first first first
-      first first first first first first first
-    </p>
-    {boolean('show extra paragraph at the top', false) && (
+DateRangePickerStories
+  .add('Default usage', () => (
+    <div>
       <p>
-        Second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-      </p>
-    )}
-    <div className="oito">
-      <DateRangePicker
-        show={boolean('show', true)}
-        onChange={action('DateRangePicker[onChange]')}
-        onClose={action('DateRangePicker[onClose]')}
-        onInit={action('DateRangePicker[onInit]')}
-      />
-    </div>
-    {new Array(100).fill(1).map((it, i) => (
-      <p key={i}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa
-        cumque dicta dolor, eaque error esse ipsam libero maxime natus nisi quae quod ratione
-        repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error esse ipsam libero maxime
-        natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
-      </p>
-    ))}
-  </div>
-))
-  .add('Inside scrollable container', () => (
-    <div style={{ height: '90vh', width: '90vw', overflow: 'auto', position: 'relative' }}>
-      <p>
-        First first first first first first first first first first first first first first first
-        first first first first first first first first first first first first first first first
-        first first first first first first first first first first first first first first first
-        first first first first first first first first first first first first first first first
+        First first first first first first first first first first first first
+        first first first
+        first first first first first first first first first first first first
+        first first first
+        first first first first first first first first first first first first
+        first first first
+        first first first first first first first first first first first first
+        first first first
         first first first first first first first
       </p>
       {boolean('show extra paragraph at the top', false) && (
         <p>
-          Second second second second second second second second second second second second second
-          second second second second second second second second second second second second second
-          second second second second second second second second second second second second second
-          second second second second second second second second second second second second second
-          second second second second second second second second second second second second second
-          second second second second second second second second second second second second second
+          Second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
         </p>
       )}
       <div className="oito">
@@ -74,14 +47,88 @@ DateRangePickerStories.add('Default usage', () => (
       </div>
       {new Array(100).fill(1).map((it, i) => (
         <p key={i}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa
-          cumque dicta dolor, eaque error esse ipsam libero maxime natus nisi quae quod ratione
-          repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet, consectetur adipisicing
-          elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error esse ipsam libero
-          maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi,
+          consequuntur, culpa
+          cumque dicta dolor, eaque error esse ipsam libero maxime natus nisi
+          quae quod ratione
+          repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet,
+          consectetur adipisicing
+          elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error
+          esse ipsam libero maxime
+          natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
         </p>
       ))}
     </div>
+  ))
+  .add('Inside scrollable container', () => (
+    <div style={{
+      height: '90vh',
+      width: '90vw',
+      overflow: 'auto',
+      position: 'relative',
+    }}>
+      <p>
+        First first first first first first first first first first first first
+        first first first
+        first first first first first first first first first first first first
+        first first first
+        first first first first first first first first first first first first
+        first first first
+        first first first first first first first first first first first first
+        first first first
+        first first first first first first first
+      </p>
+      {boolean('show extra paragraph at the top', false) && (
+        <p>
+          Second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+          second second second second second second second second second second
+          second second second
+        </p>
+      )}
+      <div className="oito">
+        <DateRangePicker
+          show={boolean('show', true)}
+          onChange={action('DateRangePicker[onChange]')}
+          onClose={action('DateRangePicker[onClose]')}
+          onInit={action('DateRangePicker[onInit]')}
+        />
+      </div>
+      {new Array(100).fill(1).map((it, i) => (
+        <p key={i}>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi,
+          consequuntur, culpa
+          cumque dicta dolor, eaque error esse ipsam libero maxime natus nisi
+          quae quod ratione
+          repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet,
+          consectetur adipisicing
+          elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error
+          esse ipsam libero
+          maxime natus nisi quae quod ratione repudiandae rerum saepe ullam
+          veniam.
+        </p>
+      ))}
+    </div>
+  ))
+  .add('With apply button', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      showApply={boolean('showApply', true)}
+      applyLabel={text('applyLabel', 'Apply')}
+      startDate={text('startDate', '2019-01-01')}
+      endDate={text('endDate', '2019-01-10')}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+    />
   ))
   .add('With start and end date', () => (
     <DateRangePicker

@@ -18,37 +18,41 @@ import {
   ClearButtonContainer,
   CloseButton,
   IconClose,
+  ApplyButton,
+  ApplyContainer,
 } from './Calendar.styles'
 
 export type AnyDate = Date | string | number
-export type DateMaker = () => AnyDate
+export type DateMaker = (() => AnyDate)
 
 export type DateRange<T = AnyDate> = {
-  startDate: AnyDate | T
+  startDate: AnyDate | T,
   endDate: AnyDate | T
 }
 
 export interface DateRangePickerProps {
-  className?: string
-  clearButtonLabel?: string
-  firstDayOfWeek?: number
-  calendars?: string | number
-  startDate?: AnyDate | DateMaker
-  endDate?: AnyDate | DateMaker
-  minDate?: AnyDate | DateMaker
-  maxDate?: AnyDate | DateMaker
-  dateLimit?: DateMaker
-  linkedCalendars?: boolean
-  twoStepChange?: boolean
-  onInit?: (range: DateRange<undefined>) => void
-  onChange?: (range: DateRange<undefined>, source?: any) => void
-  specialDays?: Array<any>
-  offsetPositive?: boolean
-  classNames?: { [name: string]: boolean }
+  className?: string,
+  clearButtonLabel?: string,
+  firstDayOfWeek?: number,
+  calendars?: string | number,
+  startDate?: AnyDate | DateMaker,
+  endDate?: AnyDate | DateMaker,
+  minDate?: AnyDate | DateMaker,
+  maxDate?: AnyDate | DateMaker,
+  dateLimit?: DateMaker,
+  linkedCalendars?: boolean,
+  twoStepChange?: boolean,
+  onInit?: (range: DateRange<undefined>) => void,
+  onChange?: (range: DateRange<undefined>, source?: any) => void,
+  specialDays?: Array<any>,
+  offsetPositive?: boolean,
+  classNames?: { [name: string]: boolean },
   rangedCalendars?: boolean
   format?: any
   lang?: any
   show: boolean
+  showApply?: boolean
+  applyLabel?: string
   disableDaysBeforeToday?: any
   shownDate?: any
   showMonthArrow?: any
@@ -62,20 +66,21 @@ export interface DateRangePickerState {
   portalElement: HTMLElement | null
 }
 
-const getDate = (date: AnyDate | DateMaker, defaultValue: AnyDate = ''): AnyDate => {
+const getDate = (
+  date: AnyDate | DateMaker, defaultValue: AnyDate = ''): AnyDate => {
   return (typeof date === 'function' ? date() : date) || defaultValue
 }
 
 class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerState> {
   static defaultProps = {
-    linkedCalendars: true,
-    format: 'DD/MM/YYYY',
-    calendars: 2,
-    offsetPositive: true,
-    classNames: {},
-    specialDays: [],
-    rangedCalendars: false,
-    twoStepChange: false,
+    linkedCalendars : true,
+    format          : 'DD/MM/YYYY',
+    calendars       : 2,
+    offsetPositive  : true,
+    classNames      : {},
+    specialDays     : [],
+    rangedCalendars : false,
+    twoStepChange   : false,
     clearButtonLabel: 'Clear',
   }
 
@@ -98,7 +103,6 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       range: { startDate, endDate },
       link: linkedCalendars && endDate,
       linkStepsCount: 0,
-      portalElement: null,
     }
   }
 
@@ -106,13 +110,9 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     const { onInit } = this.props
     onInit && onInit(this.state.range)
 
-    if (this.props.show) window.addEventListener('click', this.onClickOut)
-
-    this.forceUpdate()
-
-    this.setState({
-      portalElement: getPortalElement(this.positioningRef.current),
-    })
+    if (this.props.show) {
+      window.addEventListener('click', this.onClickOut)
+    }
   }
 
   componentWillReceiveProps(nextProps: DateRangePickerProps) {
@@ -147,7 +147,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   }
 
   onClickOut = (e: MouseEvent) => {
-    if (!isDescendant(this.calendarContainerRef.current, e.target)) this.props.onClose()
+    if (!isDescendant(this.calendarContainerRef.current, e.target))
+      this.props.onClose()
   }
 
   orderRange = (range: DateRange<undefined>) => {
@@ -167,7 +168,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     const { onChange } = this.props
     range = this.orderRange(range)
 
-    this.setState({ range }, () => triggerChange && onChange && onChange(range, source))
+    this.setState({ range },
+      () => triggerChange && onChange && onChange(range, source))
   }
 
   handleSelect = (date: DateRange | AnyDate, source: any) => {
@@ -214,7 +216,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
   clearRange = () => {
     this.setRange({ startDate: undefined, endDate: undefined })
-    this.props.onChange && this.props.onChange({ startDate: undefined, endDate: undefined })
+    this.props.onChange &&
+    this.props.onChange({ startDate: undefined, endDate: undefined })
   }
 
   resetPosition = () => {
@@ -248,6 +251,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       showMonthArrow,
       onClose,
       show,
+      showApply,
+      applyLabel,
       clearButtonLabel,
     } = this.props
 
@@ -274,55 +279,64 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                   const _calendars: Array<any> = []
                   const _method = offsetPositive ? 'unshift' : 'push'
 
-                  for (let i = calendarsCount; i >= 0; i--) {
-                    const offset = offsetPositive ? i : -i
-                    const realDiff = offsetPositive ? diff : -diff
-                    const realOffset =
-                      rangedCalendars && i == calendarsCount && diff != 0 ? realDiff : offset
+                for (let i = calendarsCount; i >= 0; i--) {
+                  const offset = offsetPositive ? i : -i
+                  const realDiff = offsetPositive ? diff : -diff
+                  const realOffset = rangedCalendars && i == calendarsCount && diff != 0 ? realDiff : offset
 
-                    _calendars[_method](
-                      <Calendar
-                        showMonthArrow={showMonthArrow}
-                        shownDate={shownDate}
-                        disableDaysBeforeToday={disableDaysBeforeToday}
-                        lang={lang}
-                        key={i}
-                        offset={realOffset}
-                        link={linkedCalendars && link}
-                        linkCB={this.moveCalendarDisplay.bind(this)}
-                        range={range}
-                        format={format}
-                        firstDayOfWeek={firstDayOfWeek}
-                        minDate={minDate}
-                        maxDate={maxDate}
-                        specialDays={specialDays}
-                        classNames={classes}
-                        onChange={this.handleSelect.bind(this)}
-                      />
-                    )
-                  }
-                  return (
-                    <React.Fragment>
-                      {_calendars[0]}
-                      <ClearButtonContainer>
-                        <ClearButton
-                          show={range.startDate || range.endDate}
-                          onClick={this.clearRange}
-                        >
-                          {clearButtonLabel}
-                        </ClearButton>
-                        <CloseButton onClick={onClose}>
-                          <IconClose />
-                        </CloseButton>
-                      </ClearButtonContainer>
-                      {_calendars[1]}
-                    </React.Fragment>
+                  _calendars[_method](
+                    <Calendar
+                      showMonthArrow={showMonthArrow}
+                      shownDate={shownDate}
+                      disableDaysBeforeToday={disableDaysBeforeToday}
+                      lang={lang}
+                      key={i}
+                      offset={realOffset}
+                      link={linkedCalendars && link}
+                      linkCB={this.moveCalendarDisplay.bind(this)}
+                      range={range}
+                      format={format}
+                      firstDayOfWeek={firstDayOfWeek}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      specialDays={specialDays}
+                      classNames={classes}
+                      onChange={this.handleSelect.bind(this)}
+                    />,
                   )
-                })()}
-              </div>
-            </CalendarContainer>,
-            portalElement
-          )}
+                }
+                return ([
+                  _calendars[0],
+                  <ClearButtonContainer key="clearButton">
+                    <ClearButton
+                      show={range.startDate || range.endDate}
+                      onClick={this.clearRange}
+                    >
+                      {clearButtonLabel}
+                    </ClearButton>
+                    <CloseButton
+                      onClick={onClose}>
+                      <IconClose/>
+                    </CloseButton>
+                  </ClearButtonContainer>,
+                  _calendars[1],
+                ])
+              })()}
+                {showApply && (
+                  <ApplyContainer>
+                    <ApplyButton
+                      onClick={(e: any) => {
+                        this.props.onChange!(range)
+                        onClose()
+                      }}
+                    >
+                      {applyLabel}
+                    </ApplyButton>
+                  </ApplyContainer>
+                )}
+            </div>
+          </CalendarContainer>
+          , portalElement)}
       </div>
     )
   }

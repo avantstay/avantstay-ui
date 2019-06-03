@@ -5,29 +5,30 @@ import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'
 import CloseIcon from './assets/CloseIcon'
 import { ERROR, NEUTRAL_LIGHT, PRIMARY_LIGHT } from './colors'
-import {
-  MAXW_SM_SCREEN,
-  MINW_SM_SCREEN,
-  Z_INDEX_CALENDAR_CONTAINER,
-} from './constants'
+import { MAXW_SM_SCREEN, MINW_SM_SCREEN, Z_INDEX_CALENDAR_CONTAINER } from './constants'
 
 const daySize = 36
 
-export const CalendarContainer = styled.div<{ show: boolean, top: number, left: number }>`
+export const CalendarContainer = styled.div<{
+  show: boolean
+  top: number
+  left: number
+  showApply?: boolean
+}>`
   z-index: ${Z_INDEX_CALENDAR_CONTAINER};
-  visibility: ${(p: any) => p.show ? 'visible' : 'hidden'};
-  opacity: ${(p: any) => p.show ? 1 : 0};
-  transform: translateY(${(p: any) => p.show ? 0 : 30}px);
+  visibility: ${(p: any) => (p.show ? 'visible' : 'hidden')};
+  opacity: ${(p: any) => (p.show ? 1 : 0)};
+  transform: translateY(${(p: any) => (p.show ? 0 : 30)}px);
   transition: all 100ms, top 0ms, left 0ms, right 0ms, bottom 0ms;
   position: ${(p: any) => p.position || 'absolute'};
   top: ${(p: any) => p.top}px;
   left: ${(p: any) => p.left}px;
   box-sizing: border-box;
-  
+
   & * {
-    box-sizing: border-box;  
+    box-sizing: border-box;
   }
-  
+
   ${MAXW_SM_SCREEN} {
     position: fixed;
     top: 0 !important;
@@ -36,51 +37,53 @@ export const CalendarContainer = styled.div<{ show: boolean, top: number, left: 
     left: 0 !important;
     overflow: auto;
   }
-  
+
   & .rdr-DateRange {
     display: inline-flex;
     padding: 20px;
+    ${(p: any) => p.showApply && 'padding-bottom: 87px;'}
     background: white;
     box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.08);
-    
+
     ${MAXW_SM_SCREEN} {
       display: inline-flex;
       flex-direction: column;
       padding: 20px;
+      padding-bottom: 80px;
       min-height: 100%;
       justify-content: center;
     }
-    
+
     & * {
       transition: all 0ms;
     }
   }
-  
+
   & .rdr-MonthAndYear-innerWrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     font-weight: 500;
-    
+
     ${MAXW_SM_SCREEN} {
       font-size: 18px;
       margin-bottom: 20px;
     }
   }
-  
+
   & .rdr-Calendar:last-child {
     margin-left: 30px;
-    
+
     ${MAXW_SM_SCREEN} {
       margin-left: 0;
     }
   }
-  
-  & .rdr-WeekDays { 
+
+  & .rdr-WeekDays {
     margin-bottom: 10px;
   }
-  
+
   & .rdr-WeekDay {
     display: inline-block;
     width: ${daySize}px;
@@ -89,20 +92,20 @@ export const CalendarContainer = styled.div<{ show: boolean, top: number, left: 
     font-size: 10px;
     font-weight: bold;
     color: ${NEUTRAL_LIGHT};
-    
+
     ${MAXW_SM_SCREEN} {
-      font-size: 3vw;  
-      width: calc((100vw - 40px) / 7)
+      font-size: 3vw;
+      width: calc((100vw - 40px) / 7);
     }
   }
-  
+
   & .rdr-MonthAndYear-month {
   }
-  
+
   & .rdr-MonthAndYear-year {
     margin-left: 5px;
   }
-  
+
   & .rdr-MonthAndYear-button {
     background: none;
     border: none;
@@ -112,76 +115,81 @@ export const CalendarContainer = styled.div<{ show: boolean, top: number, left: 
     outline: none;
     cursor: pointer !important;
     display: flex;
-    text-align:center;
+    text-align: center;
     align-items: center;
     justify-content: center;
     transition: all 0ms;
 
-    
     & * {
       cursor: pointer !important;
     }
-    
+
     &:hover {
       ${MINW_SM_SCREEN} {
-        background: rgba(0,0,0,.1)
+        background: rgba(0, 0, 0, 0.1);
       }
     }
   }
-  
+
   ${MINW_SM_SCREEN} {
-    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.next { visibility: hidden }
-    & .rdr-Calendar:last-child .rdr-MonthAndYear-button.prev { visibility: hidden }
+    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.next {
+      visibility: hidden;
+    }
+    & .rdr-Calendar:last-child .rdr-MonthAndYear-button.prev {
+      visibility: hidden;
+    }
   }
 
   & .rdr-Days {
     display: flex;
     flex-wrap: wrap;
     width: ${daySize * 7}px;
-    
+
     ${MAXW_SM_SCREEN} {
       width: 100%;
     }
   }
-  
+
   & .rdr-DayWrapper {
     position: relative;
     margin-bottom: 2px;
-    
+
     ${MAXW_SM_SCREEN} {
       margin-bottom: 4px;
     }
-    
+
     &.is-fromPreviousMonth {
       visibility: hidden;
     }
-    
+
     &.is-selected:not(.is-passive) {
       &::before {
         content: '';
         display: block;
         position: absolute;
-        background: #DFF2F7;
+        background: #dff2f7;
         top: 0;
         bottom: 0;
         width: 50%;
       }
-      
+
       &.is-endEdge::before {
         left: 0;
       }
-      
+
       &.is-startEdge::before {
         right: 0;
       }
-      
+
       &.is-startEdge.is-endEdge::before {
-        display: none
+        display: none;
       }
     }
   }
-  
-  & .rdr-Day, & .rdr-DayWrapper, & .rdr-DayWrapper::before {
+
+  & .rdr-Day,
+  & .rdr-DayWrapper,
+  & .rdr-DayWrapper::before {
     transition: all 0ms;
   }
 
@@ -199,71 +207,73 @@ export const CalendarContainer = styled.div<{ show: boolean, top: number, left: 
     font-weight: bold;
     z-index: 1;
     position: relative;
-    
+
     ${MAXW_SM_SCREEN} {
       width: calc((100vw - 40px) / 7);
       height: calc((100vw - 40px) / 7);
       font-size: 4.3vw;
     }
-    
+
     &.is-inRange:not(.is-passive) {
-      background: #DFF2F7;
+      background: #dff2f7;
       border-radius: 0;
     }
-    
+
     &.is-selected:not(.is-passive) {
       background: ${PRIMARY_LIGHT};
       color: white;
       border-radius: 99px;
     }
   }
-  
+
   & .rdr-DayWrapper.is-passive {
-    opacity: .3;
+    opacity: 0.3;
   }
-  
+
   & .rdr-DayWrapper:not(.is-passive) ~ .rdr-DayWrapper.is-passive {
-    opacity: 0
+    opacity: 0;
   }
-  
+
   & .rdr-DayWrapper.is-inRange {
-    &:nth-child(7n), &:last-child {
-      & .rdr-Day, &.is-startEdge::before {
+    &:nth-child(7n),
+    &:last-child {
+      & .rdr-Day,
+      &.is-startEdge::before {
         border-bottom-right-radius: 99px;
         border-top-right-radius: 99px;
-      }      
+      }
     }
-    
-    &:nth-child(7n-6), &:first-child {
+
+    &:nth-child(7n-6),
+    &:first-child {
       & .rdr-Day {
         border-bottom-left-radius: 99px;
         border-top-left-radius: 99px;
       }
     }
-    
-    
   }
-  
+
   .rdr-DayWrapper.is-selected.is-endEdge:nth-child(7n-6)::before {
-    display: none
+    display: none;
   }
-  
+
   & .rdr-DayWrapper.is-passive + .rdr-DayWrapper.is-selected.is-endEdge::before {
-    display: none
+    display: none;
   }
-  
+
   & .rdr-DayWrapper.is-passive + .rdr-DayWrapper.is-inRange:not(.is-selected) {
-    & .rdr-Day, &.is-startEdge::before {
+    & .rdr-Day,
+    &.is-startEdge::before {
       border-bottom-left-radius: 99px;
       border-top-left-radius: 99px;
-    }   
+    }
   }
 `
 
 export const FieldsContainer = styled('div')`
   display: flex;
   width: 100%;
-  
+
   & > * {
     width: 50%;
   }
@@ -276,14 +286,14 @@ export const ClearButtonContainer = styled('div')`
   position: relative;
   display: flex;
   align-items: center;
-  
+
   ${MINW_SM_SCREEN} {
     position: absolute;
     width: 80px;
     left: calc(50% - 40px);
     height: 40px;
-  }  
-   
+  }
+
   &::before {
     content: '';
     width: 100%;
@@ -291,9 +301,9 @@ export const ClearButtonContainer = styled('div')`
     left: 0;
     top: 50%;
     display: block;
-    border-top: 1px solid #DDD;
+    border-top: 1px solid #ddd;
     z-index: ${Z_INDEX_CALENDAR_CONTAINER + 1};
-    
+
     ${MINW_SM_SCREEN} {
       display: none;
     }
@@ -318,8 +328,9 @@ export const ClearButton = renderIf('show')(
     cursor: pointer;
     outline: none;
     position: relative;
-    z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2}
-  `)
+    z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2};
+  `,
+)
 
 export const CloseButton = styled('button')`
   display: none;
@@ -335,11 +346,11 @@ export const CloseButton = styled('button')`
   justify-content: center;
   top: calc(50% - 12px);
   outline: none;
-  
+
   ${MAXW_SM_SCREEN} {
     display: flex;
   }
-  
+
   &:active {
     background: ${lighten(ERROR, 10)};
   }
@@ -362,4 +373,29 @@ export const IconAngleRight = styled(AngleRightIcon)`
 export const IconAngleLeft = styled(AngleLeftIcon)`
   width: 24px;
   height: 24px;
+`
+
+export const ApplyButton = styled.button`
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px 28px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #0091e3;
+  border: none;
+
+  &:hover {
+    background-color: rgba(0, 145, 227, 0.67);
+  }
+
+  &:active {
+    background-color: rgb(0, 100, 177);
+  }
+`
+
+export const ApplyContainer = styled.div`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 `

@@ -3,7 +3,6 @@ declare type MenuItemListProps = {
     gravity: string;
 };
 declare type MenuItemProps = {
-    to?: string;
     highlight: string;
 };
 export declare const DropDownMenuRoot: import("styled-components").StyledComponent<"div", any, {}, never>;

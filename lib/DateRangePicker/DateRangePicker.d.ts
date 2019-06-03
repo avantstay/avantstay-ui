@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 export declare type AnyDate = Date | string | number;
-export declare type DateMaker = (() => AnyDate);
+export declare type DateMaker = () => AnyDate;
 export declare type DateRange<T = AnyDate> = {
     startDate: AnyDate | T;
     endDate: AnyDate | T;
@@ -37,6 +37,7 @@ export interface DateRangePickerState {
     range: DateRange<undefined>;
     link: any;
     linkStepsCount: number;
+    portalElement: HTMLElement | null;
 }
 declare class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerState> {
     static defaultProps: {

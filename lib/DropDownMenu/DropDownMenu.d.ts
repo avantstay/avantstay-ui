@@ -12,7 +12,6 @@ declare type DropDownMenuProps = {
     children?: React.ReactNode;
     position: "right" | "left" | "center";
     title?: string;
-    router?: any;
     items: Array<itemsProps>;
 };
 declare type DropDownMenuState = {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 export declare type AnyDate = Date | string | number;
-export declare type DateMaker = () => AnyDate;
+export declare type DateFactory = () => AnyDate;
 export declare type DateRange<T = AnyDate> = {
     startDate: AnyDate | T;
     endDate: AnyDate | T;
@@ -9,22 +9,16 @@ export interface DateRangePickerProps {
     className?: string;
     clearButtonLabel?: string;
     firstDayOfWeek?: number;
-    calendars?: string | number;
-    startDate?: AnyDate | DateMaker;
-    endDate?: AnyDate | DateMaker;
-    minDate?: AnyDate | DateMaker;
-    maxDate?: AnyDate | DateMaker;
-    dateLimit?: DateMaker;
+    startDate?: AnyDate | DateFactory;
+    endDate?: AnyDate | DateFactory;
+    minDate?: AnyDate | DateFactory;
+    maxDate?: AnyDate | DateFactory;
+    dateLimit?: DateFactory;
     linkedCalendars?: boolean;
     twoStepChange?: boolean;
     onInit?: (range: DateRange<undefined>) => void;
     onChange?: (range: DateRange<undefined>, source?: any) => void;
     specialDays?: Array<any>;
-    offsetPositive?: boolean;
-    classNames?: {
-        [name: string]: boolean;
-    };
-    rangedCalendars?: boolean;
     format?: any;
     lang?: any;
     show: boolean;
@@ -46,11 +40,7 @@ declare class DateRangePicker extends Component<DateRangePickerProps, DateRangeP
     static defaultProps: {
         linkedCalendars: boolean;
         format: string;
-        calendars: number;
-        offsetPositive: boolean;
-        classNames: {};
         specialDays: never[];
-        rangedCalendars: boolean;
         twoStepChange: boolean;
         clearButtonLabel: string;
         showApply: boolean;

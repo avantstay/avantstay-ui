@@ -378,7 +378,7 @@ export const IconAngleLeft = styled(AngleLeftIcon)`
   height: 24px;
 `
 
-export const ApplyButton = styled.button`
+export const ApplyButton = renderIf('show')(styled.button`
   text-align: center;
   padding: 10px 20px;
   cursor: pointer;
@@ -398,4 +398,4 @@ export const ApplyButton = styled.button`
   &:active {
     background-color: rgb(0, 100, 177);
   }
-`
+`)

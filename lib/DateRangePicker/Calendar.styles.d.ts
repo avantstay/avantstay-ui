@@ -11,4 +11,4 @@ export declare const CloseButton: import("styled-components").StyledComponent<"b
 export declare const IconClose: import("styled-components").StyledComponent<({ className }: any) => JSX.Element, any, {}, never>;
 export declare const IconAngleRight: import("styled-components").StyledComponent<({ className }: any) => JSX.Element, any, {}, never>;
 export declare const IconAngleLeft: import("styled-components").StyledComponent<({ className }: any) => JSX.Element, any, {}, never>;
-export declare const ApplyButton: import("styled-components").StyledComponent<"button", any, {}, never>;
+export declare const ApplyButton: (props: any) => JSX.Element | null;

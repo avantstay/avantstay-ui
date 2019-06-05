@@ -15,59 +15,56 @@ import startOfMonth from 'date-fns/start_of_month'
 import * as React from 'react'
 import { IconAngleLeft, IconAngleRight } from './Calendar.styles'
 import { AnyDate, DateRange } from './DateRangePicker'
-import {
-  checkEndEdge,
-  checkRange,
-  checkStartEdge,
-  isOutsideMinMax,
-} from './dateUtils'
+import { checkEndEdge, checkRange, checkStartEdge, isOutsideMinMax } from './dateUtils'
 import DayCell from './DayCell'
 import { defaultClasses, months } from './enums'
 import { HiddenAccessibilityText } from './HiddenAccessibilityText'
 import { weekdaysShort } from './weekdays'
 
 export interface CalendarProps {
-  showMonthArrow: boolean,
-  disableDaysBeforeToday: boolean,
-  lang: string,
-  sets: string,
+  showMonthArrow: boolean
+  disableDaysBeforeToday: boolean
+  lang: string
+  sets: string
   range: {
-    startDate: any,
+    startDate: any
     endDate: any
-  },
-  minDate: any,
-  maxDate: any,
-  date: any,
-  offset: any,
-  shownDate: any,
-  format: string,
-  oldRange: DateRange,
-  firstDayOfWeek: number,
-  onChange: () => void,
-  onInit: (d: AnyDate) => void,
-  link: boolean | {
-    startDate: any,
-    endDate: any
-  },
-  linkCB: () => void,
-  specialDays: Array<any>,
-  classNames: any,
+  }
+  minDate: any
+  maxDate: any
+  date: any
+  offset: any
+  shownDate: any
+  format: string
+  oldRange: DateRange
+  firstDayOfWeek: number
+  onChange: () => void
+  onInit: (d: AnyDate) => void
+  link:
+    | boolean
+    | {
+        startDate: any
+        endDate: any
+      }
+  linkCB: () => void
+  specialDays: Array<any>
+  classNames: any
   locale: string
 }
 
 export interface CalendarState {
-  date: AnyDate,
-  shownDate: AnyDate,
+  date: AnyDate
+  shownDate: AnyDate
   firstDayOfWeek: number
 }
 
 class Calendar extends React.Component<any, CalendarState> {
   static defaultProps = {
-    format                : 'DD/MM/YYYY',
-    showMonthArrow        : true,
+    format: 'DD/MM/YYYY',
+    showMonthArrow: true,
     disableDaysBeforeToday: false,
-    classNames            : {},
-    specialDays           : [],
+    classNames: {},
+    specialDays: [],
   }
 
   constructor(props: CalendarProps, context: any) {
@@ -79,9 +76,7 @@ class Calendar extends React.Component<any, CalendarState> {
 
     this.state = {
       date,
-      shownDate     : addMonths(
-        shownDate || range && range.endDate || date,
-        offset),
+      shownDate: addMonths(shownDate || (range && range.endDate) || date, offset),
       firstDayOfWeek: firstDayOfWeek || 0,
     }
 
@@ -102,9 +97,10 @@ class Calendar extends React.Component<any, CalendarState> {
     const { range, offset } = nextProps
     const oldRange = this.props.oldRange
 
-    if ((range && range['endDate'] &&
-      !isSameDay(range['endDate'], range['startDate'])) ||
-      (oldRange && !isEqual(oldRange['startDate'], range['startDate']))) {
+    if (
+      (range && range['endDate'] && !isSameDay(range['endDate'], range['startDate'])) ||
+      (oldRange && !isEqual(oldRange['startDate'], range['startDate']))
+    ) {
       this.setState({ shownDate: addMonths(range['endDate'], offset) })
     }
   }
@@ -112,7 +108,7 @@ class Calendar extends React.Component<any, CalendarState> {
   getShownDate() {
     const { link, offset } = this.props
 
-    const shownDate = (link) ? addMonths(link, offset) : this.state.shownDate
+    const shownDate = link ? addMonths(link, offset) : this.state.shownDate
 
     return shownDate
   }
@@ -151,32 +147,22 @@ class Calendar extends React.Component<any, CalendarState> {
 
     return (
       <div className={classes.monthAndYearWrapper}>
-        {
-          showMonthArrow ?
-            <button
-              type="button"
-              className={classes.prevButton}
-              onClick={(e: any) => this.changeMonth(-1, e)}
-            >
-              <IconAngleLeft/>
-              <HiddenAccessibilityText>prev</HiddenAccessibilityText>
-            </button> : null
-        }
+        {showMonthArrow ? (
+          <button type="button" className={classes.prevButton} onClick={(e: any) => this.changeMonth(-1, e)}>
+            <IconAngleLeft />
+            <HiddenAccessibilityText>prev</HiddenAccessibilityText>
+          </button>
+        ) : null}
         <span>
           <span className={classes.month}>{month}</span>
           <span className={classes.year}>{year}</span>
         </span>
-        {
-          showMonthArrow ?
-            <button
-              type="button"
-              className={classes.nextButton}
-              onClick={(e: any) => this.changeMonth(1, e)}
-            >
-              <IconAngleRight/>
-              <HiddenAccessibilityText>next</HiddenAccessibilityText>
-            </button> : null
-        }
+        {showMonthArrow ? (
+          <button type="button" className={classes.nextButton} onClick={(e: any) => this.changeMonth(1, e)}>
+            <IconAngleRight />
+            <HiddenAccessibilityText>next</HiddenAccessibilityText>
+          </button>
+        ) : null}
       </div>
     )
   }
@@ -189,12 +175,9 @@ class Calendar extends React.Component<any, CalendarState> {
       const day = weekdaysShort[i]
 
       weekdays.push(
-        <span
-          className={classes.weekDay}
-          key={i + day}
-        >
+        <span className={classes.weekDay} key={i + day}>
           {day}
-        </span>,
+        </span>
       )
     }
 
@@ -217,7 +200,7 @@ class Calendar extends React.Component<any, CalendarState> {
     const days = []
 
     // Previous month's days
-    const diff = (Math.abs(firstDayOfWeek - (startOfMonthDay + 7)) % 7)
+    const diff = Math.abs(firstDayOfWeek - (startOfMonthDay + 7)) % 7
     for (let i = diff - 1; i >= 0; i--) {
       const dayMoment = setDate(lastMonth, lastMonthDayCount - i)
       days.push({ dayMoment, isPassive: true, isFromPreviousMonth: true })
@@ -239,16 +222,15 @@ class Calendar extends React.Component<any, CalendarState> {
 
     return days.map((data, index) => {
       const { dayMoment, isPassive } = data
-      const isSelected = !range && (+parse(dayMoment) === dateUnix)
+      const isSelected = !range && +parse(dayMoment) === dateUnix
       const isInRange = range && checkRange(dayMoment, range)
       const isStartEdge = range && checkStartEdge(dayMoment, range)
       const isEndEdge = range && checkEndEdge(dayMoment, range)
       const isEdge = isStartEdge || isEndEdge
       const isToday = isEqual(today, dayMoment)
       const isSunday = getDay(dayMoment) === 0
-      const isSpecialDay = specialDays && specialDays.some(
-        (specialDay: any) => isEqual(endOfDay(dayMoment),
-          endOfDay(specialDay.date)))
+      const isSpecialDay =
+        specialDays && specialDays.some((specialDay: any) => isEqual(endOfDay(dayMoment), endOfDay(specialDay.date)))
       const isOutOfRange = isOutsideMinMax(dayMoment, minDate, maxDate)
 
       return (

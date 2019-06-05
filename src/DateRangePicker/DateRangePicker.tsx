@@ -10,16 +10,9 @@ import ReactDOM from 'react-dom'
 import isDescendant from '../utils/isDescendant'
 import { offsetLeft, offsetTop } from '../utils/offset'
 import Calendar from './Calendar'
+import { ApplyButton, CalendarContainer, ClearButton, ClearButtonContainer, CloseButton, IconClose } from './Calendar.styles'
 import { defaultClasses } from './enums'
-import { getPortalElement } from './getPortalElement'
-import {
-  CalendarContainer,
-  ClearButton,
-  ClearButtonContainer,
-  CloseButton,
-  IconClose,
-  ApplyButton,
-} from './Calendar.styles'
+import { getPortalElement } from '../utils/getPortalElement'
 
 export type AnyDate = Date | string | number
 export type DateMaker = () => AnyDate
@@ -55,7 +48,8 @@ export interface DateRangePickerProps {
   disableDaysBeforeToday?: any
   shownDate?: any
   showMonthArrow?: any
-  onClose?: any
+  onClose?: () => void
+  onClickOut?: () => void
 }
 
 export interface DateRangePickerState {
@@ -127,10 +121,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       const oldStartDate = this.props.startDate && startOfDay(getDate(this.props.startDate))
       const oldEndDate = this.props.endDate && endOfDay(getDate(this.props.endDate))
 
-      if (
-        !isEqual(startDate as Date, oldStartDate as Date) ||
-        !isEqual(endDate as Date, oldEndDate as Date)
-      ) {
+      if (!isEqual(startDate as Date, oldStartDate as Date) || !isEqual(endDate as Date, oldEndDate as Date)) {
         this.setRange({
           startDate: startDate || oldStartDate,
           endDate: endDate || oldEndDate,
@@ -152,7 +143,9 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   }
 
   onClickOut = (e: MouseEvent) => {
-    if (!isDescendant(this.calendarContainerRef.current, e.target)) this.props.onClose()
+    if (!isDescendant(this.calendarContainerRef.current, e.target)) {
+      this.props.onClose && this.props.onClose()
+    }
   }
 
   orderRange = (range: DateRange<undefined>) => {
@@ -258,6 +251,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       showApply,
       applyLabel,
       clearButtonLabel,
+      onChange
     } = this.props
 
     const { range, link, portalElement } = this.state
@@ -288,8 +282,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                     for (let i = calendarsCount; i >= 0; i--) {
                       const offset = offsetPositive ? i : -i
                       const realDiff = offsetPositive ? diff : -diff
-                      const realOffset =
-                        rangedCalendars && i == calendarsCount && diff != 0 ? realDiff : offset
+                      const realOffset = rangedCalendars && i == calendarsCount && diff != 0 ? realDiff : offset
 
                       _calendars[_method](
                         <Calendar
@@ -316,10 +309,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                       <React.Fragment>
                         {_calendars[0]}
                         <ClearButtonContainer>
-                          <ClearButton
-                            show={range.startDate || range.endDate}
-                            onClick={this.clearRange}
-                          >
+                          <ClearButton show={range.startDate || range.endDate} onClick={this.clearRange}>
                             {clearButtonLabel}
                           </ClearButton>
                           <CloseButton onClick={onClose}>
@@ -334,8 +324,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                 {showApply && (
                   <ApplyButton
                     onClick={() => {
-                      this.props.onChange!(range)
-                      onClose()
+                      onChange && onChange(range)
+                      onClose && onClose()
                     }}
                   >
                     {applyLabel}

@@ -30,7 +30,7 @@ export function getScrollableParent(node?: HTMLElement): HTMLElement | null {
     return null
   }
 
-  if (node.scrollHeight > node.clientHeight) {
+  if (node.scrollHeight > node.offsetHeight) {
     return node
   } else {
     return getScrollableParent(node.parentNode as HTMLElement)

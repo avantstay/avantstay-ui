@@ -1,19 +1,8 @@
 import { useMemo } from 'react'
+import { getScrollableParent } from './getPortalElement'
 
-export function useScrollableParent(element: HTMLElement | null) {
+export function useScrollableParent(element: HTMLElement | undefined | null) {
   return useMemo(() => {
-    function getScrollParent(node: any): HTMLElement | null {
-      if (node == null) {
-        return null
-      }
-
-      if (node.scrollHeight > node.clientHeight) {
-        return node
-      } else {
-        return getScrollParent(node.parentNode)
-      }
-    }
-
-    return getScrollParent(element)
+    return getScrollableParent(element as HTMLElement)
   }, [element])
 }

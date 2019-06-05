@@ -33,7 +33,8 @@ export interface DateRangePickerProps {
     disableDaysBeforeToday?: any;
     shownDate?: any;
     showMonthArrow?: any;
-    onClose?: any;
+    onClose?: () => void;
+    onClickOut?: () => void;
 }
 export interface DateRangePickerState {
     range: DateRange<undefined>;

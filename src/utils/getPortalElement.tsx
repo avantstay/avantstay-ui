@@ -3,7 +3,6 @@ const _portalElements: Array<{
   portalElement: HTMLElement
 }> = []
 
-
 export function getPortalElement(rootElement: HTMLElement): HTMLElement | null {
   if (!rootElement) return null
 
@@ -25,12 +24,18 @@ export function getPortalElement(rootElement: HTMLElement): HTMLElement | null {
   return portalElement
 }
 
-export function getScrollableParent(node?: HTMLElement): HTMLElement | null {
-  if (node == null) {
-    return null
+export function getScrollableParent(node: HTMLElement | null): HTMLElement {
+  const overflowRegex = /(auto|scroll)/
+
+  if (node == null) return document.body
+
+  const { overflow, overflowX, overflowY, position } = getComputedStyle(node)
+
+  if (position === 'static') {
+    return getScrollableParent(node.parentNode as HTMLElement)
   }
 
-  if (node.scrollHeight > node.offsetHeight) {
+  if (overflowRegex.test(`${overflow}${overflowX}${overflowY}`)) {
     return node
   } else {
     return getScrollableParent(node.parentNode as HTMLElement)

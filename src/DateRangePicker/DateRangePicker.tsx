@@ -288,6 +288,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                 </div>
                 <ApplyButton
                   show={showApply}
+                  type="button"
                   onClick={() => {
                     onChange && onChange(range)
                     onClose && onClose()

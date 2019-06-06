@@ -27,9 +27,11 @@ export function getPortalElement(rootElement: HTMLElement): HTMLElement | null {
 export function getScrollableParent(node: HTMLElement | null): HTMLElement {
   const overflowRegex = /(auto|scroll)/
 
-  if (node == null) return document.body
+  if (!node || node === document.body) return document.body
 
-  const { overflow, overflowX, overflowY, position } = getComputedStyle(node)
+  console.log(node)
+
+  const { overflow, overflowX, overflowY, position } = window.getComputedStyle(node)
 
   if (position === 'static') {
     return getScrollableParent(node.parentNode as HTMLElement)

@@ -28,9 +28,7 @@ export function getScrollableParent(node: HTMLElement | null): HTMLElement {
   const overflowRegex = /(auto|scroll)/
 
   if (!node || node === document.body) return document.body
-
-  console.log(node)
-
+  
   const { overflow, overflowX, overflowY, position } = window.getComputedStyle(node)
 
   if (position === 'static') {

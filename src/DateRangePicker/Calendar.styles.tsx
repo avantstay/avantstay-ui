@@ -9,20 +9,7 @@ import { MAXW_SM_SCREEN, MINW_SM_SCREEN, Z_INDEX_CALENDAR_CONTAINER } from './co
 
 const daySize = 36
 
-export const CalendarContainer = styled.div<{
-  show: boolean
-  top: number
-  left: number
-  showApply?: boolean
-}>`
-  z-index: ${Z_INDEX_CALENDAR_CONTAINER};
-  visibility: ${(p: any) => (p.show ? 'visible' : 'hidden')};
-  opacity: ${(p: any) => (p.show ? 1 : 0)};
-  transform: translateY(${(p: any) => (p.show ? 0 : 30)}px);
-  transition: all 100ms, top 0ms, left 0ms, right 0ms, bottom 0ms;
-  position: ${(p: any) => p.position || 'absolute'};
-  top: ${(p: any) => p.top}px;
-  left: ${(p: any) => p.left}px;
+export const CalendarContainer = styled.div`
   box-sizing: border-box;
 
   & * {

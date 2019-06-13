@@ -1,9 +1,4 @@
-export declare const CalendarContainer: import("styled-components").StyledComponent<"div", any, {
-    show: boolean;
-    top: number;
-    left: number;
-    showApply?: boolean | undefined;
-}, never>;
+export declare const CalendarContainer: import("styled-components").StyledComponent<"div", any, {}, never>;
 export declare const FieldsContainer: import("styled-components").StyledComponent<"div", any, {}, never>;
 export declare const ClearButtonContainer: import("styled-components").StyledComponent<"div", any, {}, never>;
 export declare const ClearButton: (props: any) => JSX.Element | null;

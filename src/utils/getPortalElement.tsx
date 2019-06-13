@@ -11,6 +11,7 @@ export function getPortalElement(rootElement: HTMLElement): HTMLElement | null {
   if (existingPortalElement) return existingPortalElement.portalElement
 
   const scrollableParent = getScrollableParent(rootElement)
+
   const portalElement = document.createElement('div')
 
   if (scrollableParent) scrollableParent.appendChild(portalElement)
@@ -28,8 +29,6 @@ export function getScrollableParent(node: HTMLElement | null): HTMLElement {
   const overflowRegex = /(auto|scroll)/
 
   if (!node || node === document.body) return document.body
-
-  console.log(node)
 
   const { overflow, overflowX, overflowY, position } = window.getComputedStyle(node)
 

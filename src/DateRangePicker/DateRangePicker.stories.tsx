@@ -32,6 +32,7 @@ DateRangePickerStories.add('Default usage', () => (
         onChange={action('DateRangePicker[onChange]')}
         onClose={action('DateRangePicker[onClose]')}
         onInit={action('DateRangePicker[onInit]')}
+        onClickOut={action('DateRangePicker[onClickOut]')}
       />
     </div>
     {new Array(100).fill(1).map((it, i) => (

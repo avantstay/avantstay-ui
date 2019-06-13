@@ -4,12 +4,16 @@ import isAfter from 'date-fns/is_after'
 import isEqual from 'date-fns/is_equal'
 import startOfDay from 'date-fns/start_of_day'
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { getPortalElement } from '../utils/getPortalElement'
-import isDescendant from '../utils/isDescendant'
-import { offsetLeft, offsetTop } from '../utils/offset'
+import FloatingContainer from '../FloatingContainer/FloatingContainer'
 import Calendar from './Calendar'
-import { ApplyButton, CalendarContainer, ClearButton, ClearButtonContainer, CloseButton, IconClose } from './Calendar.styles'
+import {
+  ApplyButton,
+  CalendarContainer,
+  ClearButton,
+  ClearButtonContainer,
+  CloseButton,
+  IconClose,
+} from './Calendar.styles'
 import { defaultClasses } from './enums'
 
 export type AnyDate = Date | string | number
@@ -50,10 +54,10 @@ export interface DateRangePickerState {
   range: DateRange<undefined>
   link: any
   linkStepsCount: number
-  portalElement: HTMLElement | null
 }
 
-const getDate = (date: AnyDate | DateFactory, defaultValue: AnyDate = ''): AnyDate => {
+const getDate = (
+  date: AnyDate | DateFactory, defaultValue: AnyDate = ''): AnyDate => {
   return (typeof date === 'function' ? date() : date) || defaultValue
 }
 
@@ -69,8 +73,6 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   }
 
   step = 0
-  calendarContainerRef: React.RefObject<any>
-  positioningRef: React.RefObject<any>
 
   constructor(props: DateRangePickerProps) {
     super(props)
@@ -80,28 +82,16 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     const startDate = startOfDay(getDate(props.startDate as Date, new Date()))
     const endDate = endOfDay(getDate(props.endDate as Date, new Date()))
 
-    this.calendarContainerRef = React.createRef()
-    this.positioningRef = React.createRef()
-
     this.state = {
       range: { startDate, endDate },
       link: linkedCalendars && endDate,
       linkStepsCount: 0,
-      portalElement: null,
     }
   }
 
   componentDidMount() {
     const { onInit } = this.props
     onInit && onInit(this.state.range)
-
-    if (this.props.show) window.addEventListener('click', this.onClickOut)
-
-    this.forceUpdate()
-
-    this.setState({
-      portalElement: getPortalElement(this.positioningRef.current),
-    })
   }
 
   componentWillReceiveProps(nextProps: DateRangePickerProps) {
@@ -110,33 +100,21 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       const endDate = nextProps.endDate && endOfDay(getDate(nextProps.endDate))
       const oldStartDate = this.props.startDate && startOfDay(getDate(this.props.startDate))
       const oldEndDate = this.props.endDate && endOfDay(getDate(this.props.endDate))
+      const startDateDidChange = !isEqual(startDate as Date, oldStartDate as Date)
+      const endDateDidChange = !isEqual(endDate as Date, oldEndDate as Date)
 
-      if (!isEqual(startDate as Date, oldStartDate as Date) || !isEqual(endDate as Date, oldEndDate as Date)) {
+      if (startDateDidChange || endDateDidChange) {
         this.setRange({
           startDate: startDate || oldStartDate,
           endDate: endDate || oldEndDate,
         })
       }
     }
-
-    if (!this.props.show && nextProps.show) {
-      setTimeout(() => window.addEventListener('click', this.onClickOut), 10)
-    }
-
-    if (this.props.show && !nextProps.show) {
-      window.removeEventListener('click', this.onClickOut)
-    }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('click', this.onClickOut)
-  }
-
-  onClickOut = (e: MouseEvent) => {
-    if (!isDescendant(this.calendarContainerRef.current, e.target)) {
-      this.props.onClose && this.props.onClose()
-      this.props.onClickOut && this.props.onClickOut()
-    }
+  onClickOut = () => {
+    this.props.onClose && this.props.onClose()
+    this.props.onClickOut && this.props.onClickOut()
   }
 
   orderRange = (range: DateRange<undefined>) => {
@@ -152,7 +130,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     }
   }
 
-  setRange = (range: DateRange<undefined>, source?: any, triggerChange?: boolean) => {
+  setRange = (
+    range: DateRange<undefined>, source?: any, triggerChange?: boolean) => {
     const { onChange } = this.props
     range = this.orderRange(range)
 
@@ -187,7 +166,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
         break
     }
 
-    const triggerChange = !this.props.twoStepChange || (this.step === 0 && this.props.twoStepChange)
+    const triggerChange = !this.props.twoStepChange ||
+      (this.step === 0 && this.props.twoStepChange)
 
     this.setRange(range, source, triggerChange)
   }
@@ -203,21 +183,12 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
   clearRange = () => {
     this.setRange({ startDate: undefined, endDate: undefined })
-    this.props.onChange && this.props.onChange({ startDate: undefined, endDate: undefined })
+    this.props.onChange &&
+    this.props.onChange({ startDate: undefined, endDate: undefined })
   }
 
   resetPosition = () => {
     this.moveCalendarDisplay(this.state.linkStepsCount)
-  }
-
-  get offsetTop() {
-    const portalParent = this.state.portalElement && this.state.portalElement.parentNode
-    return offsetTop(this.positioningRef.current) - offsetTop(portalParent)
-  }
-
-  get offsetLeft() {
-    const portalParent = this.state.portalElement && this.state.portalElement.parentNode
-    return offsetLeft(this.positioningRef.current) - offsetLeft(portalParent)
   }
 
   render() {
@@ -241,7 +212,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       onChange,
     } = this.props
 
-    const { range, link, portalElement } = this.state
+    const { range, link } = this.state
     const classes = { ...defaultClasses }
 
     const calendarProps = {
@@ -262,44 +233,34 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     }
 
     return (
-      <div ref={this.positioningRef}>
-        {portalElement &&
-          ReactDOM.createPortal(
-            <CalendarContainer
-              ref={this.calendarContainerRef}
-              className={className}
-              show={show}
-              top={this.offsetTop}
-              left={this.offsetLeft}
-              showApply={showApply}
+      <FloatingContainer show={show} onClickOut={this.onClickOut}>
+        <CalendarContainer className={className}>
+          <div className={classes.dateRange}>
+            <div>
+              <Calendar {...calendarProps} offset={0}/>
+              <ClearButtonContainer>
+                <ClearButton show={range.startDate || range.endDate}
+                             onClick={this.clearRange}>
+                  {clearButtonLabel}
+                </ClearButton>
+                <CloseButton onClick={onClose}>
+                  <IconClose/>
+                </CloseButton>
+              </ClearButtonContainer>
+              <Calendar {...calendarProps} offset={1}/>
+            </div>
+            <ApplyButton
+              show={showApply}
+              onClick={() => {
+                onChange && onChange(range)
+                onClose && onClose()
+              }}
             >
-              <div className={classes.dateRange}>
-                <div>
-                  <Calendar {...calendarProps} offset={0} />
-                  <ClearButtonContainer>
-                    <ClearButton show={range.startDate || range.endDate} onClick={this.clearRange}>
-                      {clearButtonLabel}
-                    </ClearButton>
-                    <CloseButton onClick={onClose}>
-                      <IconClose />
-                    </CloseButton>
-                  </ClearButtonContainer>
-                  <Calendar {...calendarProps} offset={1} />
-                </div>
-                <ApplyButton
-                  show={showApply}
-                  onClick={() => {
-                    onChange && onChange(range)
-                    onClose && onClose()
-                  }}
-                >
-                  {applyLabel}
-                </ApplyButton>
-              </div>
-            </CalendarContainer>,
-            portalElement
-          )}
-      </div>
+              {applyLabel}
+            </ApplyButton>
+          </div>
+        </CalendarContainer>
+      </FloatingContainer>
     )
   }
 }

@@ -55,7 +55,6 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   }
 
   onWindowResize = debounce(() => {
-    console.log('rolou window resize')
     this.forceUpdate()
   }, 100)
 

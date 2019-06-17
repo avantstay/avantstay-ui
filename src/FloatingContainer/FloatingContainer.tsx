@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { getPortalElement } from '../utils/getPortalElement'
 import isDescendant from '../utils/isDescendant'
 import { offsetLeft, offsetTop } from '../utils/offset'
+import { debounce } from 'lodash'
 
 export const FloatingContainerRoot = styled.div<{ top: number; left: number }>`
   z-index: 99;
@@ -41,6 +42,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
 
   componentDidMount() {
     window.addEventListener('click', this.onClickOut)
+    window.addEventListener('resize', this.onWindowResize)
 
     this.setState({
       portalElement: getPortalElement(this.positioningRef.current as any),
@@ -49,7 +51,13 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
 
   componentWillUnmount() {
     window.removeEventListener('click', this.onClickOut)
+    window.removeEventListener('resize', this.onWindowResize)
   }
+
+  onWindowResize = debounce(() => {
+    console.log('rolou window resize')
+    this.forceUpdate()
+  }, 100)
 
   onClickOut = (e: MouseEvent) => {
     if (!isDescendant(this.floatingContainerRef.current, e.target)) {

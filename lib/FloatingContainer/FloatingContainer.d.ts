@@ -1,3 +1,4 @@
+/// <reference types="lodash" />
 import React, { Component } from 'react';
 export declare const FloatingContainerRoot: import("styled-components").StyledComponent<"div", any, {
     top: number;
@@ -22,6 +23,7 @@ declare class FloatingContainer extends Component<FloatingContainerProps, Floati
     };
     componentDidMount(): void;
     componentWillUnmount(): void;
+    onWindowResize: (() => void) & import("lodash").Cancelable;
     onClickOut: (e: MouseEvent) => void;
     readonly offsetTop: number;
     readonly offsetLeft: number;

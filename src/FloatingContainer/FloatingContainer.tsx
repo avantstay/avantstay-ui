@@ -1,16 +1,17 @@
+import { debounce } from 'lodash'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { getPortalElement } from '../utils/getPortalElement'
 import isDescendant from '../utils/isDescendant'
-import { offsetLeft, offsetTop } from '../utils/offset'
-import { debounce } from 'lodash'
+import { offsetLeft, offsetRight, offsetTop } from '../utils/offset'
 
-export const FloatingContainerRoot = styled.div<{ top: number; left: number }>`
+export const FloatingContainerRoot = styled.div<{ top: number; left?: number; right?: number }>`
   z-index: 99;
   position: absolute;
   top: ${(p: any) => p.top}px;
-  left: ${(p: any) => p.left}px;
+  ${(p: any) => p.left ? `left: ${p.left}px` : ''};
+  ${(p: any) => p.right ? `right: ${p.right}px` : ''};
   box-sizing: border-box;
 
   & * {
@@ -21,6 +22,7 @@ export const FloatingContainerRoot = styled.div<{ top: number; left: number }>`
 export interface FloatingContainerProps {
   className?: string
   show?: boolean
+  horizontalAlignment?: 'left' | 'right'
   onClickOut?: (e: MouseEvent) => void
 }
 
@@ -31,6 +33,7 @@ export interface FloatingContainerState {
 class FloatingContainer extends Component<FloatingContainerProps, FloatingContainerState> {
   static defaultProps = {
     show: true,
+    horizontalAlignment: 'left',
   }
 
   floatingContainerRef = React.createRef<HTMLDivElement>()
@@ -64,14 +67,21 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
     }
   }
 
-  get offsetTop() {
+  get positioning(): { top: number; left?: number; right?: number } {
     const portalParent = this.state.portalElement && (this.state.portalElement! as HTMLElement).parentNode
-    return offsetTop(this.positioningRef.current) - offsetTop(portalParent)
-  }
+    const top = offsetTop(this.positioningRef.current) - offsetTop(portalParent)
 
-  get offsetLeft() {
-    const portalParent = this.state.portalElement && (this.state.portalElement! as HTMLElement).parentNode
-    return offsetLeft(this.positioningRef.current) - offsetLeft(portalParent)
+    if (this.props.horizontalAlignment === 'right') {
+      return {
+        top,
+        right: offsetRight(this.positioningRef.current) - offsetRight(portalParent),
+      }
+    }
+
+    return {
+      top,
+      left: offsetLeft(this.positioningRef.current) - offsetLeft(portalParent),
+    }
   }
 
   render() {
@@ -79,11 +89,11 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
     const { portalElement } = this.state
 
     return (
-      <div ref={this.positioningRef}>
+      <div ref={this.positioningRef} style={{height: 5, background: 'yellow'}}>
         {show &&
           portalElement &&
           ReactDOM.createPortal(
-            <FloatingContainerRoot ref={this.floatingContainerRef} top={this.offsetTop} left={this.offsetLeft}>
+            <FloatingContainerRoot ref={this.floatingContainerRef} {...this.positioning}>
               {children}
             </FloatingContainerRoot>,
             portalElement

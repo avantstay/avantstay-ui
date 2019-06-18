@@ -9,3 +9,9 @@ export function offsetLeft(elem: any): number {
 
   return elem.offsetLeft + offsetLeft(elem.offsetParent)
 }
+
+export function offsetRight(elem: any): number {
+  if (!elem) return 0
+
+  return window.innerWidth - elem.getBoundingClientRect().right
+}

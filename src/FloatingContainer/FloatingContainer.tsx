@@ -89,7 +89,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
     const { portalElement } = this.state
 
     return (
-      <div ref={this.positioningRef} style={{height: 5, background: 'yellow'}}>
+      <div ref={this.positioningRef}>
         {show &&
           portalElement &&
           ReactDOM.createPortal(

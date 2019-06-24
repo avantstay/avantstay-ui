@@ -10,14 +10,13 @@ declare type DropDownMenuProps = {
     className?: string;
     trigger?: React.ReactNode;
     children?: React.ReactNode;
-    position: "right" | "left" | "center";
+    position: "right" | "left";
     title?: string;
     items: Array<itemsProps>;
 };
 declare type DropDownMenuState = {
     showItems: boolean;
     highlightIndex: number;
-    gravity: string;
 };
 export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDownMenuState> {
     private id;
@@ -28,7 +27,6 @@ export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps,
         position: string;
     };
     constructor(props: DropDownMenuProps);
-    componentWillUnmount(): void;
     onTrigger: (e: any) => void;
     onClickOut: () => void;
     onSearch: () => void;

@@ -62,7 +62,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   }, 100)
 
   onClickOut = (e: MouseEvent) => {
-    if (!isDescendant(this.floatingContainerRef.current, e.target)) {
+    if (this.props.show && !isDescendant(this.floatingContainerRef.current, e.target)) {
       this.props.onClickOut && this.props.onClickOut(e)
     }
   }

@@ -5,10 +5,6 @@ import {
   COLOR_NEUTRAL_DARK
 } from "./colors";
 
-type MenuItemListProps = {
-  show: boolean;
-  gravity: string;
-};
 
 type MenuItemProps = {
   highlight: string;
@@ -37,9 +33,9 @@ export const TriggerContainer = styled("div")`
   cursor: pointer;
 `;
 
-export const MenuItemList = styled("div")<MenuItemListProps>`
-  position: absolute;
-  display: ${p => (p.show ? "block" : "none")};
+export const MenuItemList = styled("div")`
+  position: relative;
+  display: block;
   background: white;
   border-radius: 2px;
   box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.05), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
@@ -49,18 +45,6 @@ export const MenuItemList = styled("div")<MenuItemListProps>`
   overflow-y: auto;
   margin-top: 10px;
   z-index: 9999;
-  bottom: ${p => (p.gravity === "up" ? "calc(100% + .5rem)" : "auto")};
-  top: ${p => (p.gravity === "up" ? "auto" : "100%")};
-
-  &.left {
-    right: 0;
-  }
-  &.center {
-    right: -100px;
-  }
-  &.right {
-    left: 0;
-  }
 `;
 
 export const MenuItem = styled("a")<MenuItemProps>`

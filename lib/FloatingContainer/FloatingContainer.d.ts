@@ -10,6 +10,7 @@ export interface FloatingContainerProps {
     show?: boolean;
     horizontalAlignment?: 'left' | 'right';
     onClickOut?: (e: MouseEvent) => void;
+    windowResizeDebounceDelay?: number;
 }
 export interface FloatingContainerState {
     portalElement: HTMLElement | null;
@@ -18,6 +19,7 @@ declare class FloatingContainer extends Component<FloatingContainerProps, Floati
     static defaultProps: {
         show: boolean;
         horizontalAlignment: string;
+        windowResizeDebounceDelay: number;
     };
     floatingContainerRef: React.RefObject<HTMLDivElement>;
     positioningRef: React.RefObject<HTMLDivElement>;

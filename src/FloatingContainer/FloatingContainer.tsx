@@ -24,6 +24,7 @@ export interface FloatingContainerProps {
   show?: boolean
   horizontalAlignment?: 'left' | 'right'
   onClickOut?: (e: MouseEvent) => void
+  windowResizeDebounceDelay?: number
 }
 
 export interface FloatingContainerState {
@@ -34,6 +35,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   static defaultProps = {
     show: true,
     horizontalAlignment: 'left',
+    windowResizeDebounceDelay: 100
   }
 
   floatingContainerRef = React.createRef<HTMLDivElement>()
@@ -59,7 +61,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
 
   onWindowResize = debounce(() => {
     this.forceUpdate()
-  }, 100)
+  }, this.props.windowResizeDebounceDelay)
 
   onClickOut = (e: MouseEvent) => {
     if (this.props.show && !isDescendant(this.floatingContainerRef.current, e.target)) {

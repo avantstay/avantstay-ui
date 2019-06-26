@@ -28,7 +28,8 @@
   "scripts": {
     "build": "tsc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "clear-cache": "tsc clear cache"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

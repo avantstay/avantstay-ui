@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import { findIndex } from "lodash";
 import keycode from "keycode";
 
+import FloatingContainer from '../FloatingContainer/FloatingContainer'
 import {
   DropDownMenuRoot,
   HiddenLabel,
@@ -25,7 +26,7 @@ type DropDownMenuProps = {
   className?: string;
   trigger?: React.ReactNode;
   children?: React.ReactNode;
-  position: "right" | "left" | "center";
+  position: "right" | "left";
   title?: string;
   items: Array<itemsProps>;
 };
@@ -33,9 +34,8 @@ type DropDownMenuProps = {
 type DropDownMenuState = {
   showItems: boolean;
   highlightIndex: number;
-  gravity: string;
 };
-
+ 
 export class DropDownMenu extends React.PureComponent<
   DropDownMenuProps,
   DropDownMenuState
@@ -55,7 +55,6 @@ export class DropDownMenu extends React.PureComponent<
     this.state = {
       showItems: false,
       highlightIndex: -1,
-      gravity: "down"
     };
 
     this.id = Math.random()
@@ -63,31 +62,22 @@ export class DropDownMenu extends React.PureComponent<
       .substr(2);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("click", this.onClickOut);
-  }
-
   onTrigger = (e: MouseEvent | any) => {
+    e.preventDefault()
+    e.stopPropagation()
+
     const becomeVisible = !this.state.showItems;
-    const menuHeight = 45 + 35 * this.props.items.length;
-    const gravity = e.clientY + menuHeight > window.innerHeight ? "up" : "down";
 
     this.setState(
       {
-        gravity,
         showItems: becomeVisible
       },
       () => this.searchField.focus()
     );
-
-    if (becomeVisible) {
-      setTimeout(() => window.addEventListener("click", this.onClickOut), 100);
-    }
   };
 
   onClickOut = () => {
     this.setState({ showItems: false, highlightIndex: -1 });
-    window.removeEventListener("click", this.onClickOut);
   };
 
   onSearch = () => {
@@ -162,7 +152,7 @@ export class DropDownMenu extends React.PureComponent<
   };
 
   render() {
-    const { highlightIndex, gravity } = this.state;
+    const { highlightIndex } = this.state;
     const { className, trigger, children, items, position, title } = this.props;
 
     return (
@@ -182,25 +172,23 @@ export class DropDownMenu extends React.PureComponent<
             {children || trigger}
           </TriggerContainer>
         )}
-        <MenuItemList
-          show={this.state.showItems}
-          className={position}
-          gravity={gravity}
-        >
-          {title && <MenuTitle>{title}</MenuTitle>}
-          {items.map(
-            (it, i) =>
-              !it.disabled && (
-                <MenuItem
-                  key={it.searchable || it.label}
-                  highlight={i === highlightIndex ? "true" : "false"}
-                  onClick={this.handleItemOnClick(it)}
-                >
-                  {it.label}
-                </MenuItem>
-              )
-          )}
-        </MenuItemList>
+        <FloatingContainer show={this.state.showItems} onClickOut={this.onClickOut} horizontalAlignment={position}>
+          <MenuItemList>
+            {title && <MenuTitle>{title}</MenuTitle>}
+            {items.map(
+              (it, i) =>
+                !it.disabled && (
+                  <MenuItem
+                    key={it.searchable || it.label}
+                    highlight={i === highlightIndex ? "true" : "false"}
+                    onClick={this.handleItemOnClick(it)}
+                  >
+                    {it.label}
+                  </MenuItem>
+                )
+            )}
+          </MenuItemList>
+        </FloatingContainer>
       </DropDownMenuRoot>
     );
   }

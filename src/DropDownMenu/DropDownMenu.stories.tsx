@@ -1,26 +1,55 @@
-import React from "react";
-import { storiesOf } from "@storybook/react";
-import centered from "@storybook/addon-centered/react";
-import { withKnobs, text, boolean, number } from "@storybook/addon-knobs";
-import DropDownMenu from "./DropDownMenu";
+import centered from '@storybook/addon-centered/react'
+import { withKnobs } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
+import DropDownMenu from './DropDownMenu'
 
-type Position = "left" | "right" | "center" | undefined;
-const DropDownMenuStories = storiesOf("DropDownMenu", module);
+const DropDownMenuStories = storiesOf('DropDownMenu', module)
 
 DropDownMenuStories.addDecorator(centered)
   .addDecorator(withKnobs)
-  .add("Default usage", () => (
+  .add('Default usage', () => (
     <DropDownMenu
       items={[
         {
-          label: "Logout",
-          searchable: "logout",
+          label: 'Logout',
+          searchable: 'logout',
           disabled: false,
-          action: () => {}
-        }
+          action: () => {},
+        },
       ]}
-      position={"right"}
+      position={'right'}
     >
       Menu label
     </DropDownMenu>
-  ));
+  ))
+  .add('Multiple menus', () => (
+    <div>
+      <DropDownMenu
+        items={[
+          {
+            label: 'Logout',
+            searchable: 'logout',
+            disabled: false,
+            action: () => {},
+          },
+        ]}
+        position={'right'}
+      >
+        Menu label
+      </DropDownMenu>
+      <DropDownMenu
+        items={[
+          {
+            label: 'Logout',
+            searchable: 'logout',
+            disabled: false,
+            action: () => {},
+          },
+        ]}
+        position={'right'}
+      >
+        Menu label 2
+      </DropDownMenu>
+    </div>
+  ))

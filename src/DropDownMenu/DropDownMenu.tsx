@@ -40,7 +40,7 @@ export class DropDownMenu extends React.PureComponent<
   DropDownMenuProps,
   DropDownMenuState
 > {
-  private id: string;
+  private readonly id: string;
   private searchField: any;
   private clearSearchTimeout!: number;
 
@@ -62,10 +62,7 @@ export class DropDownMenu extends React.PureComponent<
       .substr(2);
   }
 
-  onTrigger = (e: MouseEvent | any) => {
-    e.preventDefault()
-    e.stopPropagation()
-
+  onTrigger = () => {
     const becomeVisible = !this.state.showItems;
 
     this.setState(

@@ -19,7 +19,7 @@ declare type DropDownMenuState = {
     highlightIndex: number;
 };
 export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDownMenuState> {
-    private id;
+    private readonly id;
     private searchField;
     private clearSearchTimeout;
     static defaultProps: {
@@ -27,7 +27,7 @@ export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps,
         position: string;
     };
     constructor(props: DropDownMenuProps);
-    onTrigger: (e: any) => void;
+    onTrigger: () => void;
     onClickOut: () => void;
     onSearch: () => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;

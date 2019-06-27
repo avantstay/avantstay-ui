@@ -13,6 +13,7 @@ declare type DropDownMenuProps = {
     position: "right" | "left";
     title?: string;
     items: Array<itemsProps>;
+    closeTheLastOpened?: boolean;
 };
 declare type DropDownMenuState = {
     showItems: boolean;
@@ -25,6 +26,7 @@ export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps,
     static defaultProps: {
         items: never[];
         position: string;
+        closeTheLastOpened: boolean;
     };
     constructor(props: DropDownMenuProps);
     onTrigger: (e: any) => void;

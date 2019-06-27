@@ -29,24 +29,26 @@ type DropDownMenuProps = {
   position: "right" | "left";
   title?: string;
   items: Array<itemsProps>;
+  closeTheLastOpened?: boolean;
 };
 
 type DropDownMenuState = {
   showItems: boolean;
   highlightIndex: number;
 };
- 
+
 export class DropDownMenu extends React.PureComponent<
   DropDownMenuProps,
   DropDownMenuState
-> {
+  > {
   private id: string;
   private searchField: any;
   private clearSearchTimeout!: number;
 
   static defaultProps = {
     items: [],
-    position: "left"
+    position: "left",
+    closeTheLastOpened: false,
   };
 
   constructor(props: DropDownMenuProps) {
@@ -64,7 +66,7 @@ export class DropDownMenu extends React.PureComponent<
 
   onTrigger = (e: MouseEvent | any) => {
     e.preventDefault()
-    e.stopPropagation()
+    !this.props.closeTheLastOpened && e.stopPropagation()
 
     const becomeVisible = !this.state.showItems;
 
@@ -168,10 +170,10 @@ export class DropDownMenu extends React.PureComponent<
         {typeof (children || trigger) === "function" ? (
           children || (trigger && this.onTrigger)
         ) : (
-          <TriggerContainer onClick={this.onTrigger}>
-            {children || trigger}
-          </TriggerContainer>
-        )}
+            <TriggerContainer onClick={this.onTrigger}>
+              {children || trigger}
+            </TriggerContainer>
+          )}
         <FloatingContainer show={this.state.showItems} onClickOut={this.onClickOut} horizontalAlignment={position}>
           <MenuItemList>
             {title && <MenuTitle>{title}</MenuTitle>}

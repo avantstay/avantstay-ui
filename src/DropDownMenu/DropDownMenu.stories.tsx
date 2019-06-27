@@ -16,11 +16,39 @@ DropDownMenuStories.addDecorator(centered)
           label: "Logout",
           searchable: "logout",
           disabled: false,
-          action: () => {}
+          action: () => { }
         }
       ]}
       position={"right"}
     >
       Menu label
     </DropDownMenu>
-  ));
+  )).add('Close the last opened', () => (<>
+    <DropDownMenu
+      closeTheLastOpened
+      items={[
+        {
+          label: "Logout",
+          searchable: "logout",
+          disabled: false,
+          action: () => { }
+        }
+      ]}
+      position={"right"}
+    >
+      Menu label
+    </DropDownMenu>
+    <DropDownMenu
+      closeTheLastOpened
+      items={[
+        {
+          label: "Logout",
+          searchable: "logout",
+          disabled: false,
+          action: () => { }
+        }
+      ]}
+      position={"right"}
+    >
+      Menu label
+    </DropDownMenu></>));

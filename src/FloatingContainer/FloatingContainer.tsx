@@ -35,7 +35,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   static defaultProps = {
     show: true,
     horizontalAlignment: 'left',
-    windowResizeDebounceDelay: 100
+    windowResizeDebounceDelay: 100,
   }
 
   floatingContainerRef = React.createRef<HTMLDivElement>()
@@ -46,15 +46,34 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   }
 
   componentDidMount() {
-    window.addEventListener('click', this.onClickOut)
-    window.addEventListener('resize', this.onWindowResize)
+    if (this.props.show)
+      this.addWindowListeners()
 
     this.setState({
       portalElement: getPortalElement(this.positioningRef.current as any),
     })
   }
 
+  componentWillReceiveProps(nextProps: FloatingContainerProps) {
+    if (nextProps.show && !this.props.show) {
+      this.addWindowListeners()
+    } else if (!nextProps.show && this.props.show) {
+      this.removeWindowListeners()
+    }
+  }
+
   componentWillUnmount() {
+    this.removeWindowListeners()
+  }
+
+  addWindowListeners = () => {
+    setTimeout(() => {
+      window.addEventListener('click', this.onClickOut)
+      window.addEventListener('resize', this.onWindowResize)
+    }, 10)
+  }
+
+  removeWindowListeners = () => {
     window.removeEventListener('click', this.onClickOut)
     window.removeEventListener('resize', this.onWindowResize)
   }
@@ -64,19 +83,22 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   }, this.props.windowResizeDebounceDelay)
 
   onClickOut = (e: MouseEvent) => {
-    if (this.props.show && !isDescendant(this.floatingContainerRef.current, e.target)) {
+    if (this.props.show &&
+      !isDescendant(this.floatingContainerRef.current, e.target)) {
       this.props.onClickOut && this.props.onClickOut(e)
     }
   }
 
   get positioning(): { top: number; left?: number; right?: number } {
-    const portalParent = this.state.portalElement && (this.state.portalElement! as HTMLElement).parentNode
+    const portalParent = this.state.portalElement &&
+      (this.state.portalElement! as HTMLElement).parentNode
     const top = offsetTop(this.positioningRef.current) - offsetTop(portalParent)
 
     if (this.props.horizontalAlignment === 'right') {
       return {
         top,
-        right: offsetRight(this.positioningRef.current) - offsetRight(portalParent),
+        right: offsetRight(this.positioningRef.current) -
+          offsetRight(portalParent),
       }
     }
 
@@ -93,13 +115,14 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
     return (
       <div ref={this.positioningRef}>
         {show &&
-          portalElement &&
-          ReactDOM.createPortal(
-            <FloatingContainerRoot ref={this.floatingContainerRef} {...this.positioning}>
-              {children}
-            </FloatingContainerRoot>,
-            portalElement
-          )}
+        portalElement &&
+        ReactDOM.createPortal(
+          <FloatingContainerRoot
+            ref={this.floatingContainerRef} {...this.positioning}>
+            {children}
+          </FloatingContainerRoot>,
+          portalElement,
+        )}
       </div>
     )
   }

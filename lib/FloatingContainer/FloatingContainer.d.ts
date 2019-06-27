@@ -27,7 +27,10 @@ declare class FloatingContainer extends Component<FloatingContainerProps, Floati
         portalElement: null;
     };
     componentDidMount(): void;
+    componentWillReceiveProps(nextProps: FloatingContainerProps): void;
     componentWillUnmount(): void;
+    addWindowListeners: () => void;
+    removeWindowListeners: () => void;
     onWindowResize: (() => void) & import("lodash").Cancelable;
     onClickOut: (e: MouseEvent) => void;
     readonly positioning: {

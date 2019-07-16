@@ -23,6 +23,7 @@ export interface DateRangePickerProps {
     lang?: any;
     show: boolean;
     showApply?: boolean;
+    horizontalAlignment?: 'left' | 'right';
     applyLabel?: string;
     disableDaysBeforeToday?: any;
     shownDate?: any;
@@ -44,6 +45,7 @@ declare class DateRangePicker extends Component<DateRangePickerProps, DateRangeP
         clearButtonLabel: string;
         showApply: boolean;
         applyLabel: string;
+        horizontalAlignment: string;
     };
     step: number;
     constructor(props: DateRangePickerProps);

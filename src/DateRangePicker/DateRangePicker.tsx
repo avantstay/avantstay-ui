@@ -42,6 +42,7 @@ export interface DateRangePickerProps {
   lang?: any
   show: boolean
   showApply?: boolean
+  horizontalAlignment?: 'left' | 'right'
   applyLabel?: string
   disableDaysBeforeToday?: any
   shownDate?: any
@@ -70,6 +71,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     clearButtonLabel: 'Clear',
     showApply: false,
     applyLabel: 'Apply',
+    horizontalAlignment: 'left'
   }
 
   step = 0
@@ -210,6 +212,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       applyLabel,
       clearButtonLabel,
       onChange,
+      horizontalAlignment,
     } = this.props
 
     const { range, link } = this.state
@@ -233,7 +236,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     }
 
     return (
-      <FloatingContainer show={show} onClickOut={this.onClickOut}>
+      <FloatingContainer show={show} onClickOut={this.onClickOut} horizontalAlignment={horizontalAlignment}>
         <CalendarContainer className={className}>
           <div className={classes.dateRange}>
             <div>

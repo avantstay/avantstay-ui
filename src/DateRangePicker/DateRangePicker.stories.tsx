@@ -10,20 +10,18 @@ DateRangePickerStories.addDecorator(withKnobs)
 DateRangePickerStories.add('Default usage', () => (
   <div>
     <p>
-      First first first first first first first first first first first first first first first
-      first first first first first first first first first first first first first first first
-      first first first first first first first first first first first first first first first
-      first first first first first first first first first first first first first first first
+      First first first first first first first first first first first first first first first first first first first first
+      first first first first first first first first first first first first first first first first first first first first
+      first first first first first first first first first first first first first first first first first first first first
       first first first first first first first
     </p>
     {boolean('show extra paragraph at the top', false) && (
       <p>
-        Second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
-        second second second second second second second second second second second second second
+        Second second second second second second second second second second second second second second second second second
+        second second second second second second second second second second second second second second second second second
+        second second second second second second second second second second second second second second second second second
+        second second second second second second second second second second second second second second second second second
+        second second second second second second second second second second
       </p>
     )}
     <div className="oito">
@@ -37,11 +35,10 @@ DateRangePickerStories.add('Default usage', () => (
     </div>
     {new Array(100).fill(1).map((it, i) => (
       <p key={i}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa
-        cumque dicta dolor, eaque error esse ipsam libero maxime natus nisi quae quod ratione
-        repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error esse ipsam libero maxime
-        natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error
+        esse ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error esse ipsam libero maxime natus
+        nisi quae quod ratione repudiandae rerum saepe ullam veniam.
       </p>
     ))}
   </div>
@@ -49,11 +46,10 @@ DateRangePickerStories.add('Default usage', () => (
   .add('Inside scrollable container', () => (
     <div>
       <p>
-        before before before before before before before before before before before before before
-        before before before before before before before before before before before before before
-        before before before before before before before before before before before before before
-        before before before before before before before before before before before before before
-        before before before before before before before before before before before
+        before before before before before before before before before before before before before before before before before
+        before before before before before before before before before before before before before before before before before
+        before before before before before before before before before before before before before before before before before
+        before before before before before before before before before before before before
       </p>
       <div
         style={{
@@ -64,21 +60,18 @@ DateRangePickerStories.add('Default usage', () => (
         }}
       >
         <p>
-          First first first first first first first first first first first first first first first
-          first first first first first first first first first first first first first first first
-          first first first first first first first first first first first first first first first
-          first first first first first first first first first first first first first first first
+          First first first first first first first first first first first first first first first first first first first first
+          first first first first first first first first first first first first first first first first first first first first
+          first first first first first first first first first first first first first first first first first first first first
           first first first first first first first
         </p>
         {boolean('show extra paragraph at the top', false) && (
           <p>
-            Second second second second second second second second second second second second
-            second second second second second second second second second second second second
-            second second second second second second second second second second second second
-            second second second second second second second second second second second second
-            second second second second second second second second second second second second
-            second second second second second second second second second second second second
-            second second second second second second
+            Second second second second second second second second second second second second second second second second second
+            second second second second second second second second second second second second second second second second second
+            second second second second second second second second second second second second second second second second second
+            second second second second second second second second second second second second second second second second second
+            second second second second second second second second second second
           </p>
         )}
         <div className="oito">
@@ -91,13 +84,22 @@ DateRangePickerStories.add('Default usage', () => (
         </div>
         {new Array(100).fill(1).map((it, i) => (
           <p key={i}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa
-            cumque dicta dolor, eaque error esse ipsam libero maxime natus nisi quae quod ratione
-            repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error esse
-            ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error
+            esse ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque error esse ipsam libero
+            maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
           </p>
         ))}
+      </div>
+    </div>
+  ))
+  .add('Align to the right', () => (
+    <div>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque minus molestiae nisi! Animi delectus distinctio explicabo id
+      minus possimus quasi quisquam quo tempore voluptas! Dolore error inventore porro praesentium sapiente!
+      <div style={{ width: 200, margin: '50px auto', background: 'yellow' }}>
+        <span>Lorem ipsum dolor</span>
+        <DateRangePicker show={boolean('show', true)} horizontalAlignment="right" />
       </div>
     </div>
   ))

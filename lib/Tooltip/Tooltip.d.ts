@@ -21,5 +21,6 @@ export interface TooltipProps {
     preferredHorizontalGravity?: HorizontalGravity;
     tip: React.ReactNode;
     children: React.ReactNode;
+    keepOpen?: boolean;
 }
 export default function Tooltip(props: TooltipProps): JSX.Element;

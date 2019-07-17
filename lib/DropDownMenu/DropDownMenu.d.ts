@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 export declare type itemsProps = {
     label: string;
     route?: string;
@@ -10,9 +10,10 @@ declare type DropDownMenuProps = {
     className?: string;
     trigger?: React.ReactNode;
     children?: React.ReactNode;
-    position: "right" | "left";
+    position: 'right' | 'left';
     title?: string;
     items: Array<itemsProps>;
+    stopPropagation?: boolean;
 };
 declare type DropDownMenuState = {
     showItems: boolean;
@@ -22,12 +23,9 @@ export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps,
     private readonly id;
     private searchField;
     private clearSearchTimeout;
-    static defaultProps: {
-        items: never[];
-        position: string;
-    };
+    static defaultProps: DropDownMenuProps;
     constructor(props: DropDownMenuProps);
-    onTrigger: () => void;
+    onTrigger: (event: React.MouseEvent<HTMLDivElement, MouseEvent> | undefined) => void;
     onClickOut: () => void;
     onSearch: () => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;

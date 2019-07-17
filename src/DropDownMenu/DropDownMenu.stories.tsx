@@ -53,3 +53,25 @@ DropDownMenuStories.addDecorator(centered)
       </DropDownMenu>
     </div>
   ))
+  .add('With a custom onTrigger', () => {
+    return (
+      <div onClick={() => alert("This should't be opened")}>
+        <DropDownMenu
+          items={[
+            {
+              label: 'Logout',
+              searchable: 'logout',
+              disabled: false,
+              action: () => {},
+            },
+          ]}
+          onTrigger={(e) => {
+            e.stopPropagation()
+          }}
+          position={'right'}
+        >
+          Menu label
+        </DropDownMenu>
+      </div>
+    )
+  })

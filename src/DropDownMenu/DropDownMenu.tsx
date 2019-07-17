@@ -29,7 +29,7 @@ type DropDownMenuProps = {
   position: 'right' | 'left'
   title?: string
   items: Array<itemsProps>
-  stopPropagation?: boolean
+  onTrigger?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 type DropDownMenuState = {
@@ -45,7 +45,6 @@ export class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDow
   static defaultProps: DropDownMenuProps = {
     items: [],
     position: 'left',
-    stopPropagation: false,
   }
 
   constructor(props: DropDownMenuProps) {
@@ -61,8 +60,9 @@ export class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDow
       .substr(2)
   }
 
-  onTrigger = (event: React.MouseEvent<HTMLDivElement, MouseEvent> | undefined) => {
-    this.props.stopPropagation && event && event.stopPropagation()
+  onTrigger = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    this.props.onTrigger && this.props.onTrigger(event)
+
     const becomeVisible = !this.state.showItems
 
     this.setState(

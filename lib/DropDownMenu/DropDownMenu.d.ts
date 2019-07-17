@@ -13,7 +13,7 @@ declare type DropDownMenuProps = {
     position: 'right' | 'left';
     title?: string;
     items: Array<itemsProps>;
-    stopPropagation?: boolean;
+    onTrigger?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 declare type DropDownMenuState = {
     showItems: boolean;
@@ -25,7 +25,7 @@ export declare class DropDownMenu extends React.PureComponent<DropDownMenuProps,
     private clearSearchTimeout;
     static defaultProps: DropDownMenuProps;
     constructor(props: DropDownMenuProps);
-    onTrigger: (event: React.MouseEvent<HTMLDivElement, MouseEvent> | undefined) => void;
+    onTrigger: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     onClickOut: () => void;
     onSearch: () => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;

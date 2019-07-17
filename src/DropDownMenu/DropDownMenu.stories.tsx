@@ -53,3 +53,23 @@ DropDownMenuStories.addDecorator(centered)
       </DropDownMenu>
     </div>
   ))
+  .add('Stop propagation', () => {
+    return (
+      <div onClick={() => alert("This should't be opened")}>
+        <DropDownMenu
+          items={[
+            {
+              label: 'Logout',
+              searchable: 'logout',
+              disabled: false,
+              action: () => alert('This should be the one that opens'),
+            },
+          ]}
+          stopPropagation
+          position={'right'}
+        >
+          Menu label
+        </DropDownMenu>
+      </div>
+    )
+  })

@@ -1,10 +1,15 @@
 import * as React from 'react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 import { getDocumentDimensions } from '../utils/getDocumentDimensions'
+import { getPortalElement } from '../utils/getPortalElement'
 import { useElementOffset } from '../utils/useElementOffset'
 import { useScrollableParent } from '../utils/useScrollableParent'
-import { arrowHeight, SimulatedTipContainer, TipContainer } from './Tooltip.styles'
+import {
+  arrowHeight,
+  SimulatedTipContainer,
+  TipContainer,
+} from './Tooltip.styles'
 
 export enum VerticalGravity {
   bottom = 'bottom',
@@ -33,10 +38,6 @@ export interface TooltipProps {
   keepOpen?: boolean
 }
 
-const portalElement = document.createElement('div')
-portalElement.style.overflow = 'hidden'
-document.body.appendChild(portalElement)
-
 const simulatedPortal = (() => {
   const el = document.createElement('div')
   el.style.width = '100%'
@@ -62,18 +63,31 @@ export default function Tooltip(props: TooltipProps) {
   } = props
 
   const [showTip, setShowTip] = useState(false)
+  const [portalElement, setPortalElement] = useState<HTMLElement | null>()
   const wrapperRef = useRef(null)
   const simulatedContainerRef = useRef(null)
   const scrollableParent = useScrollableParent(wrapperRef.current)
 
-  const { height, width, left, top, right, bottom } = useElementOffset(wrapperRef.current)
+  useLayoutEffect(() => {
+    if (!wrapperRef.current) return
 
+    setPortalElement(getPortalElement(wrapperRef.current!))
+  }, [wrapperRef.current])
+
+  useElementScrolling(
+    scrollableParent,
+    (removeListener) => {
+      if (!keepOpen && showTip) setShowTip(false)
+      removeListener()
+    },
+    [scrollableParent, showTip]
+  )
+
+  const { height, width, left, top, right, bottom } = useElementOffset(wrapperRef.current, scrollableParent)
   const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(simulatedContainerRef)
-
   const { documentWidth, documentHeight } = getDocumentDimensions()
   const extraHeight = arrowHeight + verticalSpacing
 
-  useScrollToHideTip(scrollableParent, showTip, setShowTip)
 
   const vGravity = {
     [VerticalGravity.top]: () => (top > simulatedHeight + extraHeight ? VerticalGravity.top : VerticalGravity.bottom),
@@ -135,6 +149,7 @@ export default function Tooltip(props: TooltipProps) {
         onMouseMove: () => !showTip && !keepOpen && setShowTip(true),
       })}
       {showTip &&
+        portalElement &&
         ReactDOM.createPortal(
           <TipContainer
             padding={tipContainerPadding}
@@ -155,23 +170,18 @@ export default function Tooltip(props: TooltipProps) {
   )
 }
 
-function useScrollToHideTip(
-  scrollableParent: HTMLElement | null,
-  showTip: boolean,
-  setShowTip: React.Dispatch<React.SetStateAction<boolean>>
-) {
+function useElementScrolling(element: HTMLElement | null, fn: (removeListener: () => void) => void, memoizeBy?: Array<any>) {
   useEffect(() => {
-    const handleScroll = () => {
-      showTip && setShowTip(false)
-      scrollableParent && scrollableParent.removeEventListener('scroll', handleScroll)
+    function listener() {
+      fn(() => element && element.removeEventListener('scroll', listener))
     }
 
-    scrollableParent && scrollableParent.addEventListener('scroll', handleScroll)
+    element && element.addEventListener('scroll', listener)
 
     return () => {
-      scrollableParent && scrollableParent.removeEventListener('scroll', handleScroll)
+      element && element.removeEventListener('scroll', listener)
     }
-  }, [scrollableParent, showTip])
+  }, memoizeBy || [element, fn])
 }
 
 function useSimulatedContainerDimensions(simulatedContainerRef: any) {

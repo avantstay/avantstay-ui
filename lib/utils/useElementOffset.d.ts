@@ -1,4 +1,4 @@
-export declare function useElementOffset(element: HTMLElement | null): {
+export declare function useElementOffset(element: HTMLElement | null, scrollableParent?: HTMLElement): {
     height: number;
     width: number;
     top: number;

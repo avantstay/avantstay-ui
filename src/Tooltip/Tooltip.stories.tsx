@@ -130,6 +130,7 @@ Stories.add('Default usage', () => (
                 <Tooltip
                   maxWidth={300}
                   keepOpen
+                  disabled
                   tip={
                     <div>
                       <p>

@@ -5,11 +5,7 @@ import { getDocumentDimensions } from '../utils/getDocumentDimensions'
 import { getPortalElement } from '../utils/getPortalElement'
 import { useElementOffset } from '../utils/useElementOffset'
 import { useScrollableParent } from '../utils/useScrollableParent'
-import {
-  arrowHeight,
-  SimulatedTipContainer,
-  TipContainer,
-} from './Tooltip.styles'
+import { arrowHeight, SimulatedTipContainer, TipContainer } from './Tooltip.styles'
 
 export enum VerticalGravity {
   bottom = 'bottom',
@@ -36,6 +32,7 @@ export interface TooltipProps {
   tip: React.ReactNode
   children: React.ReactNode
   keepOpen?: boolean
+  disabled?: boolean
 }
 
 const simulatedPortal = (() => {
@@ -60,6 +57,7 @@ export default function Tooltip(props: TooltipProps) {
     tipContainerPadding = '14px 20px 15px 20px',
     tipContainerBorderRadius = 3,
     keepOpen = false,
+    disabled = false,
   } = props
 
   const [showTip, setShowTip] = useState(false)
@@ -87,7 +85,6 @@ export default function Tooltip(props: TooltipProps) {
   const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(simulatedContainerRef)
   const { documentWidth, documentHeight } = getDocumentDimensions()
   const extraHeight = arrowHeight + verticalSpacing
-
 
   const vGravity = {
     [VerticalGravity.top]: () => (top > simulatedHeight + extraHeight ? VerticalGravity.top : VerticalGravity.bottom),
@@ -144,11 +141,14 @@ export default function Tooltip(props: TooltipProps) {
       )}
       {React.cloneElement(children as any, {
         ref: wrapperRef,
-        onMouseEnter: () => !keepOpen && setShowTip(true),
-        onMouseLeave: () => !keepOpen && setShowTip(false),
-        onMouseMove: () => !showTip && !keepOpen && setShowTip(true),
+        ...(!disabled && {
+          onMouseEnter: () => !keepOpen && setShowTip(true),
+          onMouseLeave: () => !keepOpen && setShowTip(false),
+          onMouseMove: () => !showTip && !keepOpen && setShowTip(true),
+        }),
       })}
-      {showTip &&
+      {!disabled &&
+        showTip &&
         portalElement &&
         ReactDOM.createPortal(
           <TipContainer

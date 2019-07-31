@@ -141,7 +141,6 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   }
 
   handleSelect = (date: DateRange | AnyDate, source: any) => {
-    debugger
     this.setState({ linkStepsCount: 0 })
 
     if (date.hasOwnProperty('startDate') && date.hasOwnProperty('endDate')) {

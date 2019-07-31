@@ -22,5 +22,6 @@ export interface TooltipProps {
     tip: React.ReactNode;
     children: React.ReactNode;
     keepOpen?: boolean;
+    disabled?: boolean;
 }
 export default function Tooltip(props: TooltipProps): JSX.Element;

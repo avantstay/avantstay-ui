@@ -141,6 +141,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   }
 
   handleSelect = (date: DateRange | AnyDate, source: any) => {
+    debugger
     this.setState({ linkStepsCount: 0 })
 
     if (date.hasOwnProperty('startDate') && date.hasOwnProperty('endDate')) {
@@ -150,15 +151,12 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     const { startDate, endDate } = this.state.range
 
-    const range = {
-      startDate: startDate,
-      endDate: endDate,
-    }
+    const range = { startDate, endDate }
 
     switch (this.step) {
       case 0:
         range.startDate = date as AnyDate
-        range.endDate = date as AnyDate
+        range.endDate = endDate && isAfter(endDate, date as AnyDate) ? endDate : undefined
         this.step = 1
         break
 

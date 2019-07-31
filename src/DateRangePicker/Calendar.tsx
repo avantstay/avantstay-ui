@@ -225,7 +225,7 @@ class Calendar extends React.Component<any, CalendarState> {
       const isSelected = !range && +parse(dayMoment) === dateUnix
       const isInRange = range && checkRange(dayMoment, range)
       const isStartEdge = range && checkStartEdge(dayMoment, range)
-      const isEndEdge = range && checkEndEdge(dayMoment, range)
+      const isEndEdge = (isStartEdge && range && !range.endDate) || (range && checkEndEdge(dayMoment, range))
       const isEdge = isStartEdge || isEndEdge
       const isToday = isEqual(today, dayMoment)
       const isSunday = getDay(dayMoment) === 0

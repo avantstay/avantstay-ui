@@ -6,14 +6,7 @@ import startOfDay from 'date-fns/start_of_day'
 import React, { Component } from 'react'
 import FloatingContainer from '../FloatingContainer/FloatingContainer'
 import Calendar from './Calendar'
-import {
-  ApplyButton,
-  CalendarContainer,
-  ClearButton,
-  ClearButtonContainer,
-  CloseButton,
-  IconClose,
-} from './Calendar.styles'
+import { ApplyButton, CalendarContainer, ClearButton, ClearButtonContainer, CloseButton, IconClose } from './Calendar.styles'
 import { defaultClasses } from './enums'
 
 export type AnyDate = Date | string | number
@@ -57,8 +50,7 @@ export interface DateRangePickerState {
   linkStepsCount: number
 }
 
-const getDate = (
-  date: AnyDate | DateFactory, defaultValue: AnyDate = ''): AnyDate => {
+const getDate = (date: AnyDate | DateFactory, defaultValue: AnyDate = ''): AnyDate => {
   return (typeof date === 'function' ? date() : date) || defaultValue
 }
 
@@ -71,7 +63,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     clearButtonLabel: 'Clear',
     showApply: false,
     applyLabel: 'Apply',
-    horizontalAlignment: 'left'
+    horizontalAlignment: 'left',
   }
 
   step = 0
@@ -132,8 +124,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     }
   }
 
-  setRange = (
-    range: DateRange<undefined>, source?: any, triggerChange?: boolean) => {
+  setRange = (range: DateRange<undefined>, source?: any, triggerChange?: boolean) => {
     const { onChange } = this.props
     range = this.orderRange(range)
 
@@ -145,7 +136,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     if (date.hasOwnProperty('startDate') && date.hasOwnProperty('endDate')) {
       this.step = 0
-      return this.setRange(date as DateRange, source, true)
+      return this.setRange(date as any, source, true)
     }
 
     const { startDate, endDate } = this.state.range
@@ -165,8 +156,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
         break
     }
 
-    const triggerChange = !this.props.twoStepChange ||
-      (this.step === 0 && this.props.twoStepChange)
+    const triggerChange = !this.props.twoStepChange || (this.step === 0 && this.props.twoStepChange)
 
     this.setRange(range, source, triggerChange)
   }
@@ -182,8 +172,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
   clearRange = () => {
     this.setRange({ startDate: undefined, endDate: undefined })
-    this.props.onChange &&
-    this.props.onChange({ startDate: undefined, endDate: undefined })
+    this.props.onChange && this.props.onChange({ startDate: undefined, endDate: undefined })
   }
 
   resetPosition = () => {
@@ -237,17 +226,16 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
         <CalendarContainer className={className}>
           <div className={classes.dateRange}>
             <div>
-              <Calendar {...calendarProps} offset={0}/>
+              <Calendar {...calendarProps} offset={0} />
               <ClearButtonContainer>
-                <ClearButton show={range.startDate || range.endDate}
-                             onClick={this.clearRange}>
+                <ClearButton show={Boolean(range.startDate || range.endDate)} onClick={this.clearRange}>
                   {clearButtonLabel}
                 </ClearButton>
                 <CloseButton onClick={onClose}>
-                  <IconClose/>
+                  <IconClose />
                 </CloseButton>
               </ClearButtonContainer>
-              <Calendar {...calendarProps} offset={1}/>
+              <Calendar {...calendarProps} offset={1} />
             </div>
             <ApplyButton
               show={showApply}

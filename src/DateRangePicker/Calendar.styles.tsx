@@ -31,10 +31,10 @@ export const CalendarContainer = styled.div`
     box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    
+
     & > div {
       display: inline-flex;
-  
+
       ${MAXW_SM_SCREEN} {
         display: inline-flex;
         flex-direction: column;
@@ -42,7 +42,7 @@ export const CalendarContainer = styled.div`
         min-height: 100%;
         justify-content: center;
       }
-  
+
       & * {
         transition: all 0ms;
       }
@@ -300,27 +300,29 @@ export const ClearButtonContainer = styled('div')`
   }
 `
 
-export const ClearButton = renderIf('show')(
-  styled('button')`
-    width: 80px;
-    border: 2px solid ${ERROR};
-    border-radius: 99px;
-    background: white;
-    height: 24px;
-    line-height: 19px;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: ${ERROR};
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    outline: none;
-    position: relative;
-    z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2};
-  `,
-)
+interface ClearButtonProps {
+  show: boolean
+}
+
+export const ClearButton = styled.button<ClearButtonProps>`
+  width: 80px;
+  border: 2px solid ${ERROR};
+  border-radius: 99px;
+  background: white;
+  height: 24px;
+  line-height: 19px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: ${ERROR};
+  font-size: 12px;
+  display: ${(p) => (p.show ? 'flex' : 'none')};
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2};
+`
 
 export const CloseButton = styled('button')`
   display: none;

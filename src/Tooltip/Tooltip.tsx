@@ -2,7 +2,10 @@ import * as React from 'react'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 import { getDocumentDimensions } from '../utils/getDocumentDimensions'
-import { getPortalElement } from '../utils/getPortalElement'
+import {
+  createPortalElementAt,
+  getPortalElement,
+} from '../utils/getPortalElement'
 import { useElementOffset } from '../utils/useElementOffset'
 import { useScrollableParent } from '../utils/useScrollableParent'
 import { arrowHeight, SimulatedTipContainer, TipContainer } from './Tooltip.styles'
@@ -33,6 +36,7 @@ export interface TooltipProps {
   children: React.ReactNode
   keepOpen?: boolean
   disabled?: boolean
+  portalParent?: HTMLElement
 }
 
 const simulatedPortal = (() => {
@@ -58,19 +62,23 @@ export default function Tooltip(props: TooltipProps) {
     tipContainerBorderRadius = 3,
     keepOpen = false,
     disabled = false,
+    portalParent
   } = props
 
   const [showTip, setShowTip] = useState(false)
   const [portalElement, setPortalElement] = useState<HTMLElement | null>()
   const wrapperRef = useRef(null)
   const simulatedContainerRef = useRef(null)
-  const scrollableParent = useScrollableParent(wrapperRef.current)
+  const scrollableParent = portalParent || useScrollableParent(wrapperRef.current)
 
   useLayoutEffect(() => {
     if (!wrapperRef.current) return
 
-    setPortalElement(getPortalElement(wrapperRef.current!))
-  }, [wrapperRef.current])
+    if (portalParent)
+      setPortalElement(createPortalElementAt(portalParent))
+    else
+      setPortalElement(getPortalElement(wrapperRef.current!))
+  }, [wrapperRef.current, portalParent])
 
   useElementScrolling(
     scrollableParent,

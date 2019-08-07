@@ -3,19 +3,31 @@ const _portalElements: Array<{
   portalElement: HTMLElement
 }> = []
 
+export function createPortalElementAt(parentElement: HTMLElement) {
+  const portalElement = document.createElement('div')
+  parentElement.appendChild(portalElement)
+  return portalElement
+}
+
 export function getPortalElement(rootElement: HTMLElement): HTMLElement | null {
-  if (!rootElement) return null
+  if (!rootElement) {
+    return null
+  }
 
   const existingPortalElement = _portalElements.find((it) => it.rootElement === rootElement)
 
-  if (existingPortalElement) return existingPortalElement.portalElement
+  if (existingPortalElement) {
+    return existingPortalElement.portalElement
+  }
 
   const scrollableParent = getScrollableParent(rootElement)
-
   const portalElement = document.createElement('div')
 
-  if (scrollableParent) scrollableParent.appendChild(portalElement)
-  else document.body.appendChild(portalElement)
+  if (scrollableParent) {
+    scrollableParent.appendChild(portalElement)
+  } else {
+    document.body.appendChild(portalElement)
+  }
 
   _portalElements.push({
     portalElement: portalElement,

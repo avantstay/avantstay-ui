@@ -23,5 +23,6 @@ export interface TooltipProps {
     children: React.ReactNode;
     keepOpen?: boolean;
     disabled?: boolean;
+    portalParent?: HTMLElement;
 }
 export default function Tooltip(props: TooltipProps): JSX.Element;

@@ -6,7 +6,7 @@ import {
   createPortalElementAt,
   getPortalElement,
 } from '../utils/getPortalElement'
-import { useElementOffset } from '../utils/useElementOffset'
+import { getElementOffset } from '../utils/getElementOffset'
 import { useScrollableParent } from '../utils/useScrollableParent'
 import { arrowHeight, SimulatedTipContainer, TipContainer } from './Tooltip.styles'
 
@@ -89,7 +89,7 @@ export default function Tooltip(props: TooltipProps) {
     [scrollableParent, showTip]
   )
 
-  const { height, width, left, top, right, bottom } = useElementOffset(wrapperRef.current, scrollableParent)
+  const { height, width, left, top, right, bottom } = getElementOffset(wrapperRef.current, scrollableParent)
   const { simulatedHeight, simulatedWidth } = useSimulatedContainerDimensions(simulatedContainerRef)
   const { documentWidth, documentHeight } = getDocumentDimensions()
   const extraHeight = arrowHeight + verticalSpacing
@@ -194,7 +194,7 @@ function useElementScrolling(element: HTMLElement | null, fn: (removeListener: (
 
 function useSimulatedContainerDimensions(simulatedContainerRef: any) {
   return useMemo(() => {
-    const { width, height } = useElementOffset(simulatedContainerRef.current)
+    const { width, height } = getElementOffset(simulatedContainerRef.current)
 
     return {
       simulatedWidth: width || 0,

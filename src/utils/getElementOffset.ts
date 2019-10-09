@@ -1,6 +1,6 @@
 import { offsetLeft, offsetTop } from './offset'
 
-export function useElementOffset(element: HTMLElement | null, scrollableParent?: HTMLElement) {
+export function getElementOffset(element: HTMLElement | null, scrollableParent?: HTMLElement) {
   const clientRect = (element && (element as HTMLElement).getBoundingClientRect()) || {
     top: 0,
     left: 0,

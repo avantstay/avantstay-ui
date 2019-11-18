@@ -118,6 +118,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
         portalElement &&
         ReactDOM.createPortal(
           <FloatingContainerRoot
+            className={this.props.className}
             ref={this.floatingContainerRef} {...this.positioning}>
             {children}
           </FloatingContainerRoot>,

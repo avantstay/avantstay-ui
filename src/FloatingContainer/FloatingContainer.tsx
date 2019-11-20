@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { getPortalElement } from '../utils/getPortalElement'
 import isDescendant from '../utils/isDescendant'
 import { offsetLeft, offsetRight, offsetTop } from '../utils/offset'
+import console = require('console');
 
 export const FloatingContainerRoot = styled.div<{ top: number; left?: number; right?: number }>`
   z-index: 99;
@@ -83,6 +84,9 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   }, this.props.windowResizeDebounceDelay)
 
   onClickOut = (e: MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+
     if (this.props.show &&
       !isDescendant(this.floatingContainerRef.current, e.target)) {
       this.props.onClickOut && this.props.onClickOut(e)
@@ -119,7 +123,10 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
         ReactDOM.createPortal(
           <FloatingContainerRoot
             className={this.props.className}
-            ref={this.floatingContainerRef} {...this.positioning}>
+            ref={this.floatingContainerRef} 
+            {...this.positioning}
+            onClick={e => e.stopPropagation()}
+          >
             {children}
           </FloatingContainerRoot>,
           portalElement,

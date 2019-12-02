@@ -85,7 +85,6 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
 
   onClickOut = (e: MouseEvent) => {
     e.stopPropagation()
-    e.preventDefault()
 
     if (this.props.show &&
       !isDescendant(this.floatingContainerRef.current, e.target)) {

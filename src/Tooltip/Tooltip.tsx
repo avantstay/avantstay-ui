@@ -62,7 +62,8 @@ export default function Tooltip(props: TooltipProps) {
     tipContainerBorderRadius = 3,
     keepOpen = false,
     disabled = false,
-    portalParent
+    portalParent,
+    style,
   } = props
 
   const [showTip, setShowTip] = useState(false)
@@ -169,6 +170,7 @@ export default function Tooltip(props: TooltipProps) {
             maxWidth={maxWidth}
             top={anchorTop}
             left={anchorLeft}
+            style={style}
           >
             {tip}
           </TipContainer>,

@@ -12,6 +12,7 @@ interface TipContainerProps {
   hGravity: HorizontalGravity
   padding: number | string
   borderRadius: number | string
+  style: any
 }
 
 interface SimulatedTipContainerProps {

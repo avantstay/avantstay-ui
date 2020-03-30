@@ -11,6 +11,7 @@ interface TipContainerProps {
     padding: number | string;
     borderRadius: number | string;
     style: any;
+    className?: string;
 }
 interface SimulatedTipContainerProps {
     maxWidth: number | string;

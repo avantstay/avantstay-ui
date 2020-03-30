@@ -13,6 +13,7 @@ interface TipContainerProps {
   padding: number | string
   borderRadius: number | string
   style: any
+  className?: string
 }
 
 interface SimulatedTipContainerProps {
@@ -28,43 +29,47 @@ const appearIn = keyframes`
 `
 
 export const TipContainer: React.FC<TipContainerProps> = styled.div<TipContainerProps>`
-  max-width: ${p => typeof p.maxWidth === 'number' ? `${p.maxWidth}px` : p.maxWidth};
-  padding: ${p => typeof p.padding === 'number' ? `${p.padding}px` : p.padding}; 
-  border-radius: ${p => typeof p.borderRadius === 'number' ? `${p.borderRadius}px` : p.borderRadius}; 
+  max-width: ${(p) => (typeof p.maxWidth === 'number' ? `${p.maxWidth}px` : p.maxWidth)};
+  padding: ${(p) => (typeof p.padding === 'number' ? `${p.padding}px` : p.padding)};
+  border-radius: ${(p) => (typeof p.borderRadius === 'number' ? `${p.borderRadius}px` : p.borderRadius)};
   position: absolute;
-  top: ${p => p.top}px;
-  left: ${p => p.left}px;
-  background: ${p => p.backgroundColor};
-  z-index: 999; 
+  top: ${(p) => p.top}px;
+  left: ${(p) => p.left}px;
+  background: ${(p) => p.backgroundColor};
+  z-index: 999;
   opacity: 0;
   animation: ${appearIn} 200ms forwards;
-  color: ${p => p.textColor};
-  
+  color: ${(p) => p.textColor};
+
   &::after {
     content: '';
     position: absolute;
-    ${p => p.vGravity === VerticalGravity.top ? 'bottom' : 'top' }: 0;
-    left: ${p => ({
-  center: '50%',
-  left: `calc(100% - ${arrowHeight * 3}px)`,
-  right: `${arrowHeight * 3}px`
-}[p.hGravity])};
+    ${(p) => (p.vGravity === VerticalGravity.top ? 'bottom' : 'top')}: 0;
+    left: ${(p) =>
+      ({
+        center: '50%',
+        left: `calc(100% - ${arrowHeight * 3}px)`,
+        right: `${arrowHeight * 3}px`,
+      }[p.hGravity])};
     display: block;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: ${p => p.vGravity === VerticalGravity.top
-  ? `${arrowHeight}px ${arrowHeight}px 0 ${arrowHeight}px`
-  : `0 ${arrowHeight}px ${arrowHeight}px ${arrowHeight}px`};
-    border-color: ${p => p.vGravity === VerticalGravity.top
-  ? `${p.backgroundColor} transparent transparent transparent`
-  : `transparent transparent ${p.backgroundColor} transparent`};
-    transform: translateY(${p => p.vGravity === VerticalGravity.top ? 'calc(100% - 1px)' : 'calc(-100% + 1px)' }) translateX(-50%);
+    border-width: ${(p) =>
+      p.vGravity === VerticalGravity.top
+        ? `${arrowHeight}px ${arrowHeight}px 0 ${arrowHeight}px`
+        : `0 ${arrowHeight}px ${arrowHeight}px ${arrowHeight}px`};
+    border-color: ${(p) =>
+      p.vGravity === VerticalGravity.top
+        ? `${p.backgroundColor} transparent transparent transparent`
+        : `transparent transparent ${p.backgroundColor} transparent`};
+    transform: translateY(${(p) => (p.vGravity === VerticalGravity.top ? 'calc(100% - 1px)' : 'calc(-100% + 1px)')})
+      translateX(-50%);
   }
 `
 
 export const SimulatedTipContainer: React.FC<SimulatedTipContainerProps & any> = styled.div<SimulatedTipContainerProps>`
   display: inline-block;
-  max-width: ${p => typeof p.maxWidth === 'number' ? `${p.maxWidth}px` : p.maxWidth};
-  padding: ${p => typeof p.padding === 'number' ? `${p.padding}px` : p.padding}; 
+  max-width: ${(p) => (typeof p.maxWidth === 'number' ? `${p.maxWidth}px` : p.maxWidth)};
+  padding: ${(p) => (typeof p.padding === 'number' ? `${p.padding}px` : p.padding)};
 `

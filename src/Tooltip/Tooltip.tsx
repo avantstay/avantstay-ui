@@ -2,10 +2,7 @@ import * as React from 'react'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 import { getDocumentDimensions } from '../utils/getDocumentDimensions'
-import {
-  createPortalElementAt,
-  getPortalElement,
-} from '../utils/getPortalElement'
+import { createPortalElementAt, getPortalElement } from '../utils/getPortalElement'
 import { getElementOffset } from '../utils/getElementOffset'
 import { useScrollableParent } from '../utils/useScrollableParent'
 import { arrowHeight, SimulatedTipContainer, TipContainer } from './Tooltip.styles'
@@ -64,6 +61,7 @@ export default function Tooltip(props: TooltipProps) {
     disabled = false,
     portalParent,
     style,
+    className,
   } = props
 
   const [showTip, setShowTip] = useState(false)
@@ -75,10 +73,8 @@ export default function Tooltip(props: TooltipProps) {
   useLayoutEffect(() => {
     if (!wrapperRef.current) return
 
-    if (portalParent)
-      setPortalElement(createPortalElementAt(portalParent))
-    else
-      setPortalElement(getPortalElement(wrapperRef.current!))
+    if (portalParent) setPortalElement(createPortalElementAt(portalParent))
+    else setPortalElement(getPortalElement(wrapperRef.current!))
   }, [wrapperRef.current, portalParent])
 
   useElementScrolling(
@@ -171,6 +167,7 @@ export default function Tooltip(props: TooltipProps) {
             top={anchorTop}
             left={anchorLeft}
             style={style}
+            className={className}
           >
             {tip}
           </TipContainer>,

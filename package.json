@@ -47,8 +47,12 @@
     "@types/storybook__addon-centered": "^3.4.0",
     "@types/storybook__addon-knobs": "^4.0.2",
     "@types/storybook__react": "^4.0.1",
+    "@typescript-eslint/parser": "^2.33.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
+    "eslint": "^7.0.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.2",
     "prettier": "^2.0.5"
   }
 }

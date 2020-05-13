@@ -5,14 +5,13 @@ import styled from 'styled-components'
 import { getPortalElement } from '../utils/getPortalElement'
 import isDescendant from '../utils/isDescendant'
 import { offsetLeft, offsetRight, offsetTop } from '../utils/offset'
-import console = require('console');
 
 export const FloatingContainerRoot = styled.div<{ top: number; left?: number; right?: number }>`
   z-index: 99;
   position: absolute;
   top: ${(p: any) => p.top}px;
-  ${(p: any) => p.left ? `left: ${p.left}px` : ''};
-  ${(p: any) => p.right ? `right: ${p.right}px` : ''};
+  ${(p: any) => (p.left ? `left: ${p.left}px` : '')};
+  ${(p: any) => (p.right ? `right: ${p.right}px` : '')};
   box-sizing: border-box;
 
   & * {
@@ -29,7 +28,7 @@ export interface FloatingContainerProps {
 }
 
 export interface FloatingContainerState {
-  portalElement: HTMLElement | null
+  portalElement?: HTMLElement
 }
 
 class FloatingContainer extends Component<FloatingContainerProps, FloatingContainerState> {
@@ -43,19 +42,18 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   positioningRef = React.createRef<HTMLDivElement>()
 
   state = {
-    portalElement: null,
+    portalElement: undefined,
   }
 
   componentDidMount() {
-    if (this.props.show)
-      this.addWindowListeners()
+    if (this.props.show) this.addWindowListeners()
 
     this.setState({
       portalElement: getPortalElement(this.positioningRef.current as any),
     })
   }
 
-  componentWillReceiveProps(nextProps: FloatingContainerProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: FloatingContainerProps) {
     if (nextProps.show && !this.props.show) {
       this.addWindowListeners()
     } else if (!nextProps.show && this.props.show) {
@@ -86,22 +84,19 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
   onClickOut = (e: MouseEvent) => {
     e.stopPropagation()
 
-    if (this.props.show &&
-      !isDescendant(this.floatingContainerRef.current, e.target)) {
+    if (this.props.show && !isDescendant(this.floatingContainerRef.current, e.target)) {
       this.props.onClickOut && this.props.onClickOut(e)
     }
   }
 
   get positioning(): { top: number; left?: number; right?: number } {
-    const portalParent = this.state.portalElement &&
-      (this.state.portalElement! as HTMLElement).parentNode
+    const portalParent = this.state.portalElement && (this.state.portalElement! as HTMLElement).parentNode
     const top = offsetTop(this.positioningRef.current) - offsetTop(portalParent)
 
     if (this.props.horizontalAlignment === 'right') {
       return {
         top,
-        right: offsetRight(this.positioningRef.current) -
-          offsetRight(portalParent),
+        right: offsetRight(this.positioningRef.current) - offsetRight(portalParent),
       }
     }
 
@@ -118,18 +113,18 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
     return (
       <div ref={this.positioningRef}>
         {show &&
-        portalElement &&
-        ReactDOM.createPortal(
-          <FloatingContainerRoot
-            className={this.props.className}
-            ref={this.floatingContainerRef} 
-            {...this.positioning}
-            onClick={e => e.stopPropagation()}
-          >
-            {children}
-          </FloatingContainerRoot>,
-          portalElement,
-        )}
+          portalElement &&
+          ReactDOM.createPortal(
+            <FloatingContainerRoot
+              className={this.props.className}
+              ref={this.floatingContainerRef}
+              {...this.positioning}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {children}
+            </FloatingContainerRoot>,
+            portalElement!
+          )}
       </div>
     )
   }

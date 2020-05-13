@@ -55,9 +55,7 @@ export class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDow
       highlightIndex: -1,
     }
 
-    this.id = Math.random()
-      .toString(36)
-      .substr(2)
+    this.id = Math.random().toString(36).substr(2)
   }
 
   onTrigger = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

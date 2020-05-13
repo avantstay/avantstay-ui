@@ -9,9 +9,9 @@ export function createPortalElementAt(parentElement: HTMLElement) {
   return portalElement
 }
 
-export function getPortalElement(rootElement: HTMLElement): HTMLElement | null {
+export function getPortalElement(rootElement: HTMLElement): HTMLElement | undefined {
   if (!rootElement) {
-    return null
+    return undefined
   }
 
   const existingPortalElement = _portalElements.find((it) => it.rootElement === rootElement)

@@ -4,7 +4,7 @@ import queryString from 'query-string'
 import debounce from 'lodash.debounce'
 import * as S from './ImgLite.styles'
 
-export enum ImgLiteCrop {
+enum ImgLiteCrop {
   ATTENTION = 'attention',
   CENTER = 'center',
   ENTROPY = 'entropy',
@@ -59,21 +59,41 @@ function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
   return queryString.stringifyUrl({ url: baseUrl, query: { crop, sharpen } }, { skipEmptyString: true })
 }
 
-export default function ImgLite({
-  className,
-  crop,
-  density,
-  height,
-  lowResQuality = 30,
-  lowResWidth,
-  quality,
-  sharpen,
-  sizingStep,
-  src,
-  width,
-  ...imageElementProps
-}: ImgLiteProps) {
+function ImgLite(
+  {
+    className,
+    crop,
+    density,
+    height,
+    lowResQuality = 30,
+    lowResWidth,
+    quality,
+    sharpen,
+    sizingStep,
+    src,
+    width,
+    ...imageElementProps
+  }: ImgLiteProps,
+  ref: React.Ref<HTMLImageElement>
+) {
   const imageRef = useRef<HTMLImageElement>(null)
+  const imageCallbackRef = useCallback(
+    (element: HTMLImageElement) => {
+      const imageMutableRef = imageRef as React.MutableRefObject<HTMLImageElement>
+      imageMutableRef.current = element
+
+      if (typeof ref === 'function') {
+        ref(element)
+        return
+      }
+
+      if (ref !== null) {
+        const mutableRef = ref as React.MutableRefObject<HTMLImageElement>
+        mutableRef.current = element
+      }
+    },
+    [ref]
+  )
 
   const [currentImage, setCurrentImage] = useState<string>()
 
@@ -130,5 +150,7 @@ export default function ImgLite({
     }
   }, [updateCurrentImage])
 
-  return <S.Image className={className} ref={imageRef} src={currentImage} {...imageElementProps} />
+  return <S.Image className={className} ref={imageCallbackRef} src={currentImage} {...imageElementProps} />
 }
+
+export default React.memo(React.forwardRef(ImgLite))

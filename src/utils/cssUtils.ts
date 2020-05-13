@@ -1,5 +1,5 @@
 import tinyColor from 'tinycolor2'
-import { kebabCase } from 'lodash'
+import kebabCase from 'lodash.kebabCase'
 
 export function lighten(color: string, percentage: number) {
   return tinyColor(color).lighten(percentage).toRgbString()

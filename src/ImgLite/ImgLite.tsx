@@ -115,11 +115,11 @@ export default function ImgLite({
     }
 
     setCurrentImage(newSrc)
-  }, [])
+  }, [crop, currentImage, density, height, loadImage, lowResQuality, lowResWidth, quality, sharpen, sizingStep, src, width])
 
   useLayoutEffect(() => {
     updateCurrentImage()
-  }, [])
+  }, [updateCurrentImage])
 
   useEffect(() => {
     const debouncedUpdateCurrentImage = debounce(updateCurrentImage, 200)
@@ -128,7 +128,7 @@ export default function ImgLite({
     return () => {
       window.removeEventListener('resize', debouncedUpdateCurrentImage)
     }
-  }, [])
+  }, [updateCurrentImage])
 
-  return <S.Image ref={imageRef} src={currentImage} {...imageElementProps} />
+  return <S.Image className={className} ref={imageRef} src={currentImage} {...imageElementProps} />
 }

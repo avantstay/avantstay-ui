@@ -4,11 +4,7 @@ import queryString from 'query-string'
 import debounce from 'lodash.debounce'
 import * as S from './ImgLite.styles'
 
-enum ImgLiteCrop {
-  ATTENTION = 'attention',
-  CENTER = 'center',
-  ENTROPY = 'entropy',
-}
+type ImgLiteCrop = 'attention' | 'center' | 'entropy'
 
 type ImgLiteProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   className?: string
@@ -25,11 +21,11 @@ type ImgLiteProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 }
 
 interface ImgLiteThumbnailOptions {
-  maxWidth?: number
+  crop?: ImgLiteCrop
   maxHeight?: number
+  maxWidth?: number
   quality?: number
   sharpen?: string
-  crop?: ImgLiteCrop
 }
 
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
@@ -39,7 +35,7 @@ function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
 }
 
 function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
-  const { crop = ImgLiteCrop.ENTROPY, maxHeight = 0, maxWidth = 1200, quality = 85, sharpen = '1,0.3,1' } = options
+  const { crop = 'entropy', maxHeight = 0, maxWidth = 1200, quality = 85, sharpen = '1,0.3,1' } = options
 
   const hasUrl = !!url
   if (!hasUrl) return url

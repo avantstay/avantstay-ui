@@ -13,7 +13,7 @@ export interface FloatingContainerProps {
     windowResizeDebounceDelay?: number;
 }
 export interface FloatingContainerState {
-    portalElement: HTMLElement | null;
+    portalElement?: HTMLElement;
 }
 declare class FloatingContainer extends Component<FloatingContainerProps, FloatingContainerState> {
     static defaultProps: {
@@ -24,10 +24,10 @@ declare class FloatingContainer extends Component<FloatingContainerProps, Floati
     floatingContainerRef: React.RefObject<HTMLDivElement>;
     positioningRef: React.RefObject<HTMLDivElement>;
     state: {
-        portalElement: null;
+        portalElement: undefined;
     };
     componentDidMount(): void;
-    componentWillReceiveProps(nextProps: FloatingContainerProps): void;
+    UNSAFE_componentWillReceiveProps(nextProps: FloatingContainerProps): void;
     componentWillUnmount(): void;
     addWindowListeners: () => void;
     removeWindowListeners: () => void;

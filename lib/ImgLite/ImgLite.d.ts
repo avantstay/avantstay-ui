@@ -8,7 +8,7 @@ declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponen
     lowResWidth?: number | undefined;
     quality?: number | undefined;
     sharpen?: string | undefined;
-    sizingStep?: 100 | undefined;
+    sizingStep?: number | undefined;
     src: string;
     width?: number | undefined;
 } & React.RefAttributes<HTMLImageElement>>>;

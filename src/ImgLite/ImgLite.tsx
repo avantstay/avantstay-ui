@@ -15,7 +15,7 @@ type ImgLiteProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   lowResWidth?: number
   quality?: number
   sharpen?: string
-  sizingStep?: 100
+  sizingStep?: number
   src: string
   width?: number
 }

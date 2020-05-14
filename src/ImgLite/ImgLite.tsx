@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { isMobile } from 'is-mobile'
-import queryString from 'query-string'
 import debounce from 'lodash.debounce'
+import queryString from 'query-string'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import * as S from './ImgLite.styles'
 
 type ImgLiteCrop = 'attention' | 'center' | 'entropy'

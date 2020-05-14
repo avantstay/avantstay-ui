@@ -1,9 +1,23 @@
 {
   "name": "@avantstay/avantstay-ui",
   "version": "1.12.2",
+  "homepage": "https://github.com/avantstay/avantstay-ui",
+  "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "private": false,
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avantstay/avantstay-ui.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "clear-cache": "tsc clear cache"
+  },
   "dependencies": {
     "classnames": "^2.2.6",
     "date-fns": "^1.30.1",
@@ -14,12 +28,6 @@
     "lodash.kebabcase": "^4.1.1",
     "query-string": "^6.12.1",
     "tinycolor2": "^1.4.1"
-  },
-  "scripts": {
-    "build": "tsc",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "clear-cache": "tsc clear cache"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -59,5 +67,9 @@
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "styled-components": "^4.1.3"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
   }
 }

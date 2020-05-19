@@ -3,7 +3,7 @@
     "browser": true,
     "node": true
   },
-  "extends": ["plugin:react/recommended", "plugin:react-hooks/recommended"],
+  "extends": ["plugin:react/recommended", "plugin:react-hooks/recommended", "plugin:prettier/recommended"],
   "ignorePatterns": ["lib/**/*"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

@@ -1,15 +1,19 @@
 import React from 'react';
-declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponent<React.ImgHTMLAttributes<HTMLImageElement> & {
-    className?: string | undefined;
-    crop?: "center" | "attention" | "entropy" | undefined;
-    density?: number | undefined;
-    height?: number | undefined;
-    lowResQuality?: number | undefined;
-    lowResWidth?: number | undefined;
-    quality?: number | undefined;
-    sharpen?: string | undefined;
-    sizingStep?: number | undefined;
+declare type ImgLiteCrop = 'attention' | 'center' | 'entropy';
+interface ImgLiteOwnProps {
+    className?: string;
+    crop?: ImgLiteCrop;
+    density?: number;
+    height?: number;
+    lowResQuality?: number;
+    lowResWidth?: number;
+    quality?: number;
+    sharpen?: string;
+    sizingStep?: number;
     src: string;
-    width?: number | undefined;
-} & React.RefAttributes<HTMLImageElement>>>;
+    width?: number;
+}
+declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponent<(React.ImgHTMLAttributes<HTMLImageElement> & ImgLiteOwnProps & React.RefAttributes<HTMLImageElement>) | (React.HTMLAttributes<HTMLDivElement> & ImgLiteOwnProps & {
+    children: React.ReactNode;
+} & React.RefAttributes<HTMLImageElement>)>>;
 export default _default;

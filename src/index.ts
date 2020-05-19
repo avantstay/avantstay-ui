@@ -1,3 +1,4 @@
+export { default as CollapsibleContainer } from './CollapsibleContainer'
 export { default as DateRangePicker } from './DateRangePicker'
 export { default as FloatingContainer } from './FloatingContainer'
 export { default as ImgLite } from './ImgLite'

@@ -1,6 +1,6 @@
 import React from 'react';
 declare type ImgLiteCrop = 'attention' | 'center' | 'entropy';
-interface ImgLiteOwnProps {
+export interface ImgLiteOwnProps {
     className?: string;
     crop?: ImgLiteCrop;
     density?: number;

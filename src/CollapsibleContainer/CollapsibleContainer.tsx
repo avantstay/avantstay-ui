@@ -1,28 +1,32 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import debounce from 'lodash.debounce'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 import * as S from './CollapsibleContainer.styles'
 
 type CollapsibleContainerProps = React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode
   className?: string
+  delay?: number
   isCollapsed?: boolean
 }
 
 const MINIMUM_HEIGHT_DIFFERENCE = 2
 
-function CollapsibleContainer({ children, isCollapsed = false, ...restProps }: CollapsibleContainerProps) {
+function CollapsibleContainer({ children, delay = 250, isCollapsed = false, ...restProps }: CollapsibleContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const [containerHeight, setContainerHeight] = useState(0)
 
-  const setContainerHeightByAtLeastMinimumValue = useCallback((nextHeight) => {
-    setContainerHeight((previousHeight) => {
-      const heightDifference = Math.abs(previousHeight - nextHeight)
-      const shouldChangeHeight = heightDifference >= MINIMUM_HEIGHT_DIFFERENCE
+  const setContainerHeightDebounced = useMemo(() => {
+    return debounce((nextHeight) => {
+      setContainerHeight((previousHeight) => {
+        const heightDifference = Math.abs(previousHeight - nextHeight)
+        const shouldChangeHeight = heightDifference >= MINIMUM_HEIGHT_DIFFERENCE
 
-      return shouldChangeHeight ? nextHeight : previousHeight
-    })
-  }, [])
+        return shouldChangeHeight ? nextHeight : previousHeight
+      })
+    }, delay)
+  }, [delay])
 
   useEffect(() => {
     const containerElement = containerRef.current
@@ -30,24 +34,24 @@ function CollapsibleContainer({ children, isCollapsed = false, ...restProps }: C
 
     const containerHeightObserver = new ResizeObserver((entries) => {
       const nextHeight = entries[0].target.scrollHeight
-      setContainerHeightByAtLeastMinimumValue(nextHeight)
+      setContainerHeightDebounced(nextHeight)
     })
 
     containerHeightObserver.observe(containerElement)
     return () => {
       containerHeightObserver.unobserve(containerElement)
     }
-  }, [setContainerHeightByAtLeastMinimumValue])
+  }, [setContainerHeightDebounced])
 
   useLayoutEffect(() => {
     const containerElement = containerRef.current
     if (containerElement) {
-      setContainerHeightByAtLeastMinimumValue(containerElement.scrollHeight)
+      setContainerHeightDebounced(containerElement.scrollHeight)
     }
-  }, [children, setContainerHeightByAtLeastMinimumValue])
+  }, [children, setContainerHeightDebounced])
 
   return (
-    <S.Root {...restProps} height={isCollapsed ? 0 : containerHeight} ref={containerRef}>
+    <S.Root {...restProps} delay={delay} height={isCollapsed ? 0 : containerHeight} ref={containerRef}>
       {children}
     </S.Root>
   )

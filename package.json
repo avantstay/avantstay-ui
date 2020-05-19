@@ -47,8 +47,8 @@
     "@types/lodash.findindex": "^4.6.6",
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "11.10.4",
-    "@types/react": "~16.9.0",
-    "@types/react-dom": "~16.9.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
     "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__addon-centered": "^3.4.0",
     "@types/storybook__addon-knobs": "^4.0.2",
@@ -67,8 +67,8 @@
     "typescript": "~3.5.3"
   },
   "peerDependencies": {
-    "react": "~16.9.0",
-    "react-dom": "~16.9.0"
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "private": false,
   "publishConfig": {

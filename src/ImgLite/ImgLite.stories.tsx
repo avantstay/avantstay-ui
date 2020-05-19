@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react'
-import ImgLite from './ImgLite'
 import React from 'react'
+import ImgLite from './ImgLite'
 
 const EXAMPLE_IMAGE = 'https://ik.imagekit.io/avantstay/static/media/heroImage01.ba2729ca.jpg'
 
@@ -23,4 +23,19 @@ Stories.add('Different crops', () => (
       <ImgLite crop="entropy" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
     </div>
   </div>
+))
+
+Stories.add('With text at center', () => (
+  <ImgLite
+    src={EXAMPLE_IMAGE}
+    style={{
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      minHeight: 300,
+      width: '100%',
+    }}
+  >
+    <div style={{ fontSize: 24, zIndex: 1 }}>TEXT ON CENTER</div>
+  </ImgLite>
 ))

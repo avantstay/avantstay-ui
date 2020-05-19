@@ -1,12 +1,12 @@
 import { isMobile } from 'is-mobile'
 import debounce from 'lodash.debounce'
 import queryString from 'query-string'
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import * as S from './ImgLite.styles'
 
 type ImgLiteCrop = 'attention' | 'center' | 'entropy'
 
-type ImgLiteProps = React.ImgHTMLAttributes<HTMLImageElement> & {
+interface ImgLiteOwnProps {
   className?: string
   crop?: ImgLiteCrop
   density?: number
@@ -20,6 +20,10 @@ type ImgLiteProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   width?: number
 }
 
+type ImgLiteProps =
+  | (React.ImgHTMLAttributes<HTMLImageElement> & ImgLiteOwnProps)
+  | (React.HTMLAttributes<HTMLDivElement> & ImgLiteOwnProps & { children: React.ReactNode })
+
 interface ImgLiteThumbnailOptions {
   crop?: ImgLiteCrop
   maxHeight?: number
@@ -29,6 +33,26 @@ interface ImgLiteThumbnailOptions {
 }
 
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
+
+function createCallbackRef<T, U>(ref: React.Ref<T>, internalRef: React.Ref<T>, internalRefToClear: React.Ref<U | null>) {
+  return (element: T | null) => {
+    const internalMutableRef = internalRef as React.MutableRefObject<T | null>
+    internalMutableRef.current = element
+
+    const internalMutableRefToClear = internalRefToClear as React.MutableRefObject<U | null>
+    internalMutableRefToClear.current = null
+
+    if (typeof ref === 'function') {
+      ref(element)
+      return
+    }
+
+    if (ref !== null) {
+      const mutableRef = ref as React.MutableRefObject<T | null>
+      mutableRef.current = element
+    }
+  }
+}
 
 function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
   return Math.ceil((size * density) / sizingStep) * sizingStep
@@ -57,7 +81,7 @@ function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
 
 function ImgLite(
   {
-    className,
+    children,
     crop,
     density,
     height,
@@ -68,28 +92,15 @@ function ImgLite(
     sizingStep,
     src,
     width,
-    ...imageElementProps
+    ...elementProps
   }: ImgLiteProps,
-  ref: React.Ref<HTMLImageElement>
+  ref: React.Ref<HTMLDivElement> | React.Ref<HTMLImageElement>
 ) {
+  const divRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
-  const imageCallbackRef = useCallback(
-    (element: HTMLImageElement) => {
-      const imageMutableRef = imageRef as React.MutableRefObject<HTMLImageElement>
-      imageMutableRef.current = element
 
-      if (typeof ref === 'function') {
-        ref(element)
-        return
-      }
-
-      if (ref !== null) {
-        const mutableRef = ref as React.MutableRefObject<HTMLImageElement>
-        mutableRef.current = element
-      }
-    },
-    [ref]
-  )
+  const divCallbackRef = useMemo(() => createCallbackRef(ref, divRef, imageRef), [ref])
+  const imageCallbackRef = useMemo(() => createCallbackRef(ref, imageRef, divRef), [ref])
 
   const [currentImage, setCurrentImage] = useState<string>()
 
@@ -100,7 +111,7 @@ function ImgLite(
   }, [])
 
   const updateCurrentImage = useCallback(() => {
-    const imageElement = imageRef.current
+    const imageElement = divRef.current || imageRef.current
 
     const elementHeight = imageElement ? imageElement.offsetHeight : 0
     const elementWidth = imageElement ? imageElement.offsetWidth : 0
@@ -146,7 +157,13 @@ function ImgLite(
     }
   }, [updateCurrentImage])
 
-  return <S.Image className={className} ref={imageCallbackRef} src={currentImage} {...imageElementProps} />
+  return children ? (
+    <S.Background ref={divCallbackRef} src={currentImage} {...elementProps}>
+      {children}
+    </S.Background>
+  ) : (
+    <S.Image ref={imageCallbackRef} src={currentImage} {...elementProps} />
+  )
 }
 
 export default React.memo(React.forwardRef(ImgLite))

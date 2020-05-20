@@ -1,9 +1,10 @@
+// @ts-nocheck
+import React, { Component } from 'react'
 import addMonths from 'date-fns/add_months'
 import endOfDay from 'date-fns/end_of_day'
 import isAfter from 'date-fns/is_after'
 import isEqual from 'date-fns/is_equal'
 import startOfDay from 'date-fns/start_of_day'
-import React, { Component } from 'react'
 import FloatingContainer from '../FloatingContainer/FloatingContainer'
 import Calendar from './Calendar'
 import { ApplyButton, CalendarContainer, ClearButton, ClearButtonContainer, CloseButton, IconClose } from './Calendar.styles'

@@ -5,7 +5,7 @@ import Tooltip from './'
 import { HorizontalGravity, VerticalGravity } from './Tooltip'
 
 const Stories = storiesOf('Tooltip', module)
-Stories.addDecorator(withKnobs)
+Stories.addDecorator(withKnobs as any)
 
 const lipsum = (
   <>

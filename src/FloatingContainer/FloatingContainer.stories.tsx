@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import FloatingContainer from './FloatingContainer'
 
 const Stories = storiesOf('Floating Container', module)
-Stories.addDecorator(withKnobs)
+Stories.addDecorator(withKnobs as any)
 
 Stories.add('Default usage', () => (
   <div>

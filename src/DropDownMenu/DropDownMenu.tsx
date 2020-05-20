@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import findIndex from 'lodash.findIndex'
+import findIndex from 'lodash/findIndex'
 import keycode from 'keycode'
 
 import FloatingContainer from '../FloatingContainer/FloatingContainer'

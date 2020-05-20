@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { HorizontalGravity, VerticalGravity } from './Tooltip'

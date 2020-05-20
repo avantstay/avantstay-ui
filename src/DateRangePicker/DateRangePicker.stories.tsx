@@ -5,7 +5,7 @@ import React from 'react'
 import DateRangePicker from './'
 
 const DateRangePickerStories = storiesOf('DatePicker', module)
-DateRangePickerStories.addDecorator(withKnobs)
+DateRangePickerStories.addDecorator(withKnobs as any)
 
 DateRangePickerStories.add('Default usage', () => (
   <div>

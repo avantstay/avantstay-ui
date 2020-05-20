@@ -1,1 +1,1 @@
-export { default, ImgLiteOwnProps } from './ImgLite'
+export { default } from './ImgLite'

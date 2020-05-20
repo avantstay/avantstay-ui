@@ -1,6 +1,6 @@
+import { renderIf } from 'react-renderif-hoc'
 import styled from 'styled-components'
 import { lighten } from '../utils/cssUtils'
-import { renderIf } from '../utils/dc'
 import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'
 import CloseIcon from './assets/CloseIcon'

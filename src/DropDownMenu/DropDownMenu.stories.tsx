@@ -7,7 +7,7 @@ import DropDownMenu from './DropDownMenu'
 const DropDownMenuStories = storiesOf('DropDownMenu', module)
 
 DropDownMenuStories.addDecorator(centered)
-  .addDecorator(withKnobs)
+  .addDecorator(withKnobs as any)
   .add('Default usage', () => (
     <DropDownMenu
       items={[

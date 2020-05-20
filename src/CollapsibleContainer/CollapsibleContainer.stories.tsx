@@ -4,7 +4,7 @@ import React from 'react'
 import CollapsibleContainer from './CollapsibleContainer'
 
 const Stories = storiesOf('CollapsibleContainer', module)
-Stories.addDecorator(withKnobs)
+Stories.addDecorator(withKnobs as any)
 
 Stories.add('Default usage', () => (
   <CollapsibleContainer isCollapsed={boolean('Collapse', false)} style={{ backgroundColor: '#D1E3DD', padding: 15 }}>

@@ -2,31 +2,32 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import ImgLite from './ImgLite'
 
-const EXAMPLE_IMAGE = 'https://ik.imagekit.io/avantstay/static/media/heroImage01.ba2729ca.jpg'
+const EXAMPLE_IMAGE = 'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg'
 
 const Stories = storiesOf('ImgLite', module)
 
-Stories.add('Default usage', () => <ImgLite src={EXAMPLE_IMAGE} style={{ maxWidth: 500, minHeight: 300, width: '100%' }} />)
+Stories.add('Default usage', () => <ImgLite src={EXAMPLE_IMAGE} style={{ maxWidth: 300, minHeight: 300, width: '100%' }} />)
 
 Stories.add('Different crops', () => (
-  <div style={{ alignItems: 'stretch', display: 'flex', height: '100%', justifyContent: 'space-between', minHeight: 500 }}>
-    <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column', width: '33%' }}>
-      <div style={{ marginBottom: '10px' }}>ATTENTION</div>
-      <ImgLite crop="attention" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'auto 500px', columnGap: 20 }}>
+    <div>Center</div>
+    <div>West</div>
+    <div>Entropy</div>
+    <div style={{ display: 'flex' }}>
+      <ImgLite gravity="center" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
     </div>
-    <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column', width: '33%' }}>
-      <div style={{ marginBottom: '10px' }}>CENTER</div>
-      <ImgLite crop="center" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
+    <div style={{ display: 'flex' }}>
+      <ImgLite gravity="west" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
     </div>
-    <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column', width: '33%' }}>
-      <div style={{ marginBottom: '10px' }}>ENTROPY</div>
-      <ImgLite crop="entropy" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
+    <div style={{ display: 'flex' }}>
+      <ImgLite gravity="entropy" src={EXAMPLE_IMAGE} style={{ flexGrow: 1, width: '100%' }} />
     </div>
   </div>
 ))
 
-Stories.add('With text at center', () => (
+Stories.add('Overlaying Content', () => (
   <ImgLite
+    gravity="north"
     src={EXAMPLE_IMAGE}
     style={{
       alignItems: 'center',
@@ -36,6 +37,6 @@ Stories.add('With text at center', () => (
       width: '100%',
     }}
   >
-    <div style={{ fontSize: 24, zIndex: 1 }}>TEXT ON CENTER</div>
+    <h1 style={{ zIndex: 1, color: 'white' }}>Overlaying Content</h1>
   </ImgLite>
 ))

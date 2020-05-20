@@ -11,7 +11,7 @@
     "outDir": "lib",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "target": "es5"
   },
   "exclude": ["src/**/*.stories.*"],

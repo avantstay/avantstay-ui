@@ -1,5 +1,6 @@
-import debounce from 'lodash.debounce'
-import React, { Component } from 'react'
+//@ts-nocheck
+import debounce from 'lodash/debounce'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { getPortalElement } from '../utils/getPortalElement'
@@ -31,7 +32,7 @@ export interface FloatingContainerState {
   portalElement?: HTMLElement
 }
 
-class FloatingContainer extends Component<FloatingContainerProps, FloatingContainerState> {
+class FloatingContainer extends React.PureComponent<FloatingContainerProps, FloatingContainerState> {
   static defaultProps = {
     show: true,
     horizontalAlignment: 'left',
@@ -119,7 +120,7 @@ class FloatingContainer extends Component<FloatingContainerProps, FloatingContai
               className={this.props.className}
               ref={this.floatingContainerRef}
               {...this.positioning}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: any) => e.stopPropagation()}
             >
               {children}
             </FloatingContainerRoot>,

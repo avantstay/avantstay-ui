@@ -1,9 +1,13 @@
 import React from 'react';
-declare type ImgLiteCrop = 'attention' | 'center' | 'entropy';
+declare type ImgLiteGravity = 'attention' | 'center' | 'centre' | 'east' | 'entropy' | 'north' | 'northeast' | 'northwest' | 'south' | 'southeast' | 'southwest' | 'west';
+declare type ImgLiteCrop = ImgLiteGravity;
+declare type ImgLiteFit = 'contain' | 'cover' | 'fill' | 'inside' | 'outside';
 export interface ImgLiteOwnProps {
     className?: string;
     crop?: ImgLiteCrop;
     density?: number;
+    fit?: ImgLiteFit;
+    gravity?: ImgLiteGravity;
     height?: number;
     lowResQuality?: number;
     lowResWidth?: number;

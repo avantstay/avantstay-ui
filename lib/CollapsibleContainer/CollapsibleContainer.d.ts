@@ -1,7 +1,5 @@
 import React from 'react';
 declare type CollapsibleContainerProps = React.HTMLAttributes<HTMLDivElement> & {
-    children: React.ReactNode;
-    className?: string;
     delay?: number;
     isCollapsed?: boolean;
 };

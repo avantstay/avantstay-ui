@@ -83,7 +83,7 @@ function sanitizeUrl(url: string) {
 }
 
 function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
-  const { fit = 'cover', gravity = 'entropy', height, quality = 85, sharpen = '1,0.3,1', width } = options
+  const { fit = 'cover', gravity = 'entropy', height, quality = 85, sharpen, width } = options
 
   // When there is no URL, do nothing
   if (url === '') return url

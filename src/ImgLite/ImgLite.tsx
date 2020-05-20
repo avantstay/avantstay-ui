@@ -2,9 +2,10 @@ import { isMobile } from 'is-mobile'
 import debounce from 'lodash.debounce'
 import queryString from 'query-string'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import isUriEncoded from '../utils/isUriEncoded'
 import * as S from './ImgLite.styles'
 
-type ImgLiteCrop =
+type ImgLiteGravity =
   | 'attention'
   | 'center'
   | 'centre'
@@ -18,10 +19,15 @@ type ImgLiteCrop =
   | 'southwest'
   | 'west'
 
+type ImgLiteCrop = ImgLiteGravity
+type ImgLiteFit = 'contain' | 'cover' | 'fill' | 'inside' | 'outside'
+
 export interface ImgLiteOwnProps {
   className?: string
   crop?: ImgLiteCrop
   density?: number
+  fit?: ImgLiteFit
+  gravity?: ImgLiteGravity
   height?: number
   lowResQuality?: number
   lowResWidth?: number
@@ -37,11 +43,12 @@ type ImgLiteProps =
   | (React.HTMLAttributes<HTMLDivElement> & ImgLiteOwnProps & { children: React.ReactNode })
 
 interface ImgLiteThumbnailOptions {
-  crop?: ImgLiteCrop
-  maxHeight?: number
-  maxWidth?: number
+  fit?: ImgLiteFit
+  gravity?: ImgLiteGravity
+  height?: number
   quality?: number
   sharpen?: string
+  width?: number
 }
 
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
@@ -70,8 +77,12 @@ function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
   return Math.ceil((size * density) / sizingStep) * sizingStep
 }
 
+function sanitizeUrl(url: string) {
+  return url.replace('https://ik.imagekit.io/avantstay/', '').replace(/^\//, '')
+}
+
 function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
-  const { crop = 'entropy', maxHeight = 0, maxWidth = 1200, quality = 85, sharpen = '1,0.3,1' } = options
+  const { fit = 'cover', gravity = 'entropy', height, quality = 85, sharpen = '1,0.3,1', width } = options
 
   const hasUrl = !!url
   if (!hasUrl) return url
@@ -85,10 +96,21 @@ function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
   const isDevelopmentUrl = process.env.NODE_ENV === 'development' && !/^http/i.test(url)
   if (isDevelopmentUrl) return url
 
-  const sanitizedUrl = url.replace('https://ik.imagekit.io/avantstay/', '').replace(/^\//, '')
-  const baseUrl = `https://imglite.avantstay.com/${maxWidth}x${maxHeight}/${quality}/${sanitizedUrl}`
+  const sanitizedUrl = sanitizeUrl(url)
+  const urlEncoded = isUriEncoded(sanitizedUrl) ? sanitizedUrl : encodeURIComponent(sanitizedUrl)
+  const baseUrl = `https://imglite.avantstay.com/${urlEncoded}`
 
-  return queryString.stringifyUrl({ url: baseUrl, query: { crop, sharpen } }, { skipEmptyString: true })
+  const heightStringified = typeof height === 'number' ? height.toString(10) : ''
+  const qualityStringified = quality.toString(10)
+  const widthStringified = typeof width === 'number' ? width.toString(10) : ''
+
+  return queryString.stringifyUrl(
+    {
+      url: baseUrl,
+      query: { fit, gravity, height: heightStringified, quality: qualityStringified, sharpen, width: widthStringified },
+    },
+    { skipEmptyString: true }
+  )
 }
 
 function ImgLite(
@@ -96,9 +118,11 @@ function ImgLite(
     children,
     crop,
     density,
+    fit,
     height,
     lowResQuality = 30,
     lowResWidth,
+    gravity,
     quality,
     sharpen,
     sizingStep,
@@ -132,7 +156,7 @@ function ImgLite(
     const maxWidth = width || getMaxSize(elementWidth, density, sizingStep)
     if (!maxHeight || !maxWidth) return
 
-    const thumbnailOptions = { crop, maxHeight, maxWidth, quality, sharpen }
+    const thumbnailOptions = { fit, gravity: gravity || crop, height: maxHeight, quality, sharpen, width: maxWidth }
     const newSrc = thumbnail(src, thumbnailOptions)
 
     if (currentImage) {
@@ -154,7 +178,22 @@ function ImgLite(
     }
 
     setCurrentImage(newSrc)
-  }, [crop, currentImage, density, height, loadImage, lowResQuality, lowResWidth, quality, sharpen, sizingStep, src, width])
+  }, [
+    crop,
+    currentImage,
+    density,
+    fit,
+    gravity,
+    height,
+    loadImage,
+    lowResQuality,
+    lowResWidth,
+    quality,
+    sharpen,
+    sizingStep,
+    src,
+    width,
+  ])
 
   useLayoutEffect(() => {
     updateCurrentImage()

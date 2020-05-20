@@ -85,17 +85,17 @@ function sanitizeUrl(url: string) {
 function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
   const { fit = 'cover', gravity = 'entropy', height, quality = 85, sharpen = '1,0.3,1', width } = options
 
-  const hasUrl = !!url
-  if (!hasUrl) return url
+  // When there is no URL, do nothing
+  if (url === '') return url
 
-  const isBlobOrDataUrl = /^(blob|data):/i.test(url)
-  if (isBlobOrDataUrl) return url
+  // When the image is a blob or data, do nothing
+  if (/^(blob|data):/i.test(url)) return url
 
-  const isSvg = /\.svg$/.test(url)
-  if (isSvg) return url
+  // When it is a vector image, do nothing (no need to resize)
+  if (/\.svg$/.test(url)) return url
 
-  const isDevelopmentUrl = process.env.NODE_ENV === 'development' && !/^http/i.test(url)
-  if (isDevelopmentUrl) return url
+  // When it is using a local url in development environment, do nothing
+  if (process.env.NODE_ENV === 'development' && !/^http/i.test(url)) return url
 
   const sanitizedUrl = sanitizeUrl(url)
   const urlEncoded = isUriEncoded(sanitizedUrl) ? sanitizedUrl : encodeURIComponent(sanitizedUrl)

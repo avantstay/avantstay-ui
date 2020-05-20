@@ -1,10 +1,9 @@
-import { boolean, withKnobs } from '@storybook/addon-knobs'
+import { boolean } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React, { useState } from 'react'
 import FloatingContainer from './FloatingContainer'
 
 const Stories = storiesOf('Floating Container', module)
-Stories.addDecorator(withKnobs as any)
 
 Stories.add('Default usage', () => (
   <div>

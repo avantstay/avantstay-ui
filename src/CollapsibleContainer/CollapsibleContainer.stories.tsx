@@ -1,10 +1,9 @@
-import { boolean, withKnobs } from '@storybook/addon-knobs'
+import { boolean } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import CollapsibleContainer from './CollapsibleContainer'
 
 const Stories = storiesOf('CollapsibleContainer', module)
-Stories.addDecorator(withKnobs as any)
 
 Stories.add('Default usage', () => (
   <CollapsibleContainer isCollapsed={boolean('Collapse', false)} style={{ backgroundColor: '#D1E3DD', padding: 15 }}>

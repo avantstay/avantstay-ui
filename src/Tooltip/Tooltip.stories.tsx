@@ -1,11 +1,9 @@
-import { withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import Tooltip from './'
 import { HorizontalGravity, VerticalGravity } from './Tooltip'
 
 const Stories = storiesOf('Tooltip', module)
-Stories.addDecorator(withKnobs as any)
 
 const lipsum = (
   <>

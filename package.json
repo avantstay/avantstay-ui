@@ -28,6 +28,7 @@
     "lodash.kebabcase": "^4.1.1",
     "query-string": "^6.12.1",
     "styled-components": "^4.1.3",
+    "tiny-warning": "^1.0.3",
     "tinycolor2": "^1.4.1"
   },
   "devDependencies": {

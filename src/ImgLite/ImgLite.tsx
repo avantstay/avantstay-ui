@@ -2,6 +2,7 @@ import { isMobile } from 'is-mobile'
 import debounce from 'lodash.debounce'
 import queryString from 'query-string'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import warning from 'tiny-warning'
 import isUriEncoded from '../utils/isUriEncoded'
 import * as S from './ImgLite.styles'
 
@@ -132,6 +133,8 @@ function ImgLite(
   }: ImgLiteProps,
   ref: React.Ref<HTMLDivElement> | React.Ref<HTMLImageElement>
 ) {
+  warning(!crop, 'crop property on ImgLite is going to be deprecated in a next major. Use gravity instead.')
+
   const divRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 

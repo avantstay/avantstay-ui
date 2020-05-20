@@ -4,8 +4,6 @@ import ResizeObserver from 'resize-observer-polyfill'
 import * as S from './CollapsibleContainer.styles'
 
 type CollapsibleContainerProps = React.HTMLAttributes<HTMLDivElement> & {
-  children: React.ReactNode
-  className?: string
   delay?: number
   isCollapsed?: boolean
 }

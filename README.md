@@ -10,7 +10,7 @@ yarn add @avantstay/avantstay-ui
 
 ### CollapsibleContainer
 
-```
+```typescript jsx
 import CollapsibleContainer from '@avantstay/avantstay-ui/lib/CollapsibleContainer'
 
 <CollapsibleContainer
@@ -25,7 +25,7 @@ import CollapsibleContainer from '@avantstay/avantstay-ui/lib/CollapsibleContain
 
 ### DateRangePicker
 
-```
+```typescript jsx
 import DateRangePicker from '@avantstay/avantstay-ui/lib/DateRangePicker'
 
 <DateRangePicker
@@ -42,7 +42,7 @@ import DateRangePicker from '@avantstay/avantstay-ui/lib/DateRangePicker'
 
 ### DropDownMenu
 
-```
+```typescript jsx
 import DropDownMenu from '@avantstay/avantstay-ui/lib/DropDownMenu'
 
 <DropDownMenu
@@ -61,7 +61,7 @@ import DropDownMenu from '@avantstay/avantstay-ui/lib/DropDownMenu'
 
 ### ImgLite
 
-```
+```typescript jsx
 import ImgLite from '@avantstay/avantstay-ui/lib/ImgLite'
 
 // This will render an img element:
@@ -91,7 +91,7 @@ import ImgLite from '@avantstay/avantstay-ui/lib/ImgLite'
 
 ### Tooltip
 
-```
+```typescript jsx
 import Tooltip from '@avantstay/avantstay-ui/lib/Tooltip'
 
 <Tooltip

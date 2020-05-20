@@ -4,7 +4,19 @@ import queryString from 'query-string'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import * as S from './ImgLite.styles'
 
-type ImgLiteCrop = 'attention' | 'center' | 'entropy'
+type ImgLiteCrop =
+  | 'attention'
+  | 'center'
+  | 'centre'
+  | 'east'
+  | 'entropy'
+  | 'north'
+  | 'northeast'
+  | 'northwest'
+  | 'south'
+  | 'southeast'
+  | 'southwest'
+  | 'west'
 
 export interface ImgLiteOwnProps {
   className?: string

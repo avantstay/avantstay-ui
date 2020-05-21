@@ -1,16 +1,3 @@
 {
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "extends": ["plugin:react/recommended", "plugin:react-hooks/recommended", "plugin:prettier/recommended"],
-  "ignorePatterns": ["lib/**/*"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  }
+  "extends": "react-app"
 }

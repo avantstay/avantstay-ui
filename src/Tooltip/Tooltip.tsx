@@ -79,7 +79,7 @@ export default function Tooltip(props: TooltipProps) {
 
   useElementScrolling(
     scrollableParent,
-    (removeListener) => {
+    removeListener => {
       if (!keepOpen && showTip) setShowTip(false)
       removeListener()
     },
@@ -177,7 +177,11 @@ export default function Tooltip(props: TooltipProps) {
   )
 }
 
-function useElementScrolling(element: HTMLElement | null, fn: (removeListener: () => void) => void, memoizeBy?: Array<any>) {
+function useElementScrolling(
+  element: HTMLElement | null,
+  fn: (removeListener: () => void) => void,
+  memoizeBy?: Array<any>
+) {
   useEffect(() => {
     function listener() {
       fn(() => element && element.removeEventListener('scroll', listener))

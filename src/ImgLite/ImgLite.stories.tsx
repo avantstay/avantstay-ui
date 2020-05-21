@@ -6,10 +6,19 @@ const EXAMPLE_IMAGE = 'https://images.pexels.com/photos/280229/pexels-photo-2802
 
 const Stories = storiesOf('ImgLite', module)
 
-Stories.add('Default usage', () => <ImgLite src={EXAMPLE_IMAGE} style={{ maxWidth: 300, minHeight: 300, width: '100%' }} />)
+Stories.add('Default usage', () => (
+  <ImgLite src={EXAMPLE_IMAGE} style={{ maxWidth: 300, minHeight: 300, width: '100%' }} />
+))
 
 Stories.add('Different crops', () => (
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'auto 500px', columnGap: 20 }}>
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gridTemplateRows: 'auto 500px',
+      columnGap: 20,
+    }}
+  >
     <div>Center</div>
     <div>West</div>
     <div>Entropy</div>

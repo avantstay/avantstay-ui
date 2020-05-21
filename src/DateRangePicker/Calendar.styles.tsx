@@ -315,7 +315,7 @@ export const ClearButton = styled.button<ClearButtonProps>`
   text-transform: uppercase;
   color: ${ERROR};
   font-size: 12px;
-  display: ${(p) => (p.show ? 'flex' : 'none')};
+  display: ${p => (p.show ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   cursor: pointer;

@@ -7,10 +7,10 @@ const Stories = storiesOf('Tooltip', module)
 
 const lipsum = (
   <>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum quis turpis nec dictum. Ut finibus ante at pretium
-    mollis. Quisque mattis finibus congue. Praesent vitae massa vitae tortor consectetur luctus. Curabitur dapibus nunc eget ipsum
-    tempor, at hendrerit tellus ultrices. Etiam ac rhoncus elit, ut iaculis turpis. Suspendisse at bibendum mi. Aliquam semper
-    eros quis quam tempor, ac blandit ligula volutpat.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum quis turpis nec dictum. Ut finibus ante at
+    pretium mollis. Quisque mattis finibus congue. Praesent vitae massa vitae tortor consectetur luctus. Curabitur
+    dapibus nunc eget ipsum tempor, at hendrerit tellus ultrices. Etiam ac rhoncus elit, ut iaculis turpis. Suspendisse
+    at bibendum mi. Aliquam semper eros quis quam tempor, ac blandit ligula volutpat.
   </>
 )
 
@@ -97,12 +97,12 @@ Stories.add('Default usage', () => (
                   tip={
                     <div>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum quis turpis nec dictum. Ut finibus
-                        ante at pretium mollis.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum quis turpis nec dictum. Ut
+                        finibus ante at pretium mollis.
                       </p>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum quis turpis nec dictum. Ut finibus
-                        ante at pretium mollis.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum quis turpis nec dictum. Ut
+                        finibus ante at pretium mollis.
                       </p>
                     </div>
                   }

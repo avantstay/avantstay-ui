@@ -3,27 +3,26 @@ import getDate from 'date-fns/get_date'
 import React, { Component } from 'react'
 
 interface DayCellProps {
-  dayMoment: any,
-  onSelect: (date: Date | string) => void,
-  isSelected: boolean,
-  isInRange: boolean,
-  isFromPreviousMonth?: boolean,
-  isPassive: boolean,
-  isSpecialDay: boolean,
-  isStartEdge: boolean,
-  isEndEdge: boolean,
-  isSunday: boolean,
-  isToday: boolean,
+  dayMoment: any
+  onSelect: (date: Date | string) => void
+  isSelected: boolean
+  isInRange: boolean
+  isFromPreviousMonth?: boolean
+  isPassive: boolean
+  isSpecialDay: boolean
+  isStartEdge: boolean
+  isEndEdge: boolean
+  isSunday: boolean
+  isToday: boolean
   classNames: { [name: string]: boolean }
 }
 
 class DayCell extends Component<DayCellProps & any> {
-
   constructor(props: DayCellProps, context: any) {
     super(props, context)
 
     this.state = {
-      hover : false,
+      hover: false,
       active: false,
     }
   }
@@ -63,21 +62,30 @@ class DayCell extends Component<DayCellProps & any> {
   }
 
   getClassNames(classes: any) {
-    const { isSelected, isInRange, isPassive, isStartEdge, isEndEdge, isToday, isSunday, isFromPreviousMonth, isSpecialDay } = this.props
+    const {
+      isSelected,
+      isInRange,
+      isPassive,
+      isStartEdge,
+      isEndEdge,
+      isToday,
+      isSunday,
+      isFromPreviousMonth,
+      isSpecialDay,
+    } = this.props
 
     return cn({
-      [classes.day]                 : true,
-      [classes.dayActive]           : isSelected,
-      [classes.dayPassive]          : isPassive,
-      [classes.dayInRange]          : isInRange,
-      [classes.dayStartEdge]        : isStartEdge,
-      [classes.dayEndEdge]          : isEndEdge,
-      [classes.dayToday]            : isToday,
-      [classes.daySunday]           : isSunday,
+      [classes.day]: true,
+      [classes.dayActive]: isSelected,
+      [classes.dayPassive]: isPassive,
+      [classes.dayInRange]: isInRange,
+      [classes.dayStartEdge]: isStartEdge,
+      [classes.dayEndEdge]: isEndEdge,
+      [classes.dayToday]: isToday,
+      [classes.daySunday]: isSunday,
       [classes.dayFromPreviousMonth]: isFromPreviousMonth,
-      [classes.daySpecialDay]       : isSpecialDay,
+      [classes.daySpecialDay]: isSpecialDay,
     })
-
   }
 
   render() {
@@ -86,9 +94,7 @@ class DayCell extends Component<DayCellProps & any> {
     const classes = this.getClassNames(classNames)
 
     return (
-      <span
-        className={classes.replace(classNames.day, classNames.dayWrapper)}
-        onClick={this.handleSelect as any}>
+      <span className={classes.replace(classNames.day, classNames.dayWrapper)} onClick={this.handleSelect as any}>
         <span
           onMouseEnter={this.handleMouseEvent as any}
           onMouseLeave={this.handleMouseEvent as any}

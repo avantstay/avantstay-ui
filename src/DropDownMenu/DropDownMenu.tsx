@@ -78,7 +78,7 @@ export class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDow
   onSearch = () => {
     const query = this.searchField.value.toLowerCase()
 
-    const foundIndex = findIndex(this.props.items, (it) => {
+    const foundIndex = findIndex(this.props.items, it => {
       const searchable = it.searchable || it.label
       return searchable.toLowerCase().includes(query)
     })
@@ -154,7 +154,7 @@ export class DropDownMenu extends React.PureComponent<DropDownMenuProps, DropDow
         <HiddenLabel htmlFor={this.id}>Dropdown search</HiddenLabel>
         <SearchField
           id={this.id}
-          ref={(it) => (this.searchField = it && ReactDOM.findDOMNode(it))}
+          ref={it => (this.searchField = it && ReactDOM.findDOMNode(it))}
           onKeyDown={this.onKeyDown}
           onChange={this.onSearch}
           type="text"

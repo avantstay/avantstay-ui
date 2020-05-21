@@ -1,25 +1,20 @@
-import styled from "styled-components";
-import {
-  COLOR_NEUTRAL_EXTRA_LIGHT,
-  COLOR_PRIMARY,
-  COLOR_NEUTRAL_DARK
-} from "./colors";
-
+import styled from 'styled-components'
+import { COLOR_NEUTRAL_EXTRA_LIGHT, COLOR_PRIMARY, COLOR_NEUTRAL_DARK } from './colors'
 
 type MenuItemProps = {
-  highlight: string;
-};
+  highlight: string
+}
 
-export const DropDownMenuRoot = styled("div")`
+export const DropDownMenuRoot = styled('div')`
   position: relative;
   display: inline-block;
-`;
+`
 
-export const HiddenLabel = styled("label")`
+export const HiddenLabel = styled('label')`
   display: none;
-`;
+`
 
-export const SearchField = styled("input")`
+export const SearchField = styled('input')`
   position: absolute;
   width: 0;
   height: 0;
@@ -27,13 +22,13 @@ export const SearchField = styled("input")`
   color: transparent;
   text-shadow: 0 0 0 black;
   -webkit-text-fill-color: transparent;
-`;
+`
 
-export const TriggerContainer = styled("div")`
+export const TriggerContainer = styled('div')`
   cursor: pointer;
-`;
+`
 
-export const MenuItemList = styled("div")`
+export const MenuItemList = styled('div')`
   position: relative;
   display: block;
   background: white;
@@ -45,14 +40,13 @@ export const MenuItemList = styled("div")`
   overflow-y: auto;
   margin-top: 10px;
   z-index: 9999;
-`;
+`
 
-export const MenuItem = styled("a")<MenuItemProps>`
+export const MenuItem = styled('a')<MenuItemProps>`
   white-space: nowrap;
   padding: 10px 20px;
   cursor: pointer;
-  background: ${p =>
-    p.highlight === "true" ? COLOR_NEUTRAL_EXTRA_LIGHT : "transparent"};
+  background: ${p => (p.highlight === 'true' ? COLOR_NEUTRAL_EXTRA_LIGHT : 'transparent')};
   color: ${COLOR_NEUTRAL_DARK};
   display: flex;
   font-size: 14px;
@@ -68,9 +62,9 @@ export const MenuItem = styled("a")<MenuItemProps>`
     color: ${COLOR_NEUTRAL_DARK} !important;
     border-color: ${COLOR_PRIMARY};
   }
-`;
+`
 
-export const MenuTitle = styled("div")`
+export const MenuTitle = styled('div')`
   padding: 10px 20px;
   margin-bottom: 7px;
-`;
+`

@@ -7,7 +7,14 @@ import isEqual from 'date-fns/is_equal'
 import startOfDay from 'date-fns/start_of_day'
 import FloatingContainer from '../FloatingContainer/FloatingContainer'
 import Calendar from './Calendar'
-import { ApplyButton, CalendarContainer, ClearButton, ClearButtonContainer, CloseButton, IconClose } from './Calendar.styles'
+import {
+  ApplyButton,
+  CalendarContainer,
+  ClearButton,
+  ClearButtonContainer,
+  CloseButton,
+  IconClose,
+} from './Calendar.styles'
 import { defaultClasses } from './enums'
 
 export type AnyDate = Date | string | number

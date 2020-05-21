@@ -16,8 +16,8 @@ function CollapsibleContainer({ children, delay = 250, isCollapsed = false, ...r
   const [containerHeight, setContainerHeight] = useState(0)
 
   const setContainerHeightDebounced = useMemo(() => {
-    return debounce((nextHeight) => {
-      setContainerHeight((previousHeight) => {
+    return debounce(nextHeight => {
+      setContainerHeight(previousHeight => {
         const heightDifference = Math.abs(previousHeight - nextHeight)
         const shouldChangeHeight = heightDifference >= MINIMUM_HEIGHT_DIFFERENCE
 
@@ -30,7 +30,7 @@ function CollapsibleContainer({ children, delay = 250, isCollapsed = false, ...r
     const containerElement = containerRef.current
     if (!containerElement) return
 
-    const containerHeightObserver = new ResizeObserver((entries) => {
+    const containerHeightObserver = new ResizeObserver(entries => {
       const nextHeight = entries[0].target.scrollHeight
       setContainerHeightDebounced(nextHeight)
     })

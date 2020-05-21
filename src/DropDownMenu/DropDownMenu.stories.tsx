@@ -4,22 +4,21 @@ import DropDownMenu from './DropDownMenu'
 
 const DropDownMenuStories = storiesOf('DropDownMenu', module)
 
-DropDownMenuStories
-  .add('Default usage', () => (
-    <DropDownMenu
-      items={[
-        {
-          label: 'Logout',
-          searchable: 'logout',
-          disabled: false,
-          action: () => {},
-        },
-      ]}
-      position={'right'}
-    >
-      Menu label
-    </DropDownMenu>
-  ))
+DropDownMenuStories.add('Default usage', () => (
+  <DropDownMenu
+    items={[
+      {
+        label: 'Logout',
+        searchable: 'logout',
+        disabled: false,
+        action: () => {},
+      },
+    ]}
+    position={'right'}
+  >
+    Menu label
+  </DropDownMenu>
+))
   .add('Multiple menus', () => (
     <div>
       <DropDownMenu
@@ -62,7 +61,7 @@ DropDownMenuStories
               action: () => {},
             },
           ]}
-          onTrigger={(e) => {
+          onTrigger={e => {
             e.stopPropagation()
           }}
           position={'right'}

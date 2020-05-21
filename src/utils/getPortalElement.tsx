@@ -14,7 +14,7 @@ export function getPortalElement(rootElement: HTMLElement): HTMLElement | undefi
     return undefined
   }
 
-  const existingPortalElement = _portalElements.find((it) => it.rootElement === rootElement)
+  const existingPortalElement = _portalElements.find(it => it.rootElement === rootElement)
 
   if (existingPortalElement) {
     return existingPortalElement.portalElement

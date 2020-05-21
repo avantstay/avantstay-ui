@@ -15,6 +15,6 @@ export function rgba(color: string, alpha: number) {
 
 export function mediaScreen(props: any) {
   return `@media screen and ${Object.keys(props)
-    .map(it => `(${kebabCase(it)}: ${props[ it ]})`)
+    .map(it => `(${kebabCase(it)}: ${props[it]})`)
     .join(' and ')}`
 }

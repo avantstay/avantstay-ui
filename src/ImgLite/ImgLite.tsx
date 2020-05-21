@@ -165,11 +165,12 @@ function _ImgLite(
 
     setCurrentImage(newSrc)
   }, [
-    fit,
-    gravity,
     currentImage,
     density,
+    fit,
+    gravity,
     height,
+    imageRef,
     loadImage,
     lowResQuality,
     lowResWidth,

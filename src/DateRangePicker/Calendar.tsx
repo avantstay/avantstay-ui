@@ -93,7 +93,7 @@ class Calendar extends React.Component<any, CalendarState> {
     onInit && onInit(this.state.date)
   }
 
-  componentWillReceiveProps(nextProps: CalendarProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: CalendarProps) {
     const { range, offset } = nextProps
     const oldRange = this.props.oldRange
 

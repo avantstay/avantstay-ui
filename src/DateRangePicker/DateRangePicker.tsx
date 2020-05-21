@@ -96,7 +96,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     onInit && onInit(this.state.range)
   }
 
-  componentWillReceiveProps(nextProps: DateRangePickerProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: DateRangePickerProps) {
     if (nextProps.startDate || nextProps.endDate) {
       const startDate = nextProps.startDate && startOfDay(getDate(nextProps.startDate))
       const endDate = nextProps.endDate && endOfDay(getDate(nextProps.endDate))

@@ -44,9 +44,8 @@ export interface ImgLiteOwnProps {
   width?: number
 }
 
-type ImgLiteProps =
-  | (React.ImgHTMLAttributes<HTMLImageElement> & ImgLiteOwnProps)
-  | (React.HTMLAttributes<HTMLDivElement> & ImgLiteOwnProps & { children: React.ReactNode })
+type ImgLiteProps = ImgLiteOwnProps &
+  (Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children'> | React.HTMLAttributes<HTMLDivElement>)
 
 interface ImgLiteThumbnailOptions {
   fit?: Fit
@@ -106,7 +105,6 @@ function useForwardedRef<E, T extends React.Ref<E>>(externalRef: T) {
 
 function _ImgLite(
   {
-    children,
     fit,
     gravity,
     density,
@@ -194,13 +192,8 @@ function _ImgLite(
     }
   }, [updateCurrentImage])
 
-  const ImageComponent = children ? S.Background : S.Image
-
-  return (
-    <ImageComponent ref={imageRef as any} src={currentImage} {...otherProps}>
-      {children}
-    </ImageComponent>
-  )
+  const ImageComponent = 'children' in otherProps && otherProps.children ? S.Background : S.Image
+  return <ImageComponent ref={imageRef as any} src={currentImage} {...otherProps} />
 }
 
 export default memo(forwardRef(_ImgLite))

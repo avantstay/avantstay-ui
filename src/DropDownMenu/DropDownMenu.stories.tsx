@@ -1,8 +1,10 @@
 import { storiesOf } from '@storybook/react'
+import centered from '@storybook/addon-centered/react'
 import React from 'react'
 import DropDownMenu from './DropDownMenu'
 
 const DropDownMenuStories = storiesOf('DropDownMenu', module)
+  .addDecorator(centered)
 
 DropDownMenuStories.add('Default usage', () => (
   <DropDownMenu

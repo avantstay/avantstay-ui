@@ -34,12 +34,12 @@ export const MenuItemList = styled('div')`
   background: white;
   border-radius: 2px;
   box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.05), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
-  padding: 0;
   max-height: 400px;
   min-width: 200px;
   overflow-y: auto;
   margin-top: 10px;
   z-index: 9999;
+  padding: 5px 0
 `
 
 export const MenuItem = styled('a')<MenuItemProps>`
@@ -60,7 +60,6 @@ export const MenuItem = styled('a')<MenuItemProps>`
   &:hover {
     background: ${COLOR_NEUTRAL_EXTRA_LIGHT};
     color: ${COLOR_NEUTRAL_DARK} !important;
-    border-color: ${COLOR_PRIMARY};
   }
 `
 

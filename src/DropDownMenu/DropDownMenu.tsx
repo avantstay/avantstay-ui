@@ -6,7 +6,7 @@ import FloatingContainer from '../FloatingContainer/FloatingContainer'
 import {
   DropDownMenuRoot,
   HiddenLabel,
-  MenuItem,
+  MenuItemLink,
   MenuItemList,
   MenuTitle,
   SearchField,
@@ -146,13 +146,14 @@ export function DropDownMenu(props: DropDownMenuProps) {
           {items.map(
             (it, i) =>
               !it.disabled && (
-                <MenuItem
+                <MenuItemLink
                   key={it.searchable || it.label}
                   highlight={i === highlightIndex ? 'true' : 'false'}
                   onClick={handleItemOnClick(it)}
+                  to={it.route}
                 >
                   {it.label}
-                </MenuItem>
+                </MenuItemLink>
               )
           )}
         </MenuItemList>

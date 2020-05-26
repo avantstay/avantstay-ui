@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { COLOR_NEUTRAL_EXTRA_LIGHT, COLOR_PRIMARY, COLOR_NEUTRAL_DARK } from './colors'
+import { Link } from 'react-router-dom'
 
 type MenuItemProps = {
   highlight: string
@@ -39,10 +40,10 @@ export const MenuItemList = styled('div')`
   overflow-y: auto;
   margin-top: 10px;
   z-index: 9999;
-  padding: 5px 0
+  padding: 5px 0;
 `
 
-export const MenuItem = styled('a')<MenuItemProps>`
+export const MenuItemLink = styled(Link)<MenuItemProps>`
   white-space: nowrap;
   padding: 10px 20px;
   cursor: pointer;

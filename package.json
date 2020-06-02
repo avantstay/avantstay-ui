@@ -1,22 +1,16 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "3.4.4",
+  "version": "4.0.0",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
-  "files": [
-    "lib"
-  ],
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "directories": {
-    "lib": "lib"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/avantstay/avantstay-ui.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && webpack --progress",
     "eslint:all": "eslint --ext .ts --ext .tsx src",
     "eslint:fix": "eslint --ext .ts --ext .tsx --fix src",
     "prettier:all": "prettier --check src",
@@ -30,6 +24,7 @@
     "@types/react-router-dom": "^5.1.5",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
+    "css-loader": "^3.5.3",
     "date-fns": "^1.30.1",
     "is-mobile": "^2.0.0",
     "keycode": "^2.2.0",
@@ -40,7 +35,9 @@
     "react-renderif-hoc": "^0.0.1",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.1.0",
-    "tinycolor2": "^1.4.1"
+    "tinycolor2": "^1.4.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -82,7 +79,7 @@
     "lint-staged": "^10.2.4",
     "prettier": "^2.0.5",
     "react-docgen-typescript-loader": "^3.7.2",
-    "ts-loader": "^7.0.4",
+    "ts-loader": "^7.0.5",
     "typescript": "~3.5.3"
   },
   "private": false,

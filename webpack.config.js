@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const nodeExternals = require('webpack-node-externals')
 
-let entries = {
+const entries = {
   index: './src/index.ts',
   ...Object.fromEntries(
     fs
@@ -17,7 +17,7 @@ let entries = {
 
 module.exports = {
   entry: entries,
-  target: 'node', // in order to ignore built-in modules like path, fs, etc.
+  target: 'node',
   externals: [nodeExternals()],
   mode: 'production',
   module: {

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as React from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import keycode from 'keycode'
 
 import FloatingContainer from '../FloatingContainer/FloatingContainer'
@@ -25,13 +25,13 @@ type DropDownMenuProps = {
   className?: string
   trigger?: React.ReactNode
   children?: React.ReactNode
+  title?: React.ReactNode
   position: 'right' | 'left'
-  title?: string
   items: Array<ItemProps>
   onTrigger?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
-export function DropDownMenu(props: DropDownMenuProps) {
+export function _DropDownMenu(props: DropDownMenuProps) {
   const { items, className, onTrigger, position, title, children, trigger } = props
 
   const id = useMemo(() => Math.random().toString(36).substr(2), [])
@@ -142,7 +142,7 @@ export function DropDownMenu(props: DropDownMenuProps) {
       )}
       <FloatingContainer show={showItems} onClickOut={onClickOut} horizontalAlignment={position}>
         <MenuItemList>
-          {title && <MenuTitle>{title}</MenuTitle>}
+          {title && (typeof title === 'string' ? <MenuTitle>{title}</MenuTitle> : title)}
           {items.map(
             (it, i) =>
               !it.disabled && (
@@ -161,5 +161,7 @@ export function DropDownMenu(props: DropDownMenuProps) {
     </DropDownMenuRoot>
   )
 }
+
+const DropDownMenu = memo(_DropDownMenu)
 
 export default DropDownMenu

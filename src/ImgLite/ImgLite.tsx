@@ -114,33 +114,15 @@ const supportsWebP = (() => {
 })()
 
 function _ImgLite(
-  {
-    fit,
-    gravity,
-    density,
-    height,
-    lowResQuality = 30,
-    lowResWidth,
-    quality,
-    sharpen,
-    sizingStep,
-    src,
-    width,
-    ...otherProps
-  }: ImgLiteProps,
+  { fit, gravity, density, height, quality, sharpen, sizingStep, src, width, ...otherProps }: ImgLiteProps,
   ref: React.Ref<HTMLDivElement> | React.Ref<HTMLImageElement>
 ) {
   const [currentImage, setCurrentImage] = useState<string>()
   const imageRef = useForwardedRef(ref)
+  const loading = !currentImage
 
-  const loadImage = useCallback((src: string) => {
-    const image = new Image()
-    image.onload = () => setCurrentImage(src)
-    image.src = src
-  }, [])
-
-  const updateCurrentImage = useCallback(
-    (supportsWebP = false) => {
+  const updateCurrentImage = useCallback(() => {
+    supportsWebP.then(webp => {
       const imageElement = (imageRef as RefObject<HTMLElement>).current
 
       const elementHeight = imageElement ? imageElement.offsetHeight : 0
@@ -149,63 +131,35 @@ function _ImgLite(
       const maxHeight = height || getMaxSize(elementHeight, density, sizingStep)
       const maxWidth = width || getMaxSize(elementWidth, density, sizingStep)
 
-      if (!maxHeight || !maxWidth) return
+      if (!maxHeight || !maxWidth) {
+        return
+      }
 
       const thumbnailOptions = {
         fit,
-        webp: supportsWebP,
+        webp,
         gravity,
         height: maxHeight,
         width: maxWidth,
         quality,
         sharpen,
       }
+
       const newSrc = thumbnail(src, thumbnailOptions)
 
       if (currentImage) {
-        loadImage(newSrc)
-        return
+        setCurrentImage(undefined)
+        setTimeout(() => setCurrentImage(newSrc))
+      } else {
+        setCurrentImage(newSrc)
       }
+    })
+  }, [density, fit, gravity, height, imageRef, quality, sharpen, sizingStep, src, width])
 
-      if (lowResWidth) {
-        const lowResolutionThumbnailOptions = {
-          ...thumbnailOptions,
-          maxHeight: undefined,
-          maxWidth: lowResWidth,
-          quality: lowResQuality,
-        }
-
-        setCurrentImage(thumbnail(src, lowResolutionThumbnailOptions))
-        loadImage(newSrc)
-        return
-      }
-
-      setCurrentImage(newSrc)
-    },
-    [
-      currentImage,
-      density,
-      fit,
-      gravity,
-      height,
-      imageRef,
-      loadImage,
-      lowResQuality,
-      lowResWidth,
-      quality,
-      sharpen,
-      sizingStep,
-      src,
-      width,
-    ]
-  )
-
-  useLayoutEffect(() => {
-    supportsWebP.then(webp => updateCurrentImage(webp))
-  }, [updateCurrentImage])
+  useLayoutEffect(() => updateCurrentImage(), [updateCurrentImage])
 
   useEffect(() => {
-    const debouncedUpdateCurrentImage = debounce(() => supportsWebP.then(webp => updateCurrentImage(webp)), 200)
+    const debouncedUpdateCurrentImage = debounce(() => updateCurrentImage(), 200)
     window.addEventListener('resize', debouncedUpdateCurrentImage)
 
     return () => {
@@ -213,7 +167,8 @@ function _ImgLite(
     }
   }, [updateCurrentImage])
 
-  const ImageComponent = 'children' in otherProps && otherProps.children ? S.Background : S.Image
+  const ImageComponent = loading || ('children' in otherProps && otherProps.children) ? S.Background : S.Image
+
   return <ImageComponent ref={imageRef as any} src={currentImage} {...otherProps} />
 }
 

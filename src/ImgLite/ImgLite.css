@@ -1,0 +1,5 @@
+@keyframes ImgLiteBgPulse {
+  0% { background-color: rgba(0, 0, 0, 0.1) }
+  50% { background-color: rgba(0, 0, 0, 0.2) }
+  100% { background-color: rgba(0, 0, 0, 0.1) }
+}

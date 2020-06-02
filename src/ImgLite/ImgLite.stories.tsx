@@ -3,12 +3,20 @@ import React from 'react'
 import ImgLite from './ImgLite'
 
 const EXAMPLE_IMAGE = 'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg'
+const EXAMPLE_IMAGE_2 = 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'
 
 const Stories = storiesOf('ImgLite', module)
 
-Stories.add('Default usage', () => (
-  <ImgLite src={EXAMPLE_IMAGE} style={{ maxWidth: 300, minHeight: 300, width: '100%' }} />
-))
+Stories.add('Default usage', () => {
+  const [src, setSrc] = React.useState(EXAMPLE_IMAGE)
+
+  return (
+    <div>
+      <ImgLite src={src} quality={85} density={8} style={{ width: 400, height: 400 }} />
+      <button onClick={() => setSrc(EXAMPLE_IMAGE_2)}>Change</button>
+    </div>
+  )
+})
 
 Stories.add('Different crops', () => (
   <div

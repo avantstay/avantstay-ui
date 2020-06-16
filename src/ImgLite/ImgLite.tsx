@@ -22,11 +22,11 @@ function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
 }
 
 function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
-  const isDevelopment = process.env.NODE_ENV === 'development' && url && !/^http/i.test(url)
+  const isLocalFile = /localhost/.test(window.location.host) && url && !/^http/i.test(url)
   const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
   const isSvg = url && /\.svg$/.test(url)
 
-  if (!url || isDevelopment || isSvg || isBlobOrDataUrl) {
+  if (!url || isLocalFile || isSvg || isBlobOrDataUrl) {
     return url
   }
 

@@ -12,7 +12,7 @@ Stories.add('Default usage', () => {
 
   return (
     <div>
-      <ImgLite src={src} quality={85} density={8} style={{ width: 400, height: 400 }} />
+      <ImgLite src={src} quality={85} density={6} style={{ width: 400, height: 400 }} pulseBackground={false} />
       <button onClick={() => setSrc(EXAMPLE_IMAGE_2)}>Change</button>
     </div>
   )

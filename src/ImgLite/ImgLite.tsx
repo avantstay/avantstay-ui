@@ -12,50 +12,8 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import { Fit, Gravity, ImgLiteRef, ImgLiteThumbnailOptions } from './__types'
 import * as S from './ImgLite.styles'
-
-type Fit = 'cover' | 'contain' | 'fill' | 'inside' | 'outside'
-
-type Gravity =
-  | 'center'
-  | 'entropy'
-  | 'attention'
-  | 'north'
-  | 'northeast'
-  | 'east'
-  | 'southeast'
-  | 'south'
-  | 'southwest'
-  | 'west'
-  | 'northwest'
-
-export interface ImgLiteOwnProps {
-  className?: string
-  fit?: Fit
-  gravity?: Gravity
-  density?: number
-  height?: number
-  lowResQuality?: number
-  lowResWidth?: number
-  quality?: number
-  sharpen?: string
-  sizingStep?: number
-  src: string
-  width?: number
-}
-
-type ImgLiteProps = ImgLiteOwnProps &
-  (Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children'> | React.HTMLAttributes<HTMLDivElement>)
-
-interface ImgLiteThumbnailOptions {
-  fit?: Fit
-  gravity?: Gravity
-  height?: number
-  width?: number
-  quality?: number
-  sharpen?: string
-  webp?: boolean
-}
 
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
 
@@ -86,7 +44,7 @@ function setRefCurrent(ref: React.Ref<any>, value: any) {
   mutableRef.current = value
 }
 
-function useForwardedRef<E, T extends React.Ref<E>>(externalRef: T) {
+function useOuterRef<E, T extends React.Ref<E>>(externalRef: T) {
   return useMemo((): React.Ref<E> => {
     const internalRef = ((element: E) => {
       setRefCurrent(internalRef, element)
@@ -113,12 +71,44 @@ const supportsWebP = (() => {
   })
 })()
 
+export interface ImgLiteOwnProps {
+  className?: string
+  fit?: Fit
+  gravity?: Gravity
+  density?: number
+  height?: number
+  lowResQuality?: number
+  lowResWidth?: number
+  quality?: number
+  sharpen?: string
+  sizingStep?: number
+  src: string
+  width?: number
+  pulseBackground?: boolean
+}
+
+export type ImgLiteProps = ImgLiteOwnProps &
+  (Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children'> | React.HTMLAttributes<HTMLDivElement>)
+
 function _ImgLite(
-  { fit, gravity, density, height, quality, sharpen, sizingStep, src, width, ...otherProps }: ImgLiteProps,
-  ref: React.Ref<HTMLDivElement> | React.Ref<HTMLImageElement>
+  {
+    fit,
+    gravity,
+    density,
+    height,
+    quality,
+    sharpen,
+    sizingStep,
+    src,
+    width,
+    className,
+    pulseBackground,
+    ...otherProps
+  }: ImgLiteProps,
+  ref: ImgLiteRef
 ) {
   const [currentImage, setCurrentImage] = useState<string>()
-  const imageRef = useForwardedRef(ref)
+  const imageRef = useOuterRef(ref)
   const loading = !currentImage
 
   const updateCurrentImage = useCallback(() => {
@@ -169,7 +159,15 @@ function _ImgLite(
 
   const ImageComponent = loading || ('children' in otherProps && otherProps.children) ? S.Background : S.Image
 
-  return <ImageComponent ref={imageRef as any} src={currentImage} {...otherProps} />
+  return (
+    <ImageComponent
+      className={className}
+      pulseBackground={pulseBackground}
+      ref={imageRef as any}
+      src={currentImage}
+      {...otherProps}
+    />
+  )
 }
 
 export default memo(forwardRef(_ImgLite))

@@ -21,7 +21,7 @@ function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
   return Math.ceil((size * density) / sizingStep) * sizingStep
 }
 
-function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
+export function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
   const isLocalFile = /localhost/.test(window.location.host) && url && !/^http/i.test(url)
   const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
   const isSvg = url && /\.svg$/.test(url)

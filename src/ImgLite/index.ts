@@ -1,1 +1,2 @@
-export { default, thumbnail } from './ImgLite'
+export { default } from './ImgLite'
+export { default as thumbnail } from './thumbnail'

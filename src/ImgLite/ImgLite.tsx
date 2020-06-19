@@ -1,6 +1,5 @@
 import { isMobile } from 'is-mobile'
 import debounce from 'lodash/debounce'
-import queryString from 'query-string'
 import React, {
   forwardRef,
   memo,
@@ -12,29 +11,14 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { Fit, Gravity, ImgLiteRef, ImgLiteThumbnailOptions } from './__types'
+import thumbnail from './thumbnail'
+import { Fit, Gravity, ImgLiteRef } from './__types'
 import * as S from './ImgLite.styles'
 
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
 
 function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
   return Math.ceil((size * density) / sizingStep) * sizingStep
-}
-
-export function thumbnail(url: string, options: ImgLiteThumbnailOptions = {}) {
-  const isLocalFile = /localhost/.test(window.location.host) && url && !/^http/i.test(url)
-  const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
-  const isSvg = url && /\.svg$/.test(url)
-
-  if (!url || isLocalFile || isSvg || isBlobOrDataUrl) {
-    return url
-  }
-
-  // temporary removal of ImageKit url part
-  const sanitizedUrl = url.replace('https://ik.imagekit.io/avantstay/', '').replace(/^\//, '')
-  const baseUrl = `https://imglite.avantstay.com/${encodeURIComponent(sanitizedUrl)}`
-
-  return queryString.stringifyUrl({ url: baseUrl, query: options as any }, { skipEmptyString: true })
 }
 
 function setRefCurrent(ref: React.Ref<any>, value: any) {

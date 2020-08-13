@@ -57,3 +57,36 @@ Stories.add('Overlaying Content', () => (
     <h1 style={{ zIndex: 1, color: 'white' }}>Overlaying Content</h1>
   </ImgLite>
 ))
+
+Stories.add('On Load & On Error', () => {
+  const onLoad = React.useCallback(() => {
+    console.log('Image loaded successfully')
+  }, [])
+
+  const onError = React.useCallback(() => {
+    console.log('Image could not be loaded')
+  }, [])
+
+  return (
+    <div>
+      <ImgLite
+        onError={onError}
+        onLoad={onLoad}
+        src={EXAMPLE_IMAGE}
+        quality={85}
+        density={6}
+        style={{ width: 400, height: 400 }}
+        pulseBackground={false}
+      />
+      <ImgLite
+        onError={onError}
+        onLoad={onLoad}
+        src="https://thissitedoesnotexist/random-image.jpg"
+        quality={85}
+        density={6}
+        style={{ width: 400, height: 400 }}
+        pulseBackground={false}
+      />
+    </div>
+  )
+})

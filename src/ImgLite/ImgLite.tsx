@@ -63,6 +63,8 @@ export interface ImgLiteOwnProps {
   height?: number
   lowResQuality?: number
   lowResWidth?: number
+  onError?: () => void
+  onLoad?: () => void
   pulseBackground?: boolean
   quality?: number
   sharpen?: string
@@ -72,7 +74,10 @@ export interface ImgLiteOwnProps {
 }
 
 export type ImgLiteProps = ImgLiteOwnProps &
-  (Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children'> | React.HTMLAttributes<HTMLDivElement>)
+  (
+    | Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children' | 'onError' | 'onLoad'>
+    | React.HTMLAttributes<HTMLDivElement>
+  )
 
 function _ImgLite(
   {
@@ -81,6 +86,8 @@ function _ImgLite(
     fit,
     gravity,
     height,
+    onError,
+    onLoad,
     pulseBackground,
     quality,
     sharpen,
@@ -121,6 +128,13 @@ function _ImgLite(
 
       const newSrc = thumbnail(src, thumbnailOptions)
 
+      if (onError || onLoad) {
+        const img = new Image()
+        img.onerror = onError
+        img.onload = onLoad
+        img.src = newSrc
+      }
+
       if (currentImage) {
         setCurrentImage(undefined)
         setTimeout(() => setCurrentImage(newSrc))
@@ -128,7 +142,7 @@ function _ImgLite(
         setCurrentImage(newSrc)
       }
     })
-  }, [density, fit, gravity, height, imageRef, quality, sharpen, sizingStep, src, width])
+  }, [density, fit, gravity, height, imageRef, onError, onLoad, quality, sharpen, sizingStep, src, width])
 
   useLayoutEffect(() => updateCurrentImage(), [updateCurrentImage])
 

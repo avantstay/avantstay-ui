@@ -57,18 +57,18 @@ const supportsWebP = (() => {
 
 export interface ImgLiteOwnProps {
   className?: string
+  density?: number
   fit?: Fit
   gravity?: Gravity
-  density?: number
   height?: number
   lowResQuality?: number
   lowResWidth?: number
+  pulseBackground?: boolean
   quality?: number
   sharpen?: string
   sizingStep?: number
   src: string
   width?: number
-  pulseBackground?: boolean
 }
 
 export type ImgLiteProps = ImgLiteOwnProps &
@@ -76,17 +76,17 @@ export type ImgLiteProps = ImgLiteOwnProps &
 
 function _ImgLite(
   {
+    className,
+    density,
     fit,
     gravity,
-    density,
     height,
+    pulseBackground,
     quality,
     sharpen,
     sizingStep,
     src,
     width,
-    className,
-    pulseBackground,
     ...otherProps
   }: ImgLiteProps,
   ref: ImgLiteRef

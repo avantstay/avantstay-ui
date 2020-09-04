@@ -1,8 +1,12 @@
 import queryString from 'query-string'
 import { ImgLiteThumbnailOptions } from '../ImgLite/__types'
+import { checkWebPSupport } from 'supports-webp-sync'
+
+const hasWebPSupport = checkWebPSupport()
 
 export default function (url: string, options: ImgLiteThumbnailOptions = {}) {
-  const isLocalFile = typeof window && /localhost/.test(window.location.host) && url && !/^http/i.test(url)
+  const isLocalFile =
+    globalThis && globalThis.location && /localhost/.test(globalThis.location.host) && url && !/^http/i.test(url)
   const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
   const isSvg = url && /\.svg$/.test(url)
 
@@ -14,5 +18,14 @@ export default function (url: string, options: ImgLiteThumbnailOptions = {}) {
   const sanitizedUrl = url.replace('https://ik.imagekit.io/avantstay/', '').replace(/^\//, '')
   const baseUrl = `https://imglite.avantstay.com/${encodeURIComponent(sanitizedUrl)}`
 
-  return queryString.stringifyUrl({ url: baseUrl, query: options as any }, { skipEmptyString: true })
+  return queryString.stringifyUrl(
+    {
+      url: baseUrl,
+      query: {
+        ...options,
+        webp: hasWebPSupport,
+      } as any,
+    },
+    { skipEmptyString: true }
+  )
 }

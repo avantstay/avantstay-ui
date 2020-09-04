@@ -46,15 +46,6 @@ function useOuterRef<E, T extends React.Ref<E>>(externalRef: T) {
   }, [externalRef])
 }
 
-const supportsWebP = (() => {
-  return new Promise<boolean>(resolve => {
-    const WebP = new Image()
-    WebP.onload = WebP.onerror = () => resolve(WebP.height === 2)
-    WebP.src =
-      'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA'
-  })
-})()
-
 export interface ImgLiteOwnProps {
   className?: string
   density?: number
@@ -103,45 +94,42 @@ function _ImgLite(
   const loading = !currentImage
 
   const updateCurrentImage = useCallback(() => {
-    supportsWebP.then(webp => {
-      const imageElement = (imageRef as RefObject<HTMLElement>).current
+    const imageElement = (imageRef as RefObject<HTMLElement>).current
 
-      const elementHeight = imageElement ? imageElement.offsetHeight : 0
-      const elementWidth = imageElement ? imageElement.offsetWidth : 0
+    const elementHeight = imageElement ? imageElement.offsetHeight : 0
+    const elementWidth = imageElement ? imageElement.offsetWidth : 0
 
-      const maxHeight = height || getMaxSize(elementHeight, density, sizingStep)
-      const maxWidth = width || getMaxSize(elementWidth, density, sizingStep)
+    const maxHeight = height || getMaxSize(elementHeight, density, sizingStep)
+    const maxWidth = width || getMaxSize(elementWidth, density, sizingStep)
 
-      if (!maxHeight || !maxWidth) {
-        return
-      }
+    if (!maxHeight || !maxWidth) {
+      return
+    }
 
-      const thumbnailOptions = {
-        fit,
-        webp,
-        gravity,
-        height: maxHeight,
-        width: maxWidth,
-        quality,
-        sharpen,
-      }
+    const thumbnailOptions = {
+      fit,
+      gravity,
+      height: maxHeight,
+      width: maxWidth,
+      quality,
+      sharpen,
+    }
 
-      const newSrc = thumbnail(src, thumbnailOptions)
+    const newSrc = thumbnail(src, thumbnailOptions)
 
-      if (onError || onLoad) {
-        const img = new Image()
-        img.onerror = onError
-        img.onload = onLoad
-        img.src = newSrc
-      }
+    if (onError || onLoad) {
+      const img = new Image()
+      img.onerror = onError
+      img.onload = onLoad
+      img.src = newSrc
+    }
 
-      if (currentImage) {
-        setCurrentImage(undefined)
-        setTimeout(() => setCurrentImage(newSrc))
-      } else {
-        setCurrentImage(newSrc)
-      }
-    })
+    if (currentImage) {
+      setCurrentImage(undefined)
+      setTimeout(() => setCurrentImage(newSrc))
+    } else {
+      setCurrentImage(newSrc)
+    }
   }, [density, fit, gravity, height, imageRef, onError, onLoad, quality, sharpen, sizingStep, src, width])
 
   useLayoutEffect(() => updateCurrentImage(), [updateCurrentImage])
@@ -155,10 +143,8 @@ function _ImgLite(
     }
   }, [updateCurrentImage])
 
-  const ImageComponent = loading || ('children' in otherProps && otherProps.children) ? S.Background : S.Image
-
   return (
-    <ImageComponent
+    <S.ImageBackground
       className={className}
       pulseBackground={pulseBackground}
       ref={imageRef as any}

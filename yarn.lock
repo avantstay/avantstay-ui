@@ -10291,6 +10291,11 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+supports-webp-sync@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/supports-webp-sync/-/supports-webp-sync-1.0.0.tgz#22394e7e8e12b2e6121da614a8692654fdbb9871"
+  integrity sha512-o10tVwpMhoeUJbGRSi19fMMpfjCQK/yTssfFDKN20XTmOOEawKNldnb3HzJt9TnT97dkCbbSarsT7FZ52jRQkQ==
+
 svgo@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-1.2.0.tgz#305a8fc0f4f9710828c65039bb93d5793225ffc3"

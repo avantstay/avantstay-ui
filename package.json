@@ -35,6 +35,7 @@
     "react-renderif-hoc": "^0.0.1",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.1.0",
+    "supports-webp-sync": "^1.0.0",
     "tinycolor2": "^1.4.1",
     "webpack-cli": "^3.3.11",
     "webpack-node-externals": "^1.7.2"

@@ -1,6 +1,6 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "main": "./lib/index.js",

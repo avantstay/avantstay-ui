@@ -1,6 +1,6 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "4.4.5",
+  "version": "4.5.0",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "main": "./lib/index.js",
@@ -10,7 +10,7 @@
     "url": "https://github.com/avantstay/avantstay-ui.git"
   },
   "scripts": {
-    "build": "rm -rf lib && webpack --progress",
+    "build": "shx rm -rf lib && webpack --progress",
     "eslint:all": "eslint --ext .ts --ext .tsx src",
     "eslint:fix": "eslint --ext .ts --ext .tsx --fix src",
     "prettier:all": "prettier --check src",
@@ -79,6 +79,7 @@
     "lint-staged": "^10.2.4",
     "prettier": "^2.0.5",
     "react-docgen-typescript-loader": "^3.7.2",
+    "shx": "^0.3.2",
     "ts-loader": "^7.0.5",
     "typescript": "~3.5.3"
   },

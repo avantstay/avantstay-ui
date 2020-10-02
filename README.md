@@ -13,14 +13,12 @@ yarn add @avantstay/avantstay-ui
 ```typescript jsx
 import CollapsibleContainer from '@avantstay/avantstay-ui/lib/CollapsibleContainer'
 
-<CollapsibleContainer
-  delay={number}        // (optional, default: 250) Delay in milliseconds when expanding/collapsing
+;<CollapsibleContainer
+  delay={number} // (optional, default: 250) Delay in milliseconds when expanding/collapsing
   isCollapsed={boolean} // (optional, default: false) Flag to control when it is collapsed
 >
   Something to expand/collapse
 </CollapsibleContainer>
-
-
 ```
 
 ### DateRangePicker
@@ -45,14 +43,14 @@ import DateRangePicker from '@avantstay/avantstay-ui/lib/DateRangePicker'
 ```typescript jsx
 import DropDownMenu from '@avantstay/avantstay-ui/lib/DropDownMenu'
 
-<DropDownMenu
+;<DropDownMenu
   items={[
     {
-      label: "First item",
-      searchable: "firstItem",
-      disabled: true|false,
-      action: () => {}
-    }
+      label: 'First item',
+      searchable: 'firstItem',
+      disabled: true | false,
+      action: () => {},
+    },
   ]}
 >
   <p>Menu label</p>
@@ -69,7 +67,8 @@ import ImgLite from '@avantstay/avantstay-ui/lib/ImgLite'
   density={number}         // (optional, default: 1.5 on mobile or 1 otherwise)
   fit={ImgLiteFit}         // (optional, default: cover) Check https://sharp.pixelplumbing.com/api-resize#resize
   height={number}          // (optional) Set this value in case you want a fixed height (not responsive)
-  lowResQuality={number}   // (optional) Quality of low resolution image to load before the betrer quality image
+  isPrintable={boolean}    // (optional, default: false) Set this value if you want the image to be printable
+  lowResQuality={number}   // (optional) Quality of low resolution image to load before the better quality image
   lowResWidth={number}     // (optional) Width of low resolution image to load before the better quality image
   gravity={ImgLiteGravity} // (optional, default: entropy) Check sharp.gravity and sharp.strategy on https://sharp.pixelplumbing.com/api-resize#resize
   quality={number}         // (optional, default: 85) Quality of the image

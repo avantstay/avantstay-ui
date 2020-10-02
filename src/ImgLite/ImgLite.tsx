@@ -52,6 +52,7 @@ export interface ImgLiteOwnProps {
   fit?: Fit
   gravity?: Gravity
   height?: number
+  isPrintable?: boolean
   lowResQuality?: number
   lowResWidth?: number
   onError?: () => void
@@ -77,6 +78,7 @@ function _ImgLite(
     fit,
     gravity,
     height,
+    isPrintable = false,
     onError,
     onLoad,
     pulseBackground,
@@ -146,6 +148,7 @@ function _ImgLite(
   return (
     <S.ImageBackground
       className={className}
+      printable={isPrintable}
       pulseBackground={pulseBackground}
       ref={imageRef as any}
       src={currentImage}

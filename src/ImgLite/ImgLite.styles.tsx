@@ -1,7 +1,14 @@
 import styled from 'styled-components'
 import './ImgLite.css'
 
-export const ImageBackground = styled.div<{ src?: string; children?: any; pulseBackground?: boolean }>`
+export const ImageBackground = styled.div<{
+  src?: string
+  children?: any
+  printable: boolean
+  pulseBackground?: boolean
+}>`
+  -webkit-print-color-adjust: ${p => (p.printable ? 'exact' : 'economy')};
+  color-adjust: ${p => (p.printable ? 'exact' : 'economy')};
   display: ${p => (p.children ? 'flex' : 'inline-block')};
   background-image: url("${p => p.src}");
   background-position: center center;

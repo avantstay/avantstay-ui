@@ -11,15 +11,11 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import thumbnail from './thumbnail'
 import { Fit, Gravity, ImgLiteRef } from './__types'
 import * as S from './ImgLite.styles'
+import thumbnail from './thumbnail'
 
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
-
-function getMaxSize(size: number, density = AUTO_DENSITY, sizingStep = 100) {
-  return Math.ceil((size * density) / sizingStep) * sizingStep
-}
 
 function setRefCurrent(ref: React.Ref<any>, value: any) {
   if (!ref) return
@@ -74,7 +70,7 @@ export type ImgLiteProps = ImgLiteOwnProps &
 function _ImgLite(
   {
     className,
-    density,
+    density = AUTO_DENSITY,
     fit,
     gravity,
     height,
@@ -101,23 +97,23 @@ function _ImgLite(
     const elementHeight = imageElement ? imageElement.offsetHeight : 0
     const elementWidth = imageElement ? imageElement.offsetWidth : 0
 
-    const maxHeight = height || getMaxSize(elementHeight, density, sizingStep)
-    const maxWidth = width || getMaxSize(elementWidth, density, sizingStep)
+    const maxHeight = height || elementHeight
+    const maxWidth = width || elementWidth
 
     if (!maxHeight || !maxWidth) {
       return
     }
 
-    const thumbnailOptions = {
+    const newSrc = thumbnail(src, {
       fit,
       gravity,
       height: maxHeight,
       width: maxWidth,
+      density,
+      sizingStep,
       quality,
       sharpen,
-    }
-
-    const newSrc = thumbnail(src, thumbnailOptions)
+    })
 
     if (onError || onLoad) {
       const img = new Image()

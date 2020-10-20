@@ -24,4 +24,6 @@ export interface ImgLiteThumbnailOptions {
   width?: number
   quality?: number
   sharpen?: string
+  sizingStep?: number
+  density?: number
 }

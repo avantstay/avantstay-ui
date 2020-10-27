@@ -4,6 +4,17 @@ import { checkWebPSupport } from 'supports-webp-sync'
 
 const hasWebPSupport = checkWebPSupport()
 
+function getImageAddress(url: string) {
+  const isHttpUrl = /^http/i.test(url)
+  if (isHttpUrl) return url
+
+  const origin = globalThis && globalThis.location ? globalThis.location.origin : ''
+  if (!origin) return url
+
+  const hasInitialSlash = /^\//.test(url)
+  return `${origin}${hasInitialSlash ? '' : '/'}${url}`
+}
+
 export default function (
   url: string,
   { sizingStep, density = 1, width = 0, height = 0, ...options }: ImgLiteThumbnailOptions = {}
@@ -17,18 +28,18 @@ export default function (
     return url
   }
 
-  const baseUrl = `https://imglite.avantstay.com/${encodeURIComponent(url)}`
   const biggestDim = Math.max.call(null, width, height)
   const _sizingStep = sizingStep || biggestDim < 1000 ? 100 : 200
 
   return queryString.stringifyUrl(
     {
-      url: baseUrl,
+      url: 'https://cdn.avantstay.dev/',
       query: {
         ...options,
-        ...(width ? { width: density * Math.ceil(width / _sizingStep) * _sizingStep } : {}),
-        ...(height ? { height: density * Math.ceil(height / _sizingStep) * _sizingStep } : {}),
-        webp: hasWebPSupport,
+        ...(hasWebPSupport ? { format: 'Webp' } : {}),
+        ...(height ? { 'size[height]': density * Math.ceil(height / _sizingStep) * _sizingStep } : {}),
+        ...(width ? { 'size[width]': density * Math.ceil(width / _sizingStep) * _sizingStep } : {}),
+        image_address: getImageAddress(url),
       } as any,
     },
     { skipEmptyString: true }

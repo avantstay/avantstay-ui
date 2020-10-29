@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import getDate from 'date-fns/get_date'
 import React, { Component } from 'react'
+import { HorizontalGravity, Tooltip, VerticalGravity } from '../index'
 
 interface DayCellProps {
   dayMoment: any
@@ -15,6 +16,7 @@ interface DayCellProps {
   isSunday: boolean
   isToday: boolean
   classNames: { [name: string]: boolean }
+  tooltip?: any
 }
 
 class DayCell extends Component<DayCellProps & any> {
@@ -89,12 +91,12 @@ class DayCell extends Component<DayCellProps & any> {
   }
 
   render() {
-    const { dayMoment, classNames } = this.props
+    const { dayMoment, classNames, tooltip } = this.props
 
     const classes = this.getClassNames(classNames)
 
-    return (
-      <span className={classes.replace(classNames.day, classNames.dayWrapper)} onClick={this.handleSelect as any}>
+    const date = () => {
+      return (
         <span
           onMouseEnter={this.handleMouseEvent as any}
           onMouseLeave={this.handleMouseEvent as any}
@@ -104,6 +106,22 @@ class DayCell extends Component<DayCellProps & any> {
         >
           {getDate(dayMoment)}
         </span>
+      )
+    }
+
+    return (
+      <span className={classes.replace(classNames.day, classNames.dayWrapper)} onClick={this.handleSelect as any}>
+        {tooltip ? (
+          <Tooltip
+            tip={tooltip}
+            preferredHorizontalGravity={HorizontalGravity.center}
+            preferredVerticalGravity={VerticalGravity.top}
+          >
+            {date()}
+          </Tooltip>
+        ) : (
+          date()
+        )}
       </span>
     )
   }

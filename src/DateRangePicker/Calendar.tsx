@@ -50,6 +50,7 @@ export interface CalendarProps {
   specialDays: Array<any>
   classNames: any
   locale: string
+  dateTooltip?: any
 }
 
 export interface CalendarState {
@@ -186,7 +187,7 @@ class Calendar extends React.Component<any, CalendarState> {
 
   renderDays(classes: any) {
     // TODO: Split this logic into smaller chunks
-    const { range, minDate, maxDate, disableDaysBeforeToday, specialDays } = this.props
+    const { range, minDate, maxDate, disableDaysBeforeToday, specialDays, dateTooltip } = this.props
 
     const shownDate = this.getShownDate()
     const { date, firstDayOfWeek } = this.state
@@ -247,6 +248,7 @@ class Calendar extends React.Component<any, CalendarState> {
           key={index}
           isPassive={isPassive || isOutOfRange}
           classNames={classes}
+          tooltip={dateTooltip}
         />
       )
     })

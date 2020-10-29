@@ -48,6 +48,7 @@ export interface DateRangePickerProps {
   disableDaysBeforeToday?: any
   shownDate?: any
   showMonthArrow?: any
+  dateTooltip?: any
   onClose?: () => void
   onClickOut?: () => void
 }
@@ -207,6 +208,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       clearButtonLabel,
       onChange,
       horizontalAlignment,
+      dateTooltip,
     } = this.props
 
     const { range, link } = this.state
@@ -224,6 +226,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       minDate,
       maxDate,
       specialDays,
+      dateTooltip,
       link: linkedCalendars && link,
       linkCB: this.moveCalendarDisplay,
       onChange: this.handleSelect,

@@ -4,10 +4,19 @@ import { lighten } from '../utils/cssUtils'
 import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'
 import CloseIcon from './assets/CloseIcon'
-import { ERROR, NEUTRAL_LIGHT, PRIMARY_LIGHT } from './colors'
+import {
+  ACCENT_EXTREMELY_LIGHT,
+  ACCENT_MEDIUM,
+  ERROR,
+  NEUTRAL_DARK,
+  NEUTRAL_EXTREMELY_DARK,
+  NEUTRAL_LIGHT,
+  NEUTRAL_LIGHT_2,
+  NEUTRAL_MEDIUM,
+} from './colors'
 import { MAXW_SM_SCREEN, MINW_SM_SCREEN, Z_INDEX_CALENDAR_CONTAINER } from './constants'
 
-const daySize = 36
+const daySize = 28
 
 export const CalendarContainer = styled.div`
   box-sizing: border-box;
@@ -28,6 +37,8 @@ export const CalendarContainer = styled.div`
   & .rdr-DateRange {
     padding: 20px;
     background: white;
+    border: 1px solid ${NEUTRAL_MEDIUM};
+    border-radius: 2px;
     box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
@@ -78,9 +89,9 @@ export const CalendarContainer = styled.div`
     display: inline-block;
     width: ${daySize}px;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-size: 10px;
-    font-weight: bold;
+    font-weight: 700;
     color: ${NEUTRAL_LIGHT};
 
     ${MAXW_SM_SCREEN} {
@@ -157,7 +168,7 @@ export const CalendarContainer = styled.div`
         content: '';
         display: block;
         position: absolute;
-        background: #dff2f7;
+        background: ${ACCENT_MEDIUM};
         top: 0;
         bottom: 0;
         width: 50%;
@@ -189,12 +200,12 @@ export const CalendarContainer = styled.div`
     width: ${daySize}px;
     height: ${daySize}px;
     line-height: ${daySize}px;
-    font-size: 15px;
+    font-size: 12px;
     border: 2px solid transparent;
     justify-content: center;
     align-items: center;
-    border-radius: 99px;
-    font-weight: bold;
+    border-radius: 2px;
+    font-weight: 400;
     z-index: 1;
     position: relative;
 
@@ -204,20 +215,28 @@ export const CalendarContainer = styled.div`
       font-size: 4.3vw;
     }
 
+    &:not(.is-passive) {
+      color: ${NEUTRAL_EXTREMELY_DARK};
+    }
+
     &.is-inRange:not(.is-passive) {
-      background: #dff2f7;
+      background: ${ACCENT_EXTREMELY_LIGHT};
       border-radius: 0;
     }
 
     &.is-selected:not(.is-passive) {
-      background: ${PRIMARY_LIGHT};
+      background: ${ACCENT_MEDIUM};
       color: white;
-      border-radius: 99px;
+      border-radius: 2px;
+    }
+
+    &:hover {
+      background: ${NEUTRAL_LIGHT_2};
     }
   }
 
   & .rdr-DayWrapper.is-passive {
-    opacity: 0.3;
+    color: ${NEUTRAL_DARK};
   }
 
   & .rdr-DayWrapper:not(.is-passive) ~ .rdr-DayWrapper.is-passive {
@@ -225,20 +244,21 @@ export const CalendarContainer = styled.div`
   }
 
   & .rdr-DayWrapper.is-inRange {
+    color: ${ACCENT_MEDIUM};
     &:nth-child(7n),
     &:last-child {
       & .rdr-Day,
       &.is-startEdge::before {
-        border-bottom-right-radius: 99px;
-        border-top-right-radius: 99px;
+        border-bottom-right-radius: 2px;
+        border-top-right-radius: 2px;
       }
     }
 
     &:nth-child(7n-6),
     &:first-child {
       & .rdr-Day {
-        border-bottom-left-radius: 99px;
-        border-top-left-radius: 99px;
+        border-bottom-left-radius: 2px;
+        border-top-left-radius: 2px;
       }
     }
   }
@@ -254,8 +274,8 @@ export const CalendarContainer = styled.div`
   & .rdr-DayWrapper.is-passive + .rdr-DayWrapper.is-inRange:not(.is-selected) {
     & .rdr-Day,
     &.is-startEdge::before {
-      border-bottom-left-radius: 99px;
-      border-top-left-radius: 99px;
+      border-bottom-left-radius: 2px;
+      border-top-left-radius: 2px;
     }
   }
 `
@@ -306,15 +326,14 @@ interface ClearButtonProps {
 
 export const ClearButton = styled.button<ClearButtonProps>`
   width: 80px;
-  border: 2px solid ${ERROR};
-  border-radius: 99px;
+  border: none;
   background: white;
   height: 24px;
   line-height: 19px;
   font-weight: 500;
   text-transform: uppercase;
   color: ${ERROR};
-  font-size: 12px;
+  font-size: 13px;
   display: ${p => (p.show ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;

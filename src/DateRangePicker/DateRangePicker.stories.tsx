@@ -136,3 +136,13 @@ DateRangePickerStories.add('Default usage', () => (
       onInit={action('DateRangePicker[onInit]')}
     />
   ))
+  .add('With tooltip', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+      onClickOut={action('DateRangePicker[onClickOut]')}
+      dateTooltip={text('tooltip', 'This is a tooltip')}
+    />
+  ))

@@ -132,7 +132,6 @@ function _ImgLite(
       setCurrentImage(newSrc)
     }
   }, [
-    currentImage,
     density,
     fit,
     gravity,

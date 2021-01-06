@@ -17,14 +17,14 @@ function getImageAddress(url: string) {
 
 export default function (
   url: string,
-  { sizingStep, density = 1, width = 0, height = 0, ...options }: ImgLiteThumbnailOptions = {}
+  { density = 1, height = 0, sizingStep, useOriginalFile = false, width = 0, ...options }: ImgLiteThumbnailOptions = {}
 ) {
-  const isLocalFile =
-    globalThis && globalThis.location && /localhost/.test(globalThis.location.host) && url && !/^http/i.test(url)
+  const isLocalhost = globalThis && globalThis.location && /localhost/.test(globalThis.location.host)
+  const isLocalFile = isLocalhost && url && !/^http/i.test(url)
   const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
   const isSvg = url && /\.svg$/.test(url)
 
-  if (!url || isLocalFile || isSvg || isBlobOrDataUrl) {
+  if (!url || isLocalFile || isSvg || isBlobOrDataUrl || useOriginalFile) {
     return url
   }
 

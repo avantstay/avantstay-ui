@@ -18,12 +18,13 @@ export type Gravity =
 export type ImgLiteRef = React.Ref<HTMLDivElement> | React.Ref<HTMLImageElement>
 
 export interface ImgLiteThumbnailOptions {
+  density?: number
   fit?: Fit
   gravity?: Gravity
   height?: number
-  width?: number
   quality?: number
   sharpen?: string
   sizingStep?: number
-  density?: number
+  useOriginalFile?: boolean
+  width?: number
 }

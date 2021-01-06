@@ -58,6 +58,7 @@ export interface ImgLiteOwnProps {
   sharpen?: string
   sizingStep?: number
   src: string
+  useOriginalFile?: boolean
   width?: number
 }
 
@@ -82,6 +83,7 @@ function _ImgLite(
     sharpen,
     sizingStep,
     src,
+    useOriginalFile = false,
     width,
     ...otherProps
   }: ImgLiteProps,
@@ -105,14 +107,15 @@ function _ImgLite(
     }
 
     const newSrc = thumbnail(src, {
+      density,
       fit,
       gravity,
       height: maxHeight,
-      width: maxWidth,
-      density,
-      sizingStep,
       quality,
       sharpen,
+      sizingStep,
+      useOriginalFile,
+      width: maxWidth,
     })
 
     if (onError || onLoad) {
@@ -128,7 +131,22 @@ function _ImgLite(
     } else {
       setCurrentImage(newSrc)
     }
-  }, [density, fit, gravity, height, imageRef, onError, onLoad, quality, sharpen, sizingStep, src, width])
+  }, [
+    currentImage,
+    density,
+    fit,
+    gravity,
+    height,
+    imageRef,
+    onError,
+    onLoad,
+    quality,
+    sharpen,
+    sizingStep,
+    src,
+    useOriginalFile,
+    width,
+  ])
 
   useLayoutEffect(() => updateCurrentImage(), [updateCurrentImage])
 

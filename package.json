@@ -14,14 +14,14 @@
   },
   "scripts": {
     "build": "shx rm -rf lib && webpack --progress",
+    "build-storybook": "build-storybook",
+    "clear-cache": "tsc clear cache",
     "eslint:all": "eslint --ext .ts --ext .tsx src",
     "eslint:fix": "eslint --ext .ts --ext .tsx --fix src",
+    "prepublishOnly": "yarn build",
     "prettier:all": "prettier --check src",
     "prettier:fix": "prettier --write src",
-    "start": "start-storybook -p 6006",
-    "prepublishOnly": "yarn build",
-    "build-storybook": "build-storybook",
-    "clear-cache": "tsc clear cache"
+    "start": "start-storybook -p 6006"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.5",

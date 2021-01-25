@@ -98,26 +98,50 @@ Stories.add('Default usage', () => (
 )).add('Click to show', () => <ClickToShow />)
 
 const ClickToShow = () => {
-  const [show, setShow] = useState(false)
+  const [showBelow, setShowBelow] = useState(false)
+  const [showAbove, setShowAbove] = useState(false)
   return (
-    <div>
-      <button type="button" onClick={() => setShow(!show)}>
-        Show container
-      </button>
-      <FloatingContainer show={show}>
-        <div
-          style={{
-            background: 'white',
-            padding: 20,
-            boxShadow: '0 0 10px rgba(0,0,0,.5)',
-            marginLeft: 20,
-          }}
-        >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, iure soluta. Aliquam corporis ducimus
-          eius fugiat impedit labore maxime molestiae nam nesciunt nihil officiis optio porro quis, velit vitae
-          voluptates.
-        </div>
-      </FloatingContainer>
-    </div>
+    <>
+      <div>
+        <button type="button" onClick={() => setShowBelow(!showBelow)}>
+          Show container below
+        </button>
+        <FloatingContainer show={showBelow}>
+          <div
+            style={{
+              background: 'white',
+              padding: 20,
+              boxShadow: '0 0 10px rgba(0,0,0,.5)',
+              marginLeft: 20,
+            }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, iure soluta. Aliquam corporis ducimus
+            eius fugiat impedit labore maxime molestiae nam nesciunt nihil officiis optio porro quis, velit vitae
+            voluptates.
+          </div>
+        </FloatingContainer>
+      </div>
+      <div style={{ marginTop: 100 }}>
+        <FloatingContainer show={showAbove} verticalAlignment="top">
+          <div
+            style={{
+              background: 'white',
+              padding: 20,
+              boxShadow: '0 0 10px rgba(0,0,0,.5)',
+              marginLeft: 20,
+              position: 'relative',
+              bottom: 0,
+            }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, iure soluta. Aliquam corporis ducimus
+            eius fugiat impedit labore maxime molestiae nam nesciunt nihil officiis optio porro quis, velit vitae
+            voluptates.
+          </div>
+        </FloatingContainer>
+        <button type="button" onClick={() => setShowAbove(!showAbove)}>
+          Show container above
+        </button>
+      </div>
+    </>
   )
 }

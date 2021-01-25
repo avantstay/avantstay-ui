@@ -7,10 +7,11 @@ import { getPortalElement } from '../utils/getPortalElement'
 import isDescendant from '../utils/isDescendant'
 import { offsetLeft, offsetRight, offsetTop } from '../utils/offset'
 
-export const FloatingContainerRoot = styled.div<{ top: number; left?: number; right?: number }>`
+export const FloatingContainerRoot = styled.div<{ left?: number; right?: number; top?: number; transform?: string }>`
   z-index: 99;
   position: absolute;
-  top: ${(p: any) => p.top}px;
+  ${(p: any) => (p.transform ? `transform: ${p.transform}` : '')};
+  ${(p: any) => (p.top ? `top: ${p.top}px` : '')};
   ${(p: any) => (p.left ? `left: ${p.left}px` : '')};
   ${(p: any) => (p.right ? `right: ${p.right}px` : '')};
   box-sizing: border-box;
@@ -24,6 +25,7 @@ export interface FloatingContainerProps {
   className?: string
   show?: boolean
   horizontalAlignment?: 'left' | 'right'
+  verticalAlignment?: 'top' | 'bottom'
   onClickOut?: (e: MouseEvent) => void
   windowResizeDebounceDelay?: number
 }
@@ -36,6 +38,7 @@ class FloatingContainer extends React.PureComponent<FloatingContainerProps, Floa
   static defaultProps = {
     show: true,
     horizontalAlignment: 'left',
+    verticalAlignment: 'bottom',
     windowResizeDebounceDelay: 100,
   }
 
@@ -90,20 +93,19 @@ class FloatingContainer extends React.PureComponent<FloatingContainerProps, Floa
     }
   }
 
-  get positioning(): { top: number; left?: number; right?: number } {
+  get positioning(): { left?: number; right?: number; top?: number; transform?: string } {
+    const { horizontalAlignment, verticalAlignment } = this.props
     const portalParent = this.state.portalElement && (this.state.portalElement! as HTMLElement).parentNode
-    const top = offsetTop(this.positioningRef.current) - offsetTop(portalParent)
-
-    if (this.props.horizontalAlignment === 'right') {
-      return {
-        top,
-        right: offsetRight(this.positioningRef.current) - offsetRight(portalParent),
-      }
-    }
 
     return {
-      top,
-      left: offsetLeft(this.positioningRef.current) - offsetLeft(portalParent),
+      top: offsetTop(this.positioningRef.current) - offsetTop(portalParent),
+      right:
+        horizontalAlignment === 'right'
+          ? offsetRight(this.positioningRef.current) - offsetRight(portalParent)
+          : undefined,
+      left:
+        horizontalAlignment === 'left' ? offsetLeft(this.positioningRef.current) - offsetLeft(portalParent) : undefined,
+      transform: verticalAlignment === 'top' ? 'translate(0, -100%)' : undefined,
     }
   }
 

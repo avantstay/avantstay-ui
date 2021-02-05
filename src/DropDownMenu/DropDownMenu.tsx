@@ -14,6 +14,7 @@ import {
 } from './DropDownMenu.styles'
 
 export type ItemProps = {
+  icon?: React.ReactNode
   label: string
   route?: string
   searchable?: string
@@ -152,6 +153,7 @@ export function _DropDownMenu(props: DropDownMenuProps) {
                   onClick={handleItemOnClick(it)}
                   to={it.route}
                 >
+                  {it.icon}
                   {it.label}
                 </MenuItemLink>
               )

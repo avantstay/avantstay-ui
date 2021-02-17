@@ -1,29 +1,19 @@
 import styled from 'styled-components'
 import './ImgLite.css'
 
-export const ImageContainer = styled.div<{
+export const ImageBackground = styled.div<{
+  src?: string
   children?: any
   printable: boolean
   pulseBackground?: boolean
 }>`
-  display: flex;
-  overflow: hidden;
-  justify-content: center;
-  align-items: center;
-  background: red;
-  position: relative;
+  -webkit-print-color-adjust: ${p => (p.printable ? 'exact' : 'economy')};
+  color-adjust: ${p => (p.printable ? 'exact' : 'economy')};
+  display: ${p => (p.children ? 'flex' : 'inline-block')};
+  background-image: url('${p => p.src}');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background 0ms;
   ${p => (p.pulseBackground ? `background-color: rgba(0, 0, 0, 0.1); animation: ImgLiteBgPulse 1.5s infinite;` : '')}
-`
-
-export const ChildrenContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-`
-
-export const Img = styled.img<{ definingDimension: string }>`
-  ${p => p.definingDimension === 'height' && 'max-height: 100%'};
-  ${p => p.definingDimension === 'width' && 'max-width: 100%'};
 `

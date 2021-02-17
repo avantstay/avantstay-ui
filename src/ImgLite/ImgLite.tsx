@@ -14,7 +14,6 @@ import React, {
 import { Fit, Gravity, ImgLiteRef } from './__types'
 import * as S from './ImgLite.styles'
 import thumbnail from './thumbnail'
-import { EEXIST } from 'constants'
 
 // Standard image sizes stored in our cache. [ [ height, width ] ]
 const STANDARD_SIZES = [
@@ -56,7 +55,6 @@ function useOuterRef<E, T extends React.Ref<E>>(externalRef: T) {
 
 export interface ImgLiteOwnProps {
   className?: string
-  children?: React.ReactNode
   density?: number
   fit?: Fit
   gravity?: Gravity
@@ -84,7 +82,6 @@ export type ImgLiteProps = ImgLiteOwnProps &
 function _ImgLite(
   {
     className,
-    children,
     density = AUTO_DENSITY,
     fit,
     gravity,
@@ -104,9 +101,8 @@ function _ImgLite(
   ref: ImgLiteRef
 ) {
   const [currentImage, setCurrentImage] = useState<string>()
-  const [definingDimension, setDefiningDimension] = useState<string>('width')
   const imageRef = useOuterRef(ref)
-  const loading = !currentImage
+  // const loading = !currentImage
 
   const findNextLargestSize = (height: number, width: number): { newHeight: number; newWidth: number } => {
     let newSizes = {
@@ -135,10 +131,6 @@ function _ImgLite(
     const maxHeight = height || elementHeight
     const maxWidth = width || elementWidth
 
-    console.log(maxHeight, maxWidth)
-
-    setDefiningDimension(maxHeight * 1.5 >= maxWidth ? 'height' : 'width')
-
     if (!maxHeight || !maxWidth) {
       return
     }
@@ -149,12 +141,12 @@ function _ImgLite(
       density,
       fit,
       gravity,
-      height: newHeight,
+      height: newHeight || maxHeight,
       quality,
       sharpen,
       sizingStep,
       useOriginalFile,
-      width: newWidth,
+      width: newWidth || maxWidth,
     })
 
     if (onError || onLoad) {
@@ -198,16 +190,14 @@ function _ImgLite(
   }, [updateCurrentImage])
 
   return (
-    <S.ImageContainer
+    <S.ImageBackground
       className={className}
       printable={isPrintable}
       pulseBackground={pulseBackground}
       ref={imageRef as any}
+      src={currentImage}
       {...otherProps}
-    >
-      <S.Img src={currentImage} definingDimension={definingDimension} />
-      <S.ChildrenContainer {...otherProps}>{children}</S.ChildrenContainer>
-    </S.ImageContainer>
+    />
   )
 }
 

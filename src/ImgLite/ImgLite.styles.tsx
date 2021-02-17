@@ -17,11 +17,13 @@ export const ImageContainer = styled.div<{
 
 export const ChildrenContainer = styled.div`
   position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
 `
 
 export const Img = styled.img<{ definingDimension: string }>`
-  ${p => p.definingDimension === 'height' && 'height: 100%'};
-  ${p => p.definingDimension === 'width' && 'width: 100%'};
+  ${p => p.definingDimension === 'height' && 'max-height: 100%'};
+  ${p => p.definingDimension === 'width' && 'max-width: 100%'};
 `

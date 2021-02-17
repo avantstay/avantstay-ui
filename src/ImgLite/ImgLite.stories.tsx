@@ -51,7 +51,7 @@ Stories.add('Overlaying Content', () => (
       display: 'flex',
       justifyContent: 'center',
       minHeight: 500,
-      width: '100%',
+      width: '70%',
     }}
   >
     <h1 style={{ zIndex: 1, color: 'white' }}>Overlaying Content</h1>

@@ -28,8 +28,8 @@ export default function (
     return url
   }
 
-  const biggestDim = Math.max.call(null, width, height)
-  const _sizingStep = sizingStep || biggestDim < 1000 ? 100 : 200
+  // const biggestDim = Math.max.call(null, width, height)
+  // const _sizingStep = sizingStep || biggestDim < 1000 ? 100 : 200
 
   return queryString.stringifyUrl(
     {
@@ -37,8 +37,10 @@ export default function (
       query: {
         ...options,
         ...(hasWebPSupport ? { format: 'Webp' } : {}),
-        ...(height ? { 'size[height]': density * Math.ceil(height / _sizingStep) * _sizingStep } : {}),
-        ...(width ? { 'size[width]': density * Math.ceil(width / _sizingStep) * _sizingStep } : {}),
+        ...(height ? { 'size[height]': density * height } : {}),
+        ...(width ? { 'size[width]': density * width } : {}),
+        // ...(height ? { 'size[height]': density * Math.ceil(height / _sizingStep) * _sizingStep } : {}),
+        // ...(width ? { 'size[width]': density * Math.ceil(width / _sizingStep) * _sizingStep } : {}),
         image_address: getImageAddress(url),
       } as any,
     },

@@ -135,22 +135,22 @@ function _ImgLite(
       return
     }
 
-    const isPropertyImage = src.includes('amazonaws.com/homes/')
-
     const { newHeight, newWidth } = findNextLargestSize(maxHeight, maxWidth)
 
-    const useSizingStep = !newHeight && !newWidth
+    const useStandardSize = src.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
+
+    console.log(newHeight, newWidth)
 
     const newSrc = thumbnail(src, {
       density,
       fit,
       gravity,
-      height: (isPropertyImage && newHeight) || maxHeight,
+      height: useStandardSize ? newHeight : maxHeight,
       quality,
       sharpen,
-      sizingStep: useSizingStep ? sizingStep : 1,
+      sizingStep: useStandardSize ? 1 : sizingStep,
       useOriginalFile,
-      width: (isPropertyImage && newWidth) || maxWidth,
+      width: useStandardSize ? newWidth : maxWidth,
     })
 
     if (onError || onLoad) {

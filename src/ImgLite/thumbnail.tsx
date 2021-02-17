@@ -29,7 +29,7 @@ export default function (
   }
 
   const biggestDim = Math.max.call(null, width, height)
-  const _sizingStep = sizingStep || biggestDim < 1000 ? 100 : 200
+  const _sizingStep = sizingStep === 1 ? 1 : sizingStep || biggestDim < 1000 ? 100 : 200
 
   return queryString.stringifyUrl(
     {

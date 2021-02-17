@@ -137,6 +137,8 @@ function _ImgLite(
 
     const { newHeight, newWidth } = findNextLargestSize(maxHeight, maxWidth)
 
+    const useSizingStep = !newHeight && !newWidth
+
     const newSrc = thumbnail(src, {
       density,
       fit,
@@ -144,7 +146,7 @@ function _ImgLite(
       height: newHeight || maxHeight,
       quality,
       sharpen,
-      sizingStep: newHeight && newWidth ? 1 : sizingStep,
+      sizingStep: useSizingStep ? sizingStep : 1,
       useOriginalFile,
       width: newWidth || maxWidth,
     })

@@ -135,6 +135,8 @@ function _ImgLite(
       return
     }
 
+    const isPropertyImage = src.includes('amazonaws.com/homes/')
+
     const { newHeight, newWidth } = findNextLargestSize(maxHeight, maxWidth)
 
     const useSizingStep = !newHeight && !newWidth
@@ -143,12 +145,12 @@ function _ImgLite(
       density,
       fit,
       gravity,
-      height: newHeight || maxHeight,
+      height: (isPropertyImage && newHeight) || maxHeight,
       quality,
       sharpen,
       sizingStep: useSizingStep ? sizingStep : 1,
       useOriginalFile,
-      width: newWidth || maxWidth,
+      width: (isPropertyImage && newWidth) || maxWidth,
     })
 
     if (onError || onLoad) {

@@ -12,7 +12,7 @@ Stories.add('Default usage', () => {
 
   return (
     <div>
-      <ImgLite src={src} quality={85} density={1} style={{ width: '40vw', height: '50vh' }} pulseBackground={false} />
+      <ImgLite src={src} quality={85} density={6} style={{ width: '40vw', height: '50vh' }} pulseBackground={false} />
       <button onClick={() => setSrc(EXAMPLE_IMAGE_2)}>Change</button>
     </div>
   )
@@ -74,7 +74,7 @@ Stories.add('On Load & On Error', () => {
         onLoad={onLoad}
         src={EXAMPLE_IMAGE}
         quality={85}
-        density={1}
+        density={3}
         style={{ width: 400, height: 400 }}
         pulseBackground={false}
       />
@@ -83,7 +83,7 @@ Stories.add('On Load & On Error', () => {
         onLoad={onLoad}
         src="https://thissitedoesnotexist/random-image.jpg"
         quality={85}
-        density={1}
+        density={3}
         style={{ width: 400, height: 400 }}
         pulseBackground={false}
       />

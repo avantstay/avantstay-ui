@@ -144,7 +144,7 @@ function _ImgLite(
       height: newHeight || maxHeight,
       quality,
       sharpen,
-      sizingStep,
+      sizingStep: newHeight && newWidth ? 1 : sizingStep,
       useOriginalFile,
       width: newWidth || maxWidth,
     })

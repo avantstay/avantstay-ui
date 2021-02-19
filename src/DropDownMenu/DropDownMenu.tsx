@@ -30,10 +30,11 @@ type DropDownMenuProps = {
   position: 'right' | 'left'
   items: Array<ItemProps>
   onTrigger?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  disableSearch?: boolean
 }
 
 export function _DropDownMenu(props: DropDownMenuProps) {
-  const { items, className, onTrigger, position, title, children, trigger } = props
+  const { disableSearch, items, className, onTrigger, position, title, children, trigger } = props
 
   const id = useMemo(() => Math.random().toString(36).substr(2), [])
   const [showItems, setShowItems] = useState(false)
@@ -134,8 +135,12 @@ export function _DropDownMenu(props: DropDownMenuProps) {
 
   return (
     <DropDownMenuRoot className={className}>
-      <HiddenLabel htmlFor={id}>Dropdown search</HiddenLabel>
-      <SearchField id={id} ref={searchField} onKeyDown={onKeyDown} onChange={onSearch} type="text" />
+      {!disableSearch ? (
+        <>
+          <HiddenLabel htmlFor={id}>Dropdown search</HiddenLabel>
+          <SearchField id={id} ref={searchField} onKeyDown={onKeyDown} onChange={onSearch} type="text" />
+        </>
+      ) : null}
       {typeof (children || trigger) === 'function' ? (
         children || (trigger && _onTrigger)
       ) : (

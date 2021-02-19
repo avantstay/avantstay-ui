@@ -2,7 +2,8 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import ImgLite from './ImgLite'
 
-const EXAMPLE_IMAGE = 'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg'
+const EXAMPLE_IMAGE =
+  'https://as-ue2-prod-public-assets.s3.us-east-2.amazonaws.com/homes/f13db466-c43e-11e9-b969-e1b04f6aaad4/images/original_155252149.jpeg'
 const EXAMPLE_IMAGE_2 = 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'
 
 const Stories = storiesOf('ImgLite', module)
@@ -12,7 +13,7 @@ Stories.add('Default usage', () => {
 
   return (
     <div>
-      <ImgLite src={src} quality={85} density={6} style={{ width: 400, height: 400 }} pulseBackground={false} />
+      <ImgLite src={src} quality={85} density={1} style={{ width: '40vw', height: '50vh' }} pulseBackground={false} />
       <button onClick={() => setSrc(EXAMPLE_IMAGE_2)}>Change</button>
     </div>
   )
@@ -50,7 +51,7 @@ Stories.add('Overlaying Content', () => (
       alignItems: 'center',
       display: 'flex',
       justifyContent: 'center',
-      minHeight: 300,
+      minHeight: 500,
       width: '100%',
     }}
   >
@@ -74,7 +75,7 @@ Stories.add('On Load & On Error', () => {
         onLoad={onLoad}
         src={EXAMPLE_IMAGE}
         quality={85}
-        density={6}
+        density={3}
         style={{ width: 400, height: 400 }}
         pulseBackground={false}
       />
@@ -83,7 +84,7 @@ Stories.add('On Load & On Error', () => {
         onLoad={onLoad}
         src="https://thissitedoesnotexist/random-image.jpg"
         quality={85}
-        density={6}
+        density={3}
         style={{ width: 400, height: 400 }}
         pulseBackground={false}
       />

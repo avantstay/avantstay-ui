@@ -15,6 +15,17 @@ import { Fit, Gravity, ImgLiteRef } from './__types'
 import * as S from './ImgLite.styles'
 import thumbnail from './thumbnail'
 
+// Standard image sizes stored in our cache. [ [ height, width ] ]
+const STANDARD_SIZES = [
+  [256, 384],
+  [378, 568],
+  [512, 768],
+  [597, 896],
+  [682, 1024],
+  [853, 1280],
+  [1280, 1920],
+]
+
 const AUTO_DENSITY = isMobile() ? 1.5 : 1
 
 function setRefCurrent(ref: React.Ref<any>, value: any) {
@@ -91,7 +102,25 @@ function _ImgLite(
 ) {
   const [currentImage, setCurrentImage] = useState<string>()
   const imageRef = useOuterRef(ref)
-  const loading = !currentImage
+  // const loading = !currentImage
+
+  const findNextLargestSize = (height: number, width: number): { newHeight: number; newWidth: number } => {
+    let newSizes = {
+      newHeight: 0,
+      newWidth: 0,
+    }
+
+    for (let i = 0; i < STANDARD_SIZES.length; i++) {
+      const currentSize = STANDARD_SIZES[i]
+      if (height <= currentSize[0] && width <= currentSize[1]) {
+        newSizes.newHeight = currentSize[0]
+        newSizes.newWidth = currentSize[1]
+        break
+      }
+    }
+
+    return newSizes
+  }
 
   const updateCurrentImage = useCallback(() => {
     const imageElement = (imageRef as RefObject<HTMLElement>).current
@@ -106,16 +135,20 @@ function _ImgLite(
       return
     }
 
+    const { newHeight, newWidth } = findNextLargestSize(maxHeight, maxWidth)
+
+    const useStandardSize = src.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
+
     const newSrc = thumbnail(src, {
       density,
       fit,
       gravity,
-      height: maxHeight,
+      height: useStandardSize ? newHeight : maxHeight,
       quality,
       sharpen,
-      sizingStep,
+      sizingStep: useStandardSize ? 1 : sizingStep,
       useOriginalFile,
-      width: maxWidth,
+      width: useStandardSize ? newWidth : maxWidth,
     })
 
     if (onError || onLoad) {
@@ -150,7 +183,7 @@ function _ImgLite(
   useLayoutEffect(() => updateCurrentImage(), [updateCurrentImage])
 
   useEffect(() => {
-    const debouncedUpdateCurrentImage = debounce(() => updateCurrentImage(), 200)
+    const debouncedUpdateCurrentImage = debounce(() => updateCurrentImage(), 100)
     window.addEventListener('resize', debouncedUpdateCurrentImage)
 
     return () => {

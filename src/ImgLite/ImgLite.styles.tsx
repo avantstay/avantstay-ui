@@ -10,7 +10,7 @@ export const ImageBackground = styled.div<{
   -webkit-print-color-adjust: ${p => (p.printable ? 'exact' : 'economy')};
   color-adjust: ${p => (p.printable ? 'exact' : 'economy')};
   display: ${p => (p.children ? 'flex' : 'inline-block')};
-  background-image: url("${p => p.src}");
+  background-image: url('${p => p.src}');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -139,8 +139,6 @@ function _ImgLite(
 
     const useStandardSize = src.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
 
-    console.log(newHeight, newWidth)
-
     const newSrc = thumbnail(src, {
       density,
       fit,

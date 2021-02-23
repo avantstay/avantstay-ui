@@ -1,6 +1,6 @@
 import queryString from 'query-string'
-import { ImgLiteThumbnailOptions } from './__types'
 import { checkWebPSupport } from 'supports-webp-sync'
+import { ImgLiteThumbnailOptions } from './__types'
 
 const hasWebPSupport = checkWebPSupport()
 
@@ -37,8 +37,8 @@ export default function (
       query: {
         ...options,
         ...(hasWebPSupport ? { format: 'Webp' } : {}),
-        ...(height ? { 'size[height]': density * Math.ceil(height / _sizingStep) * _sizingStep } : {}),
-        ...(width ? { 'size[width]': density * Math.ceil(width / _sizingStep) * _sizingStep } : {}),
+        ...(height ? { 'size[height]': Math.round(density * Math.ceil(height / _sizingStep) * _sizingStep) } : {}),
+        ...(width ? { 'size[width]': Math.round(density * Math.ceil(width / _sizingStep) * _sizingStep) } : {}),
         image_address: getImageAddress(url),
       } as any,
     },

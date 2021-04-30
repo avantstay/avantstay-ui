@@ -1,16 +1,7 @@
 import { isMobile } from 'is-mobile'
 import debounce from 'lodash/debounce'
-import React, {
-  forwardRef,
-  memo,
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react'
+import * as React from 'react'
+import ResizeObserver from 'resize-observer-polyfill'
 import { Fit, Gravity, ImgLiteRef } from './__types'
 import * as S from './ImgLite.styles'
 import thumbnail from './thumbnail'
@@ -31,12 +22,12 @@ const AUTO_DENSITY = isMobile() ? 1.5 : 1
 function setRefCurrent(ref: React.Ref<any>, value: any) {
   if (!ref) return
 
-  const mutableRef = ref as MutableRefObject<any>
+  const mutableRef = ref as React.MutableRefObject<any>
   mutableRef.current = value
 }
 
 function useOuterRef<E, T extends React.Ref<E>>(externalRef: T) {
-  return useMemo((): React.Ref<E> => {
+  return React.useMemo((): React.Ref<E> => {
     const internalRef = ((element: E) => {
       setRefCurrent(internalRef, element)
 
@@ -100,9 +91,8 @@ function _ImgLite(
   }: ImgLiteProps,
   ref: ImgLiteRef
 ) {
-  const [currentImage, setCurrentImage] = useState<string>()
+  const [currentImage, setCurrentImage] = React.useState<string>()
   const imageRef = useOuterRef(ref)
-  // const loading = !currentImage
 
   const findNextLargestSize = (height: number, width: number): { newHeight: number; newWidth: number } => {
     let newSizes = {
@@ -122,8 +112,8 @@ function _ImgLite(
     return newSizes
   }
 
-  const updateCurrentImage = useCallback(() => {
-    const imageElement = (imageRef as RefObject<HTMLElement>).current
+  const updateCurrentImage = React.useCallback(() => {
+    const imageElement = (imageRef as React.RefObject<HTMLElement>).current
 
     const elementHeight = imageElement ? imageElement.offsetHeight : 0
     const elementWidth = imageElement ? imageElement.offsetWidth : 0
@@ -180,16 +170,18 @@ function _ImgLite(
     width,
   ])
 
-  useLayoutEffect(() => updateCurrentImage(), [updateCurrentImage])
+  React.useLayoutEffect(updateCurrentImage, [updateCurrentImage])
 
-  useEffect(() => {
-    const debouncedUpdateCurrentImage = debounce(() => updateCurrentImage(), 100)
-    window.addEventListener('resize', debouncedUpdateCurrentImage)
+  React.useEffect(() => {
+    const imageElement = (imageRef as React.RefObject<HTMLElement>).current
+    if (imageElement === null) return
 
-    return () => {
-      window.removeEventListener('resize', debouncedUpdateCurrentImage)
-    }
-  }, [updateCurrentImage])
+    const debouncedUpdateCurrentImage = debounce(updateCurrentImage, 100)
+    const observer = new ResizeObserver(debouncedUpdateCurrentImage)
+
+    observer.observe(imageElement)
+    return () => observer.unobserve(imageElement)
+  }, [imageRef, updateCurrentImage])
 
   return (
     <S.ImageBackground
@@ -203,4 +195,4 @@ function _ImgLite(
   )
 }
 
-export default memo(forwardRef(_ImgLite))
+export default React.memo(React.forwardRef(_ImgLite))

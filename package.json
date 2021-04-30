@@ -37,6 +37,7 @@
     "react-dom": "^16.9.0",
     "react-renderif-hoc": "^0.0.1",
     "react-router-dom": "^5.2.0",
+    "resize-observer-polyfill": "^1.5.1",
     "styled-components": "^5.1.0",
     "supports-webp-sync": "^1.0.0",
     "tinycolor2": "^1.4.1",

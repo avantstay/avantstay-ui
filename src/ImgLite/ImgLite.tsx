@@ -195,4 +195,4 @@ function _ImgLite(
   )
 }
 
-export default React.memo(React.forwardRef(_ImgLite))
+export const ImgLite = React.memo(React.forwardRef(_ImgLite))

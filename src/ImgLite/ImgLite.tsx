@@ -44,6 +44,24 @@ function useOuterRef<E, T extends React.Ref<E>>(externalRef: T) {
   }, [externalRef])
 }
 
+const findNextLargestSize = (height: number, width: number): { newHeight: number; newWidth: number } => {
+  let newSizes = {
+    newHeight: 0,
+    newWidth: 0,
+  }
+
+  for (let i = 0; i < STANDARD_SIZES.length; i++) {
+    const currentSize = STANDARD_SIZES[i]
+    if (height <= currentSize[0] && width <= currentSize[1]) {
+      newSizes.newHeight = currentSize[0]
+      newSizes.newWidth = currentSize[1]
+      break
+    }
+  }
+
+  return newSizes
+}
+
 export interface ImgLiteOwnProps {
   className?: string
   density?: number
@@ -93,24 +111,7 @@ function _ImgLite(
 ) {
   const [currentImage, setCurrentImage] = React.useState<string>()
   const imageRef = useOuterRef(ref)
-
-  const findNextLargestSize = (height: number, width: number): { newHeight: number; newWidth: number } => {
-    let newSizes = {
-      newHeight: 0,
-      newWidth: 0,
-    }
-
-    for (let i = 0; i < STANDARD_SIZES.length; i++) {
-      const currentSize = STANDARD_SIZES[i]
-      if (height <= currentSize[0] && width <= currentSize[1]) {
-        newSizes.newHeight = currentSize[0]
-        newSizes.newWidth = currentSize[1]
-        break
-      }
-    }
-
-    return newSizes
-  }
+  const [dimensions, setDimensions] = React.useState({ width, height })
 
   const updateCurrentImage = React.useCallback(() => {
     const imageElement = (imageRef as React.RefObject<HTMLElement>).current
@@ -129,16 +130,29 @@ function _ImgLite(
 
     const useStandardSize = src.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
 
+    const newDimensions = {
+      width: useStandardSize ? newWidth : maxWidth,
+      height: useStandardSize ? newHeight : maxHeight,
+    }
+
+    if (dimensions && newDimensions.width <= dimensions.width && newDimensions.height <= dimensions.height) {
+      // we are skipping image reload on scaling down the image container
+      // browser should reuse already loaded image
+      return
+    }
+
+    setDimensions(newDimensions)
+
     const newSrc = thumbnail(src, {
       density,
       fit,
       gravity,
-      height: useStandardSize ? newHeight : maxHeight,
+      height: newDimensions.height,
       quality,
       sharpen,
       sizingStep: useStandardSize ? 1 : sizingStep,
       useOriginalFile,
-      width: useStandardSize ? newWidth : maxWidth,
+      width: newDimensions.width,
     })
 
     if (onError || onLoad) {
@@ -156,6 +170,7 @@ function _ImgLite(
     }
   }, [
     density,
+    dimensions,
     fit,
     gravity,
     height,
@@ -174,6 +189,7 @@ function _ImgLite(
 
   React.useEffect(() => {
     const imageElement = (imageRef as React.RefObject<HTMLElement>).current
+
     if (imageElement === null) return
 
     const debouncedUpdateCurrentImage = debounce(updateCurrentImage, 100)

@@ -21,7 +21,8 @@
     "prepublishOnly": "yarn build",
     "prettier:all": "prettier --check src",
     "prettier:fix": "prettier --write src",
-    "start": "start-storybook -p 6006"
+    "start": "start-storybook -p 6006",
+    "watch": "webpack --watch"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.5",

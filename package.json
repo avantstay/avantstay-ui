@@ -1,6 +1,6 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "7.2.8",
+  "version": "7.2.9",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "files": [
@@ -21,7 +21,8 @@
     "prepublishOnly": "yarn build",
     "prettier:all": "prettier --check src",
     "prettier:fix": "prettier --write src",
-    "start": "start-storybook -p 6006"
+    "start": "start-storybook -p 6006",
+    "watch": "webpack --watch"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.5",

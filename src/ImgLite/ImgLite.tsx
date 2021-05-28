@@ -82,11 +82,37 @@ export interface ImgLiteOwnProps {
   width?: number
 }
 
+interface Dimensions {
+  width: number
+  height: number
+}
+
 export type ImgLiteProps = ImgLiteOwnProps &
   (
     | Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children' | 'onError' | 'onLoad'>
     | React.HTMLAttributes<HTMLDivElement>
   )
+
+const shouldSkipReloading = (newDimensions: Dimensions, dimensions?: Dimensions) => {
+  if (!dimensions) {
+    return false
+  }
+  // skip on scaling image container down
+  // browser should reuse already loaded (bigger) image
+  if (newDimensions.width <= dimensions.width && newDimensions.height <= dimensions.height) {
+    return true
+  }
+  // skip on resizing less than 10%
+  // useful for example when we have full scree image and there is scrollbar appearing during page load
+  if (
+    Math.abs(newDimensions.width - dimensions.width) / dimensions.width < 0.1 &&
+    Math.abs(newDimensions.height - dimensions.height) / dimensions.height < 0.1
+  ) {
+    return true
+  }
+
+  return false
+}
 
 function _ImgLite(
   {
@@ -111,7 +137,7 @@ function _ImgLite(
 ) {
   const [currentImage, setCurrentImage] = React.useState<string>()
   const imageRef = useOuterRef(ref)
-  const [dimensions, setDimensions] = React.useState({ width, height })
+  const [dimensions, setDimensions] = React.useState<Dimensions | undefined>(undefined)
 
   const updateCurrentImage = React.useCallback(() => {
     const imageElement = (imageRef as React.RefObject<HTMLElement>).current
@@ -130,14 +156,12 @@ function _ImgLite(
 
     const useStandardSize = src.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
 
-    const newDimensions = {
+    const newDimensions: Dimensions = {
       width: useStandardSize ? newWidth : maxWidth,
       height: useStandardSize ? newHeight : maxHeight,
     }
 
-    if (dimensions && newDimensions.width <= dimensions.width && newDimensions.height <= dimensions.height) {
-      // we are skipping image reload on scaling down the image container
-      // browser should reuse already loaded image
+    if (shouldSkipReloading(newDimensions, dimensions)) {
       return
     }
 

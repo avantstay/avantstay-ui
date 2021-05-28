@@ -93,7 +93,7 @@ export type ImgLiteProps = ImgLiteOwnProps &
     | React.HTMLAttributes<HTMLDivElement>
   )
 
-const shouldSkipReloading = (newDimensions: Dimensions, dimensions: Dimensions) => {
+const shouldSkipReloading = (newDimensions: Dimensions, dimensions?: Dimensions) => {
   if (!dimensions) {
     return false
   }
@@ -137,7 +137,7 @@ function _ImgLite(
 ) {
   const [currentImage, setCurrentImage] = React.useState<string>()
   const imageRef = useOuterRef(ref)
-  const [dimensions, setDimensions] = React.useState<Dimensions>({ width, height })
+  const [dimensions, setDimensions] = React.useState<Dimensions | undefined>(undefined)
 
   const updateCurrentImage = React.useCallback(() => {
     const imageElement = (imageRef as React.RefObject<HTMLElement>).current

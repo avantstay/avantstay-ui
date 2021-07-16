@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { boolean, text } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
-import React from 'react'
+import * as React from 'react'
 import DateRangePicker from './'
 
 const DateRangePickerStories = storiesOf('DatePicker', module)
@@ -26,6 +26,7 @@ DateRangePickerStories.add('Default usage', () => (
     <div className="oito">
       <DateRangePicker
         show={boolean('show', true)}
+        singleDateRange={boolean('singleDateRange', false)}
         onChange={action('DateRangePicker[onChange]')}
         onClose={action('DateRangePicker[onClose]')}
         onInit={action('DateRangePicker[onInit]')}
@@ -77,6 +78,7 @@ DateRangePickerStories.add('Default usage', () => (
         <div className="oito">
           <DateRangePicker
             show={boolean('show', true)}
+            singleDateRange={boolean('singleDateRange', false)}
             onChange={action('DateRangePicker[onChange]')}
             onClose={action('DateRangePicker[onClose]')}
             onInit={action('DateRangePicker[onInit]')}
@@ -107,6 +109,7 @@ DateRangePickerStories.add('Default usage', () => (
   .add('With apply button', () => (
     <DateRangePicker
       show={boolean('show', true)}
+      singleDateRange={boolean('singleDateRange', false)}
       showApply={boolean('showApply', true)}
       applyLabel={text('applyLabel', 'Apply')}
       startDate={text('startDate', '2019-01-01')}

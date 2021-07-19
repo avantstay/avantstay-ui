@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react'
-import React from 'react'
-import ImgLite from './ImgLite'
+import * as React from 'react'
+import { ImgLite } from './ImgLite'
 
 const EXAMPLE_IMAGE =
   'https://as-ue2-prod-public-assets.s3.us-east-2.amazonaws.com/homes/f13db466-c43e-11e9-b969-e1b04f6aaad4/images/original_155252149.jpeg'

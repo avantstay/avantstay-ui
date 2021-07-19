@@ -49,6 +49,7 @@ export interface DateRangePickerProps {
   shownDate?: any
   showMonthArrow?: any
   dateTooltip?: any
+  singleDateRange?: boolean
   onClose?: () => void
   onClickOut?: () => void
 }
@@ -73,6 +74,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     showApply: false,
     applyLabel: 'Apply',
     horizontalAlignment: 'left',
+    singleDateRange: false,
   }
 
   step = 0
@@ -152,6 +154,12 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     const range = { startDate, endDate }
 
+    if (this.props.singleDateRange) {
+      this.step = 0
+      range.startDate = date as AnyDate
+      range.endDate = range.startDate
+    }
+
     switch (this.step) {
       case 0:
         range.startDate = date as AnyDate
@@ -209,6 +217,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       onChange,
       horizontalAlignment,
       dateTooltip,
+      singleDateRange,
     } = this.props
 
     const { range, link } = this.state
@@ -227,6 +236,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       maxDate,
       specialDays,
       dateTooltip,
+      singleDateRange,
       link: linkedCalendars && link,
       linkCB: this.moveCalendarDisplay,
       onChange: this.handleSelect,
@@ -238,7 +248,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
           <div className={classes.dateRange}>
             <div>
               <Calendar {...calendarProps} offset={0} />
-              <ClearButtonContainer>
+              <ClearButtonContainer singleMonthPicker={singleDateRange}>
                 <ClearButton show={Boolean(range.startDate || range.endDate)} onClick={this.clearRange}>
                   {clearButtonLabel}
                 </ClearButton>
@@ -246,7 +256,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                   <IconClose />
                 </CloseButton>
               </ClearButtonContainer>
-              <Calendar {...calendarProps} offset={1} />
+              {!singleDateRange && <Calendar {...calendarProps} offset={1} />}
             </div>
             <ApplyButton
               show={showApply}

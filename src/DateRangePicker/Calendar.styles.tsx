@@ -8,9 +8,10 @@ import {
   ACCENT_EXTREMELY_LIGHT,
   ACCENT_MEDIUM,
   ERROR,
+  FAILURE_DARK,
   NEUTRAL_DARK,
   NEUTRAL_EXTREMELY_DARK,
-  NEUTRAL_LIGHT,
+  NEUTRAL_EXTREMELY_DARK_2,
   NEUTRAL_LIGHT_2,
   NEUTRAL_MEDIUM,
 } from './colors'
@@ -65,12 +66,16 @@ export const CalendarContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    font-weight: 500;
+    font-weight: 400;
 
     ${MAXW_SM_SCREEN} {
-      font-size: 18px;
+      font-size: 16px;
       margin-bottom: 20px;
     }
+  }
+
+  & .rdr-MonthAndYear-innerWrapper.single {
+    justify-content: flex-start;
   }
 
   & .rdr-Calendar:last-child {
@@ -92,7 +97,7 @@ export const CalendarContainer = styled.div`
     text-transform: capitalize;
     font-size: 10px;
     font-weight: 700;
-    color: ${NEUTRAL_LIGHT};
+    color: ${NEUTRAL_DARK};
 
     ${MAXW_SM_SCREEN} {
       font-size: 3vw;
@@ -111,8 +116,6 @@ export const CalendarContainer = styled.div`
     background: none;
     border: none;
     border-radius: 99px;
-    height: 40px;
-    width: 40px;
     outline: none;
     cursor: pointer !important;
     display: flex;
@@ -125,9 +128,15 @@ export const CalendarContainer = styled.div`
       cursor: pointer !important;
     }
 
+    svg {
+      color: ${NEUTRAL_DARK};
+    }
+
     &:hover {
       ${MINW_SM_SCREEN} {
-        background: rgba(0, 0, 0, 0.1);
+        svg {
+          color: ${NEUTRAL_EXTREMELY_DARK_2};
+        }
       }
     }
   }
@@ -136,8 +145,17 @@ export const CalendarContainer = styled.div`
     & .rdr-Calendar:first-child .rdr-MonthAndYear-button.next {
       visibility: hidden;
     }
+    & .rdr-Calendar:last-child .rdr-MonthAndYear-button.next {
+      padding-right: 0;
+    }
+    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.prev {
+      padding-left: 0;
+    }
     & .rdr-Calendar:last-child .rdr-MonthAndYear-button.prev {
       visibility: hidden;
+    }
+    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.next-single {
+      visibility: visible;
     }
   }
 
@@ -289,7 +307,7 @@ export const FieldsContainer = styled('div')`
   }
 `
 
-export const ClearButtonContainer = styled('div')`
+export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean }>`
   height: 60px;
   justify-content: center;
   width: 100%;
@@ -301,8 +319,18 @@ export const ClearButtonContainer = styled('div')`
     position: absolute;
     width: 80px;
     left: calc(50% - 40px);
-    height: 40px;
+    top: 0;
   }
+
+  ${props =>
+    props.singleMonthPicker &&
+    `
+    ${MINW_SM_SCREEN} {
+      width: 50px;
+      left: auto;
+      right: 20px;
+    } 
+  `}
 
   &::before {
     content: '';
@@ -331,7 +359,6 @@ export const ClearButton = styled.button<ClearButtonProps>`
   height: 24px;
   line-height: 19px;
   font-weight: 500;
-  text-transform: uppercase;
   color: ${ERROR};
   font-size: 13px;
   display: ${p => (p.show ? 'flex' : 'none')};
@@ -341,6 +368,10 @@ export const ClearButton = styled.button<ClearButtonProps>`
   outline: none;
   position: relative;
   z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2};
+
+  &: hover {
+    color: ${FAILURE_DARK};
+  }
 `
 
 export const CloseButton = styled('button')`
@@ -376,15 +407,9 @@ export const IconClose = styled(CloseIcon)`
   }
 `
 
-export const IconAngleRight = styled(AngleRightIcon)`
-  width: 24px;
-  height: 24px;
-`
+export const IconAngleRight = styled(AngleRightIcon)``
 
-export const IconAngleLeft = styled(AngleLeftIcon)`
-  width: 24px;
-  height: 24px;
-`
+export const IconAngleLeft = styled(AngleLeftIcon)``
 
 export const ApplyButton = renderIf('show')(styled.button`
   text-align: center;

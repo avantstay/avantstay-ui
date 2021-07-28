@@ -249,7 +249,10 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             <div>
               <Calendar {...calendarProps} offset={0} />
               <ClearButtonContainer singleMonthPicker={singleDateRange}>
-                <ClearButton show={Boolean(range.startDate || range.endDate)} onClick={this.clearRange}>
+                <ClearButton
+                  show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
+                  onClick={this.clearRange}
+                >
                   {clearButtonLabel}
                 </ClearButton>
                 <CloseButton onClick={onClose}>

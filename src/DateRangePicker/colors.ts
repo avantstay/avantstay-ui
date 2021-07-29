@@ -6,6 +6,7 @@
 // export const SUCCESS           = '#54D37A'
 // export const SUCCESS_DARK      = '#248c3d'
 // export const ERROR_DARK        = '#cc4949'
+export const NEUTRAL_EXTRA_DARK = '#94A4AD'
 export const NEUTRAL_EXTREMELY_DARK_2 = '#5F727C'
 export const NEUTRAL_EXTREMELY_DARK = '#6A7F8A'
 export const NEUTRAL_DARK = '#C0C9CE'

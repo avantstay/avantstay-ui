@@ -10,6 +10,7 @@ import {
   ERROR,
   FAILURE_DARK,
   NEUTRAL_DARK,
+  NEUTRAL_EXTRA_DARK,
   NEUTRAL_EXTREMELY_DARK,
   NEUTRAL_EXTREMELY_DARK_2,
   NEUTRAL_LIGHT_2,
@@ -129,7 +130,7 @@ export const CalendarContainer = styled.div`
     }
 
     svg {
-      color: ${NEUTRAL_DARK};
+      color: ${NEUTRAL_EXTRA_DARK};
     }
 
     &:hover {
@@ -233,6 +234,10 @@ export const CalendarContainer = styled.div`
       font-size: 4.3vw;
     }
 
+    &.is-passive {
+      cursor: not-allowed;
+    }
+
     &:not(.is-passive) {
       color: ${NEUTRAL_EXTREMELY_DARK};
     }
@@ -240,6 +245,7 @@ export const CalendarContainer = styled.div`
     &.is-inRange:not(.is-passive) {
       background: ${ACCENT_EXTREMELY_LIGHT};
       border-radius: 0;
+      color ${ACCENT_MEDIUM};
     }
 
     &.is-selected:not(.is-passive) {

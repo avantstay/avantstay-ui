@@ -163,7 +163,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     switch (this.step) {
       case 0:
         range.startDate = date as AnyDate
-        range.endDate = endDate && isAfter(endDate, date as AnyDate) ? endDate : undefined
+        range.endDate = undefined
         this.step = 1
         break
 
@@ -249,7 +249,10 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             <div>
               <Calendar {...calendarProps} offset={0} />
               <ClearButtonContainer singleMonthPicker={singleDateRange}>
-                <ClearButton show={Boolean(range.startDate || range.endDate)} onClick={this.clearRange}>
+                <ClearButton
+                  show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
+                  onClick={this.clearRange}
+                >
                   {clearButtonLabel}
                 </ClearButton>
                 <CloseButton onClick={onClose}>

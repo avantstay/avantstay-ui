@@ -234,6 +234,10 @@ export const CalendarContainer = styled.div`
       font-size: 4.3vw;
     }
 
+    &.is-passive {
+      cursor: not-allowed;
+    }
+
     &:not(.is-passive) {
       color: ${NEUTRAL_EXTREMELY_DARK};
     }

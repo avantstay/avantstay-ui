@@ -16,10 +16,9 @@ function getImageAddress(url: string) {
   return `${origin}${hasInitialSlash ? '' : '/'}${url}`
 }
 
-export default function (
-  url: string,
-  { density = 1, height = 0, sizingStep, useOriginalFile = false, width = 0, ...options }: ImgLiteThumbnailOptions = {}
-) {
+export default function (url: string, options: ImgLiteThumbnailOptions = {}) {
+  const { density = 1, height = 0, sizingStep = 10, useOriginalFile = false, width = 0, ...restOptions } = options
+
   const isLocalhost = globalThis && globalThis.location && /localhost/.test(globalThis.location.host)
   const isLocalFile = isLocalhost && url && !/^http/i.test(url)
   const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
@@ -33,7 +32,7 @@ export default function (
     {
       url: 'https://cdn.avantstay.dev/',
       query: {
-        ...options,
+        ...restOptions,
         ...(hasWebPSupport ? { format: 'Webp' } : {}),
         ...(height ? { 'size[height]': Math.round(density * Math.ceil(height / sizingStep) * sizingStep) } : {}),
         ...(width ? { 'size[width]': Math.round(density * Math.ceil(width / sizingStep) * sizingStep) } : {}),

@@ -2,9 +2,10 @@ import { isMobile } from 'is-mobile'
 import debounce from 'lodash/debounce'
 import * as React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
+
 import { Fit, Gravity, ImgLiteRef } from './__types'
+import { useImageSource } from './hooks/useImageSource'
 import * as S from './ImgLite.styles'
-import thumbnail from './thumbnail'
 
 // Standard image sizes stored in our cache. [ [ height, width ] ]
 const STANDARD_SIZES = [
@@ -104,14 +105,10 @@ const shouldSkipReloading = (newDimensions: Dimensions, dimensions?: Dimensions)
   }
   // skip on resizing less than 10%
   // useful for example when we have full scree image and there is scrollbar appearing during page load
-  if (
+  return (
     Math.abs(newDimensions.width - dimensions.width) / dimensions.width < 0.1 &&
     Math.abs(newDimensions.height - dimensions.height) / dimensions.height < 0.1
-  ) {
-    return true
-  }
-
-  return false
+  )
 }
 
 function _ImgLite(
@@ -128,16 +125,18 @@ function _ImgLite(
     quality,
     sharpen,
     sizingStep,
-    src,
+    src: nextImageSource,
     useOriginalFile = false,
     width,
     ...otherProps
   }: ImgLiteProps,
   ref: ImgLiteRef
 ) {
-  const [currentImage, setCurrentImage] = React.useState<string>()
   const imageRef = useOuterRef(ref)
-  const [dimensions, setDimensions] = React.useState<Dimensions | undefined>(undefined)
+
+  const [dimensions, setDimensions] = React.useState<Dimensions>()
+
+  const { imageSource, imageThumbnail, updateImageSource } = useImageSource()
 
   const updateCurrentImage = React.useCallback(() => {
     const imageElement = (imageRef as React.RefObject<HTMLElement>).current
@@ -148,26 +147,22 @@ function _ImgLite(
     const maxHeight = height || elementHeight
     const maxWidth = width || elementWidth
 
-    if (!maxHeight || !maxWidth) {
-      return
-    }
+    if (!maxHeight || !maxWidth) return
 
     const { newHeight, newWidth } = findNextLargestSize(maxHeight, maxWidth)
 
-    const useStandardSize = src.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
+    const useStandardSize = nextImageSource.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
 
     const newDimensions: Dimensions = {
       width: useStandardSize ? newWidth : maxWidth,
       height: useStandardSize ? newHeight : maxHeight,
     }
 
-    if (shouldSkipReloading(newDimensions, dimensions)) {
-      return
-    }
+    if (imageSource === nextImageSource && shouldSkipReloading(newDimensions, dimensions)) return
 
     setDimensions(newDimensions)
 
-    const newSrc = thumbnail(src, {
+    const nextImageThumbnail = updateImageSource(nextImageSource, {
       density,
       fit,
       gravity,
@@ -183,14 +178,7 @@ function _ImgLite(
       const img = new Image()
       img.onerror = onError
       img.onload = onLoad
-      img.src = newSrc
-    }
-
-    if (currentImage) {
-      setCurrentImage(undefined)
-      setTimeout(() => setCurrentImage(newSrc))
-    } else {
-      setCurrentImage(newSrc)
+      img.src = nextImageThumbnail
     }
   }, [
     density,
@@ -199,12 +187,14 @@ function _ImgLite(
     gravity,
     height,
     imageRef,
+    imageSource,
+    nextImageSource,
     onError,
     onLoad,
     quality,
     sharpen,
     sizingStep,
-    src,
+    updateImageSource,
     useOriginalFile,
     width,
   ])
@@ -229,10 +219,10 @@ function _ImgLite(
       printable={isPrintable}
       pulseBackground={pulseBackground}
       ref={imageRef as any}
-      src={currentImage}
+      src={imageThumbnail}
       {...otherProps}
     />
   )
 }
 
-export const ImgLite = React.memo(React.forwardRef(_ImgLite))
+export const ImgLite = React.forwardRef(_ImgLite)

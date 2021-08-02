@@ -1,2 +1,2 @@
 export * from './ImgLite'
-export { default as thumbnail } from './thumbnail'
+export { default as thumbnail } from './utils/thumbnail'

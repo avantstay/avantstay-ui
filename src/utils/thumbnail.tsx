@@ -1,1 +1,1 @@
-export { default } from '../ImgLite/thumbnail'
+export { default } from '../ImgLite/utils/thumbnail'

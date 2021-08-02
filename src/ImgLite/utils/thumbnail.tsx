@@ -1,6 +1,7 @@
 import queryString from 'query-string'
 import { checkWebPSupport } from 'supports-webp-sync'
-import { ImgLiteThumbnailOptions } from './__types'
+
+import { ImgLiteThumbnailOptions } from '../__types'
 
 const hasWebPSupport = checkWebPSupport()
 

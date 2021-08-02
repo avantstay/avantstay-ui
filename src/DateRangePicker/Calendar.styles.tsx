@@ -37,7 +37,7 @@ export const CalendarContainer = styled.div`
   }
 
   & .rdr-DateRange {
-    padding: 20px;
+    padding: 16px;
     background: white;
     border: 1px solid ${NEUTRAL_MEDIUM};
     border-radius: 2px;
@@ -51,7 +51,6 @@ export const CalendarContainer = styled.div`
       ${MAXW_SM_SCREEN} {
         display: inline-flex;
         flex-direction: column;
-        padding: 20px;
         min-height: 100%;
         justify-content: center;
       }
@@ -71,7 +70,7 @@ export const CalendarContainer = styled.div`
 
     ${MAXW_SM_SCREEN} {
       font-size: 16px;
-      margin-bottom: 20px;
+      margin: 0 8px 20px;
     }
   }
 
@@ -102,7 +101,7 @@ export const CalendarContainer = styled.div`
 
     ${MAXW_SM_SCREEN} {
       font-size: 3vw;
-      width: calc((100vw - 40px) / 7);
+      width: calc(100% / 7);
     }
   }
 
@@ -229,9 +228,9 @@ export const CalendarContainer = styled.div`
     position: relative;
 
     ${MAXW_SM_SCREEN} {
-      width: calc((100vw - 40px) / 7);
-      height: calc((100vw - 40px) / 7);
-      font-size: 4.3vw;
+      width: calc((100vw - 34px) / 7);
+      height: calc((50vh - 40px) / 7);
+      font-size: 4vw;
     }
 
     &.is-passive {

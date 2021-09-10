@@ -1,4 +1,3 @@
-import { isMobile } from 'is-mobile'
 import debounce from 'lodash/debounce'
 import * as React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
@@ -17,8 +16,6 @@ const STANDARD_SIZES = [
   [853, 1280],
   [1280, 1920],
 ]
-
-const AUTO_DENSITY = isMobile() ? 1.5 : 1
 
 function setRefCurrent(ref: React.Ref<any>, value: any) {
   if (!ref) return
@@ -111,10 +108,10 @@ const shouldSkipReloading = (newDimensions: Dimensions, dimensions?: Dimensions)
   )
 }
 
-function _ImgLite(
-  {
+function _ImgLite(props: ImgLiteProps, ref: ImgLiteRef) {
+  const {
     className,
-    density = AUTO_DENSITY,
+    density = window.devicePixelRatio,
     fit,
     gravity,
     height,
@@ -129,9 +126,8 @@ function _ImgLite(
     useOriginalFile = false,
     width,
     ...otherProps
-  }: ImgLiteProps,
-  ref: ImgLiteRef
-) {
+  } = props
+
   const imageRef = useOuterRef(ref)
 
   const [dimensions, setDimensions] = React.useState<Dimensions>()

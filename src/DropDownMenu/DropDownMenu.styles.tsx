@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { COLOR_NEUTRAL_EXTRA_LIGHT, COLOR_PRIMARY, COLOR_NEUTRAL_DARK } from './colors'
+import { COLOR_NEUTRAL_EXTREMELY_DARK, COLOR_NEUTRAL_EXTRA_LIGHT } from './colors'
 import { Link } from 'react-router-dom'
 
 type MenuItemProps = {
@@ -48,7 +48,7 @@ export const MenuItemLink = styled(Link)<MenuItemProps>`
   padding: 10px 20px;
   cursor: pointer;
   background: ${p => (p.highlight === 'true' ? COLOR_NEUTRAL_EXTRA_LIGHT : 'transparent')};
-  color: ${COLOR_NEUTRAL_DARK};
+  color: ${COLOR_NEUTRAL_EXTREMELY_DARK};
   display: flex;
   font-size: 14px;
   align-items: center;
@@ -60,7 +60,7 @@ export const MenuItemLink = styled(Link)<MenuItemProps>`
 
   &:hover {
     background: ${COLOR_NEUTRAL_EXTRA_LIGHT};
-    color: ${COLOR_NEUTRAL_DARK} !important;
+    color: ${COLOR_NEUTRAL_EXTREMELY_DARK} !important;
   }
 `
 

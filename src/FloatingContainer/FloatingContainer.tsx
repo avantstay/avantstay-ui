@@ -2,7 +2,7 @@
 import debounce from 'lodash/debounce'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { getPortalElement } from '../utils/getPortalElement'
 import isDescendant from '../utils/isDescendant'
 import { offsetLeft, offsetRight, offsetTop } from '../utils/offset'

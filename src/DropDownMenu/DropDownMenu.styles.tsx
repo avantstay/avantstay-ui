@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { COLOR_NEUTRAL_EXTREMELY_DARK, COLOR_NEUTRAL_EXTRA_LIGHT } from './colors'
 import { Link } from 'react-router-dom'
 

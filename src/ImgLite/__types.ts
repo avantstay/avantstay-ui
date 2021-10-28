@@ -1,5 +1,3 @@
-import React from 'react'
-
 export type Fit = 'cover' | 'contain' | 'fill' | 'inside' | 'outside'
 
 export type Gravity =
@@ -15,8 +13,6 @@ export type Gravity =
   | 'west'
   | 'northwest'
 
-export type ImgLiteRef = React.Ref<HTMLDivElement> | React.Ref<HTMLImageElement>
-
 export interface ImgLiteThumbnailOptions {
   density?: number
   fit?: Fit
@@ -24,7 +20,5 @@ export interface ImgLiteThumbnailOptions {
   height?: number
   quality?: number
   sharpen?: string
-  sizingStep?: number
-  useOriginalFile?: boolean
   width?: number
 }

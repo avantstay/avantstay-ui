@@ -19,7 +19,7 @@ function _Avatar({ alt, className, size, src, solid, style, ...otherProps }: IPr
           .map(it => it && it[0].toUpperCase())
           .join('')
       : ''
-  }, [])
+  }, [alt])
 
   const altColor = useMemo(() => {
     if (src || !alt) {
@@ -31,7 +31,7 @@ function _Avatar({ alt, className, size, src, solid, style, ...otherProps }: IPr
     const hue = hash % 360
 
     return solid ? `hsl(${hue}, 55%, 35%)` : `linear-gradient(hsl(${hue}, 60%, 40%), hsl(${hue}, 50%, 30%))`
-  }, [])
+  }, [src, alt, solid])
 
   const _style = useMemo(() => {
     return {
@@ -42,7 +42,7 @@ function _Avatar({ alt, className, size, src, solid, style, ...otherProps }: IPr
       backgroundPosition: 'center center',
       backgroundSize: 'cover',
     }
-  }, [])
+  }, [style, size, src, altColor])
 
   return (
     <AvatarRoot className={className} style={_style} {...(otherProps as any)}>

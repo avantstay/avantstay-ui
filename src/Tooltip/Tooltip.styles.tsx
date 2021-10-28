@@ -1,6 +1,6 @@
-//@ts-nocheck
+import { keyframes } from '@emotion/react'
 import * as React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from '@emotion/styled'
 import { HorizontalGravity, VerticalGravity } from './Tooltip'
 
 interface TipContainerProps {

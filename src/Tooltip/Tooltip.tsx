@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 import { getDocumentDimensions } from '../utils/getDocumentDimensions'
-import { createPortalElementAt, getPortalElement } from '../utils/getPortalElement'
 import { getElementOffset } from '../utils/getElementOffset'
+import { createPortalElementAt, getPortalElement } from '../utils/getPortalElement'
 import { useScrollableParent } from '../utils/useScrollableParent'
 import { arrowHeight, SimulatedTipContainer, TipContainer } from './Tooltip.styles'
 
@@ -68,14 +68,15 @@ export default function Tooltip(props: TooltipProps) {
   const [portalElement, setPortalElement] = useState<HTMLElement | null>()
   const wrapperRef = useRef(null)
   const simulatedContainerRef = useRef(null)
-  const scrollableParent = portalParent || useScrollableParent(wrapperRef.current)
+  const wrapperScrollableParent = useScrollableParent(wrapperRef.current)
+  const scrollableParent = portalParent || wrapperScrollableParent
 
   useLayoutEffect(() => {
     if (!wrapperRef.current) return
 
     if (portalParent) setPortalElement(createPortalElementAt(portalParent))
     else setPortalElement(getPortalElement(wrapperRef.current!))
-  }, [wrapperRef.current, portalParent])
+  }, [portalParent])
 
   useElementScrolling(
     scrollableParent,
@@ -192,10 +193,10 @@ function useElementScrolling(
     return () => {
       element && element.removeEventListener('scroll', listener)
     }
-  }, memoizeBy || [element, fn])
+  }, [...memoizeBy, element, fn])
 }
 
-function useSimulatedContainerDimensions(simulatedContainerRef: any) {
+function useSimulatedContainerDimensions(simulatedContainerRef: React.RefObject<any>) {
   return useMemo(() => {
     const { width, height } = getElementOffset(simulatedContainerRef.current)
 
@@ -203,5 +204,5 @@ function useSimulatedContainerDimensions(simulatedContainerRef: any) {
       simulatedWidth: width || 0,
       simulatedHeight: height || 0,
     }
-  }, [simulatedContainerRef.current])
+  }, [simulatedContainerRef])
 }

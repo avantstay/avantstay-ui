@@ -42,15 +42,18 @@ export function _DropDownMenu(props: DropDownMenuProps) {
   const [highlightIndex, setHighlightIndex] = useState(-1)
 
   const searchField = useRef(null)
-  const _onTrigger = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (onTrigger) {
-      onTrigger(event)
-    }
+  const _onTrigger = useCallback(
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (onTrigger) {
+        onTrigger(event)
+      }
 
-    const becomeVisible = !showItems
+      const becomeVisible = !showItems
 
-    setShowItems(becomeVisible)
-  }, [])
+      setShowItems(becomeVisible)
+    },
+    [showItems, onTrigger, setShowItems]
+  )
 
   useEffect(() => {
     if (showItems && searchField.current) {
@@ -81,44 +84,50 @@ export function _DropDownMenu(props: DropDownMenuProps) {
 
     clearTimeout(searchTimeout)
     setSearchTimeout(window.setTimeout(clearSearch, 1000))
-  }, [])
+  }, [items, setHighlightIndex, searchTimeout, setSearchTimeout, clearSearch])
 
-  const moveHighlight = useCallback((step: number) => {
-    const numberOfItems = items.length
-    const newSelectedIndex = (highlightIndex + step + numberOfItems) % numberOfItems
+  const moveHighlight = useCallback(
+    (step: number) => {
+      const numberOfItems = items.length
+      const newSelectedIndex = (highlightIndex + step + numberOfItems) % numberOfItems
 
-    setHighlightIndex(newSelectedIndex)
-  }, [])
+      setHighlightIndex(newSelectedIndex)
+    },
+    [items, highlightIndex, setHighlightIndex]
+  )
 
-  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    switch (e.keyCode) {
-      case keycode('ENTER'):
-        const item = items[highlightIndex]
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      switch (e.keyCode) {
+        case keycode('ENTER'):
+          const item = items[highlightIndex]
 
-        setTimeout(() => {
-          item.action()
-        }, 100)
+          setTimeout(() => {
+            item.action()
+          }, 100)
 
-        onClickOut()
-        break
+          onClickOut()
+          break
 
-      case keycode('TAB'):
-        e.preventDefault()
-        break
+        case keycode('TAB'):
+          e.preventDefault()
+          break
 
-      case keycode('ESC'):
-        onClickOut()
-        break
+        case keycode('ESC'):
+          onClickOut()
+          break
 
-      case keycode('DOWN'):
-        moveHighlight(1)
-        break
+        case keycode('DOWN'):
+          moveHighlight(1)
+          break
 
-      case keycode('UP'):
-        moveHighlight(-1)
-        break
-    }
-  }, [])
+        case keycode('UP'):
+          moveHighlight(-1)
+          break
+      }
+    },
+    [moveHighlight, onClickOut, items, highlightIndex]
+  )
 
   const handleItemOnClick = useCallback(
     (item: ItemProps) => (e: React.SyntheticEvent) => {
@@ -130,7 +139,7 @@ export function _DropDownMenu(props: DropDownMenuProps) {
         onClickOut()
       }
     },
-    []
+    [onClickOut]
   )
 
   return (

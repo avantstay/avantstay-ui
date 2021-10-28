@@ -1,5 +1,5 @@
 import { renderIf } from 'react-renderif-hoc'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { lighten } from '../utils/cssUtils'
 import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'

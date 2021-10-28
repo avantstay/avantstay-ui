@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 export const Root = styled.div<{ delay: number; height: number }>`
   ${p => (p.height === 0 ? 'padding-bottom: 0 !important' : '')};

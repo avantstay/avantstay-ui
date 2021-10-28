@@ -1,71 +1,17 @@
 import debounce from 'lodash/debounce'
 import * as React from 'react'
-import ResizeObserver from 'resize-observer-polyfill'
-
-import { Fit, Gravity, ImgLiteRef } from './__types'
-import { useImageSource } from './hooks/useImageSource'
+import { MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { Fit, Gravity } from './__types'
 import * as S from './ImgLite.styles'
+import thumbnail from './utils/thumbnail'
 
-// Standard image sizes stored in our cache. [ [ height, width ] ]
-const STANDARD_SIZES = [
-  [256, 384],
-  [378, 568],
-  [512, 768],
-  [597, 896],
-  [682, 1024],
-  [853, 1280],
-  [1280, 1920],
-]
-
-function setRefCurrent(ref: React.Ref<any>, value: any) {
-  if (!ref) return
-
-  const mutableRef = ref as React.MutableRefObject<any>
-  mutableRef.current = value
-}
-
-function useOuterRef<E, T extends React.Ref<E>>(externalRef: T) {
-  return React.useMemo((): React.Ref<E> => {
-    const internalRef = ((element: E) => {
-      setRefCurrent(internalRef, element)
-
-      if (typeof externalRef === 'function') {
-        ;(externalRef as React.RefCallback<E>)(element)
-      } else {
-        setRefCurrent(externalRef, element)
-      }
-    }) as React.Ref<E>
-
-    setRefCurrent(internalRef, null)
-
-    return internalRef
-  }, [externalRef])
-}
-
-const findNextLargestSize = (height: number, width: number): { newHeight: number; newWidth: number } => {
-  let newSizes = {
-    newHeight: 0,
-    newWidth: 0,
-  }
-
-  for (let i = 0; i < STANDARD_SIZES.length; i++) {
-    const currentSize = STANDARD_SIZES[i]
-    if (height <= currentSize[0] && width <= currentSize[1]) {
-      newSizes.newHeight = currentSize[0]
-      newSizes.newWidth = currentSize[1]
-      break
-    }
-  }
-
-  return newSizes
-}
+type ImgLiteElement = HTMLDivElement | HTMLImageElement
 
 export interface ImgLiteOwnProps {
   className?: string
   density?: number
   fit?: Fit
   gravity?: Gravity
-  height?: number
   isPrintable?: boolean
   lowResQuality?: number
   lowResWidth?: number
@@ -74,15 +20,11 @@ export interface ImgLiteOwnProps {
   pulseBackground?: boolean
   quality?: number
   sharpen?: string
-  sizingStep?: number
   src: string
-  useOriginalFile?: boolean
-  width?: number
-}
-
-interface Dimensions {
-  width: number
-  height: number
+  height?: number | string
+  width?: number | string
+  ssrWidth?: number
+  ssrHeight?: number
 }
 
 export type ImgLiteProps = ImgLiteOwnProps &
@@ -91,134 +33,150 @@ export type ImgLiteProps = ImgLiteOwnProps &
     | React.HTMLAttributes<HTMLDivElement>
   )
 
-const shouldSkipReloading = (newDimensions: Dimensions, dimensions?: Dimensions) => {
-  if (!dimensions) {
-    return false
-  }
-  // skip on scaling image container down
-  // browser should reuse already loaded (bigger) image
-  if (newDimensions.width <= dimensions.width && newDimensions.height <= dimensions.height) {
-    return true
-  }
-  // skip on resizing less than 10%
-  // useful for example when we have full scree image and there is scrollbar appearing during page load
-  return (
-    Math.abs(newDimensions.width - dimensions.width) / dimensions.width < 0.1 &&
-    Math.abs(newDimensions.height - dimensions.height) / dimensions.height < 0.1
-  )
+const SIGNIFICANT_SIZE_CHANGE = 0.1
+const isServerSide = globalThis.document === undefined
+const useIsomorphicLayoutEffect = isServerSide ? useEffect : useLayoutEffect
+
+function shouldUpdateDimensions({
+  width,
+  height,
+  newWidth,
+  newHeight,
+}: {
+  width: number
+  height: number
+  newWidth: number
+  newHeight: number
+}) {
+  const didGrow = newWidth > width || newHeight > height
+  const didChangeSignificantly =
+    Math.abs(newWidth - width) / width > SIGNIFICANT_SIZE_CHANGE ||
+    Math.abs(newHeight - height) / height > SIGNIFICANT_SIZE_CHANGE
+
+  return !width || !height || (didGrow && didChangeSignificantly)
 }
 
-function _ImgLite(props: ImgLiteProps, ref: ImgLiteRef) {
+function getDevicePixelRation() {
+  return globalThis.devicePixelRatio || 1
+}
+
+function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   const {
     className,
-    density = window.devicePixelRatio,
+    density = getDevicePixelRation(),
     fit,
     gravity,
     height,
+    width,
+    ssrWidth,
+    ssrHeight,
     isPrintable = false,
     onError,
     onLoad,
     pulseBackground,
     quality,
     sharpen,
-    sizingStep,
-    src: nextImageSource,
-    useOriginalFile = false,
-    width,
+    src,
     ...otherProps
   } = props
 
-  const imageRef = useOuterRef(ref)
-
-  const [dimensions, setDimensions] = React.useState<Dimensions>()
-
-  const { imageSource, imageThumbnail, updateImageSource } = useImageSource()
-
-  const updateCurrentImage = React.useCallback(() => {
-    const imageElement = (imageRef as React.RefObject<HTMLElement>).current
-
-    const elementHeight = imageElement ? imageElement.offsetHeight : 0
-    const elementWidth = imageElement ? imageElement.offsetWidth : 0
-
-    const maxHeight = height || elementHeight
-    const maxWidth = width || elementWidth
-
-    if (!maxHeight || !maxWidth) return
-
-    const { newHeight, newWidth } = findNextLargestSize(maxHeight, maxWidth)
-
-    const useStandardSize = nextImageSource.includes('amazonaws.com/homes/') && !!newHeight && !!newWidth
-
-    const newDimensions: Dimensions = {
-      width: useStandardSize ? newWidth : maxWidth,
-      height: useStandardSize ? newHeight : maxHeight,
+  const imageRef = useMemo(() => {
+    if (ref && typeof ref === 'function') {
+      throw new Error('You cannot use ref functions with ImgLite')
     }
 
-    if (imageSource === nextImageSource && shouldSkipReloading(newDimensions, dimensions)) return
+    return (ref || React.createRef<ImgLiteElement>()) as RefObject<ImgLiteElement>
+  }, [ref])
 
-    setDimensions(newDimensions)
+  const [liteSrc, setLiteSrc] = useState('')
 
-    const nextImageThumbnail = updateImageSource(nextImageSource, {
-      density,
-      fit,
-      gravity,
-      height: newDimensions.height,
-      quality,
-      sharpen,
-      sizingStep: useStandardSize ? 1 : sizingStep,
-      useOriginalFile,
-      width: newDimensions.width,
+  const [measuredWidth, setMeasuredWidth] = useState(0)
+  const [measuredHeight, setMeasuredHeight] = useState(0)
+
+  const updateDimensionsRef = useRef<() => void>(null) as MutableRefObject<() => void>
+  updateDimensionsRef.current = () => {
+    const newWidth = imageRef.current!.offsetWidth
+    const newHeight = imageRef.current!.offsetHeight
+
+    if (newHeight === 0 || newWidth === 0) {
+      console.warn('[ImgLite] The following image container should have positive height and width:', imageRef.current)
+    }
+
+    const shouldUpdate = shouldUpdateDimensions({
+      width: measuredWidth,
+      height: measuredHeight,
+      newWidth,
+      newHeight,
     })
 
-    if (onError || onLoad) {
-      const img = new Image()
-      img.onerror = onError
-      img.onload = onLoad
-      img.src = nextImageThumbnail
+    if (shouldUpdate) {
+      setMeasuredWidth(newWidth)
+      setMeasuredHeight(newHeight)
     }
-  }, [
-    density,
-    dimensions,
-    fit,
-    gravity,
-    height,
-    imageRef,
-    imageSource,
-    nextImageSource,
-    onError,
-    onLoad,
-    quality,
-    sharpen,
-    sizingStep,
-    updateImageSource,
-    useOriginalFile,
-    width,
-  ])
+  }
 
-  React.useLayoutEffect(updateCurrentImage, [updateCurrentImage])
+  const updateLiteSrc = useCallback(
+    ({ width, height }: { width: number; height: number }) => {
+      const newLiteSrc = thumbnail(src, {
+        height,
+        width,
+        density,
+        fit,
+        gravity,
+        quality,
+        sharpen,
+      })
 
-  React.useEffect(() => {
-    const imageElement = (imageRef as React.RefObject<HTMLElement>).current
+      if (!liteSrc) {
+        setLiteSrc(newLiteSrc)
+      } else {
+        const newImg = new Image()
+        newImg.src = newLiteSrc
+        newImg.addEventListener('load', () => {
+          setLiteSrc(newLiteSrc)
+        })
+      }
+    },
+    [src, density, fit, gravity, quality, sharpen, liteSrc]
+  )
 
-    if (imageElement === null) return
+  useIsomorphicLayoutEffect(() => {
+    const resizeObserver = new ResizeObserver(debounce(() => updateDimensionsRef.current?.(), 100))
+    resizeObserver.observe(imageRef.current!)
 
-    const debouncedUpdateCurrentImage = debounce(updateCurrentImage, 100)
-    const observer = new ResizeObserver(debouncedUpdateCurrentImage)
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [imageRef, updateDimensionsRef])
 
-    observer.observe(imageElement)
-    return () => observer.unobserve(imageElement)
-  }, [imageRef, updateCurrentImage])
+  useEffect(() => {
+    if (measuredWidth && measuredHeight) {
+      updateLiteSrc({
+        width: measuredWidth,
+        height: measuredHeight,
+      })
+    }
+  }, [measuredHeight, measuredWidth, updateLiteSrc])
+
+  if (isServerSide && !liteSrc && (Number.isFinite(height) || ssrHeight) && (Number.isFinite(width) || ssrWidth)) {
+    updateLiteSrc({
+      height: ssrHeight || (height as number),
+      width: ssrWidth || (width as number),
+    })
+  }
 
   return (
-    <S.ImageBackground
+    <S.ImgLiteRoot
+      ref={imageRef}
       className={className}
       printable={isPrintable}
       pulseBackground={pulseBackground}
-      ref={imageRef as any}
-      src={imageThumbnail}
+      src={liteSrc}
+      width={width}
+      height={height}
       {...otherProps}
     />
   )
 }
 
-export const ImgLite = React.forwardRef(_ImgLite)
+export const ImgLite = React.forwardRef(ImgLite_)

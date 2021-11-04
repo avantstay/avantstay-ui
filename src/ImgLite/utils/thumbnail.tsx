@@ -3,7 +3,7 @@ import { ImgLiteThumbnailOptions } from '../__types'
 
 export default thumbnail
 
-const serverUrl = process.env.IMG_LITE_SERVER_URL || 'https://cdn.avantstay.dev/'
+const serverUrl = process.env.IMG_LITE_SERVER_URL || 'https://imglite.avantstay.com/'
 
 function thumbnail(url: string, { density = 1, height = 0, width = 0, ...restOptions }: ImgLiteThumbnailOptions = {}) {
   const heightStep = getSizingStep(height)
@@ -20,23 +20,22 @@ function thumbnail(url: string, { density = 1, height = 0, width = 0, ...restOpt
 
   const _height = height
     ? {
-        'size[height]': Math.round(density * Math.ceil(height / heightStep) * heightStep),
+        height: Math.round(density * Math.ceil(height / heightStep) * heightStep),
       }
     : {}
   const _width = width
     ? {
-        'size[width]': Math.round(density * Math.ceil(width / widthStep) * widthStep),
+        width: Math.round(density * Math.ceil(width / widthStep) * widthStep),
       }
     : {}
 
   return queryString.stringifyUrl(
     {
-      url: serverUrl,
+      url: new URL(getImageAddress(url), serverUrl).toString(),
       query: {
         ...restOptions,
         ..._height,
         ..._width,
-        image_address: getImageAddress(url),
       } as any,
     },
     { skipEmptyString: true }
@@ -47,16 +46,16 @@ function getImageAddress(url: string) {
   const isHttpUrl = /^http/i.test(url)
 
   if (isHttpUrl) {
-    return url
+    return encodeURIComponent(url)
   }
 
   const origin = globalThis && globalThis.location ? globalThis.location.origin : ''
 
   if (!origin) {
-    return url
+    return encodeURIComponent(url)
   }
 
-  return new URL(url, origin).toString()
+  return encodeURIComponent(new URL(url, origin).toString())
 }
 
 function getSizingStep(size: number) {

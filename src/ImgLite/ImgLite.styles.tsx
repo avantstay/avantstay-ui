@@ -23,7 +23,7 @@ export const ImgLiteRoot = styled.div<{
   background-repeat: no-repeat;
   background-size: cover;
   transition: background 0ms;
-  width: ${p => p.width || '100%'};
-  height: ${p => p.height || '100%'};
+  width: ${p => p.width};
+  height: ${p => p.height};
   ${p => (p.pulseBackground ? `background-color: rgba(0, 0, 0, 0.1); animation: ${bgPulse} 1.5s infinite;` : '')}
 `

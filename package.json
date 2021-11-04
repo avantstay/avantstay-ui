@@ -1,6 +1,6 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "8.0.11",
+  "version": "8.2.1",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "files": [
@@ -38,8 +38,6 @@
     "keycode": "^2.2.0",
     "lodash": "^4.17.21",
     "query-string": "^6.12.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "react-renderif-hoc": "^0.0.1",
     "react-router-dom": "^5.2.0",
     "resize-observer-polyfill": "^1.5.1",
@@ -70,6 +68,9 @@
     "@types/storybook__addon-links": "^5.2.1",
     "@types/storybook__react": "^5.2.1",
     "@types/tinycolor2": "^1.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.3",
     "babel-eslint": "^10.1.0",
     "@typescript-eslint/parser": "^5.2.0",
@@ -85,7 +86,9 @@
     "husky": "^4.2.5",
     "lint-staged": "^11.2.6",
     "prettier": "^2.4.1",
+    "react": "^16.14.0",
     "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^16.14.0",
     "shx": "^0.3.2",
     "ts-loader": "^7.0.5",
     "typescript": "^4.4.4"

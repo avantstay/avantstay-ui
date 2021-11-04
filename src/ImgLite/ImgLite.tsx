@@ -23,7 +23,13 @@ export interface ImgLiteOwnProps {
   src: string
   height?: number | string
   width?: number | string
+  /**
+   * @deprecated
+   */
   ssrWidth?: number
+  /**
+   * @deprecated
+   */
   ssrHeight?: number
 }
 

@@ -37,11 +37,14 @@ export interface TooltipProps {
 }
 
 const simulatedPortal = (() => {
-  const el = document.createElement('div')
+  if (globalThis.document === undefined) {
+    return
+  }
+  const el = globalThis.document.createElement('div')
   el.style.width = '100%'
   el.style.height = '0'
   el.style.overflow = 'hidden'
-  document.body.appendChild(el)
+  globalThis.document.body.appendChild(el)
   return el
 })()
 

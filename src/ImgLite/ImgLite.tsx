@@ -189,7 +189,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     <div
       ref={imageRef}
       className={cn(uniqueClassName, className)}
-      {...(isServerSide ? { styles: { width, height } } : {})}
+      {...(isServerSide ? { style: { width, height } } : {})}
       {...otherProps}
     >
       {children}

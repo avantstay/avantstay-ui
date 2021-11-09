@@ -1,8 +1,9 @@
+import cn from 'classnames'
 import debounce from 'lodash/debounce'
 import * as React from 'react'
 import { MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Fit, Gravity } from './__types'
-import * as S from './ImgLite.styles'
+import { useImgLiteStyles } from './ImgLite.styles'
 import thumbnail from './utils/thumbnail'
 
 type ImgLiteElement = HTMLDivElement | HTMLImageElement
@@ -31,17 +32,23 @@ export interface ImgLiteOwnProps {
    * @deprecated
    */
   ssrHeight?: number
+  children?: React.ReactNode
 }
 
 export type ImgLiteProps = ImgLiteOwnProps &
   (
     | Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'children' | 'onError' | 'onLoad'>
-    | React.HTMLAttributes<HTMLDivElement>
+    | Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
   )
 
 const SIGNIFICANT_SIZE_CHANGE = 0.1
 const isServerSide = globalThis.document === undefined
+
 const useIsomorphicLayoutEffect = isServerSide ? useEffect : useLayoutEffect
+
+function getDevicePixelRation() {
+  return globalThis.devicePixelRatio || 1
+}
 
 function shouldUpdateDimensions({
   width,
@@ -62,10 +69,6 @@ function shouldUpdateDimensions({
   return !width || !height || (didGrow && didChangeSignificantly)
 }
 
-function getDevicePixelRation() {
-  return globalThis.devicePixelRatio || 1
-}
-
 function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   const {
     className,
@@ -83,6 +86,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     quality,
     sharpen,
     src,
+    children,
     ...otherProps
   } = props
 
@@ -100,12 +104,13 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   const [measuredHeight, setMeasuredHeight] = useState(0)
 
   const updateDimensionsRef = useRef<() => void>(null) as MutableRefObject<() => void>
+
   updateDimensionsRef.current = () => {
     const newWidth = imageRef.current!.offsetWidth
     const newHeight = imageRef.current!.offsetHeight
 
-    if (newHeight === 0 || newWidth === 0) {
-      console.warn('[ImgLite] The following image container should have positive height and width:', imageRef.current)
+    if (!isServerSide && (newHeight === 0 || newWidth === 0)) {
+      console.error('[ImgLite] The following image container should have positive height and width:', imageRef.current)
     }
 
     const shouldUpdate = shouldUpdateDimensions({
@@ -146,6 +151,15 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     [src, density, fit, gravity, quality, sharpen, liteSrc]
   )
 
+  const uniqueClassName = useImgLiteStyles({
+    isPrintable,
+    liteSrc,
+    width,
+    height,
+    pulseBackground,
+    children,
+  })
+
   useIsomorphicLayoutEffect(() => {
     const resizeObserver = new ResizeObserver(debounce(() => updateDimensionsRef.current?.(), 100))
     resizeObserver.observe(imageRef.current!)
@@ -172,16 +186,14 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   }
 
   return (
-    <S.ImgLiteRoot
+    <div
       ref={imageRef}
-      className={className}
-      printable={isPrintable}
-      pulseBackground={pulseBackground}
-      src={liteSrc}
-      width={width}
-      height={height}
+      className={cn(uniqueClassName, className)}
+      {...(isServerSide ? { styles: { width, height } } : {})}
       {...otherProps}
-    />
+    >
+      {children}
+    </div>
   )
 }
 

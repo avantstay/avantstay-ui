@@ -1,6 +1,6 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "8.2.6",
+  "version": "8.2.8",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "files": [
@@ -40,6 +40,7 @@
     "query-string": "^6.12.1",
     "react-renderif-hoc": "^0.0.1",
     "react-router-dom": "^5.2.0",
+    "react-uid": "^2.3.1",
     "resize-observer-polyfill": "^1.5.1",
     "tinycolor2": "^1.4.2",
     "webpack-cli": "^3.3.11",
@@ -72,9 +73,6 @@
     "@typescript-eslint/parser": "^5.2.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.3",
-    "babel-eslint": "^10.1.0",
-    "@typescript-eslint/parser": "^5.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.2.0",
     "emotion-theming": "^10.0.27",
     "eslint": "^8.1.0",
     "eslint-config-react-app": "^6.0.0",

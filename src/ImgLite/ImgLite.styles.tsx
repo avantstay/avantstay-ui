@@ -16,6 +16,10 @@ function getRandomId() {
   return Math.random().toString(36).substr(2)
 }
 
+function isEmpty(width: number | string) {
+  return width === undefined || width === null || width === ''
+}
+
 export function useImgLiteStyles({
   isPrintable,
   children,
@@ -44,8 +48,8 @@ export function useImgLiteStyles({
       background-repeat: no-repeat;
       background-size: cover;
       transition: background 0ms;
-      ${width ? `width: ${width};` : ''}
-      ${height ? `height: ${height};` : ''}
+      width: ${isEmpty(width) ? '100%' : width};
+      height: ${isEmpty(height) ? '100%' : height};
       ${pulseBackground ? `background-color: rgba(0, 0, 0, 0.1);` : ''} 
       ${pulseBackground ? `animation: imglite_bg_pulse 1.5s infinite;` : ''} 
     }`

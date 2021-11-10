@@ -195,6 +195,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
       data-imglite-id={uniqueId}
       {...(isServerSide ? { style: { width, height } } : {})}
       {...otherProps}
+      suppressHydrationWarning
     >
       {children}
     </div>

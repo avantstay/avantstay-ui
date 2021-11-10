@@ -1,4 +1,3 @@
-import cn from 'classnames'
 import debounce from 'lodash/debounce'
 import * as React from 'react'
 import { MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -71,7 +70,6 @@ function shouldUpdateDimensions({
 
 function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   const {
-    className,
     density = getDevicePixelRation(),
     fit,
     gravity,
@@ -151,7 +149,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     [src, density, fit, gravity, quality, sharpen, liteSrc]
   )
 
-  const uniqueClassName = useImgLiteStyles({
+  const uniqueId = useImgLiteStyles({
     isPrintable,
     liteSrc,
     width,
@@ -163,6 +161,8 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   useIsomorphicLayoutEffect(() => {
     const resizeObserver = new ResizeObserver(debounce(() => updateDimensionsRef.current?.(), 100))
     resizeObserver.observe(imageRef.current!)
+
+    updateDimensionsRef.current?.()
 
     return () => {
       resizeObserver.disconnect()
@@ -178,6 +178,10 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     }
   }, [measuredHeight, measuredWidth, updateLiteSrc])
 
+  useEffect(() => {
+    imageRef.current?.setAttribute('data-imglite-id', uniqueId)
+  }, [uniqueId, imageRef])
+
   if (isServerSide && !liteSrc && (Number.isFinite(height) || ssrHeight) && (Number.isFinite(width) || ssrWidth)) {
     updateLiteSrc({
       height: ssrHeight || (height as number),
@@ -188,7 +192,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   return (
     <div
       ref={imageRef}
-      className={cn(uniqueClassName, className)}
+      data-imglite-id={uniqueId}
       {...(isServerSide ? { style: { width, height } } : {})}
       {...otherProps}
     >

@@ -1,6 +1,21 @@
 import * as React from 'react'
 import { useEffect, useMemo } from 'react'
 
+if (globalThis.document) {
+  const styleElement = globalThis.document.createElement('style')
+  styleElement.innerHTML = `
+      @keyframes imglite_bg_pulse {
+        0% { background-color: rgba(0, 0, 0, 0.1) }
+        50% { background-color: rgba(0, 0, 0, 0.2) }
+        100% { background-color: rgba(0, 0, 0, 0.1) }
+      }`
+  globalThis.document.head.prepend(styleElement)
+}
+
+function getRandomId() {
+  return Math.random().toString(36).substr(2)
+}
+
 export function useImgLiteStyles({
   isPrintable,
   children,
@@ -16,17 +31,11 @@ export function useImgLiteStyles({
   height: number | string
   pulseBackground: boolean
 }) {
-  const uniqueClassName = useMemo(() => `imglite_${Math.random().toString(36).substr(2)}`, [])
+  const uniqueId = useMemo(() => `imglite_${getRandomId()}`, [])
 
   useEffect(() => {
     const styles = `
-    @keyframes imglite_bg_pulse {
-      0% { background-color: rgba(0, 0, 0, 0.1) }
-      50% { background-color: rgba(0, 0, 0, 0.2) }
-      100% { background-color: rgba(0, 0, 0, 0.1) }
-    }
-    
-    .${uniqueClassName} {
+    [data-imglite-id=${uniqueId}] {
       -webkit-print-color-adjust: ${isPrintable ? 'exact' : 'economy'};
       color-adjust: ${isPrintable ? 'exact' : 'economy'};
       display: ${children ? 'flex' : 'inline-block'};
@@ -35,31 +44,26 @@ export function useImgLiteStyles({
       background-repeat: no-repeat;
       background-size: cover;
       transition: background 0ms;
-      width: ${width};
-      height: ${height};
-      ${
-        pulseBackground
-          ? `
-      background-color: rgba(0, 0, 0, 0.1); 
-      animation: imglite_bg_pulse 1.5s infinite;
-      `.trim()
-          : ''
-      }
+      ${width ? `width: ${width};` : ''}
+      ${height ? `height: ${height};` : ''}
+      ${pulseBackground ? `background-color: rgba(0, 0, 0, 0.1);` : ''} 
+      ${pulseBackground ? `animation: imglite_bg_pulse 1.5s infinite;` : ''} 
     }`
 
     const styleElement = globalThis.document?.createElement('style')
 
     if (styleElement) {
+      styleElement.setAttribute('data-imglite', 'true')
       styleElement.innerHTML = styles
-      globalThis.document?.head?.prepend(styleElement)
+      globalThis.document.head?.prepend(styleElement)
     }
 
     return () => {
       if (styleElement) {
-        globalThis.document?.head?.removeChild(styleElement)
+        globalThis.document.head?.removeChild(styleElement)
       }
     }
-  }, [uniqueClassName, isPrintable, liteSrc, width, height, pulseBackground, children])
+  }, [uniqueId, isPrintable, liteSrc, width, height, pulseBackground, children])
 
-  return uniqueClassName
+  return uniqueId
 }

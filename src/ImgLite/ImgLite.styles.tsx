@@ -38,12 +38,17 @@ export function useImgLiteStyles({
   const uniqueId = useMemo(() => `imglite_${getRandomId()}`, [])
 
   useEffect(() => {
+    const webpUrl = liteSrc && liteSrc.startsWith('http') ? new URL(liteSrc) : undefined
+    webpUrl?.searchParams.set('webp', 'true')
+
+    const baseSelector = `[data-imglite-id=${uniqueId}]`
+    const visibilitySelector = `[data-imglite-visible=true]`
+
     const styles = `
-    [data-imglite-id=${uniqueId}] {
+    ${baseSelector} {
       -webkit-print-color-adjust: ${isPrintable ? 'exact' : 'economy'};
       color-adjust: ${isPrintable ? 'exact' : 'economy'};
       display: ${children ? 'flex' : 'inline-block'};
-      background-image: url('${liteSrc}');
       background-position: center center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -52,7 +57,16 @@ export function useImgLiteStyles({
       height: ${isEmpty(height) ? 'auto' : height};
       ${pulseBackground ? `background-color: rgba(0, 0, 0, 0.1);` : ''} 
       ${pulseBackground ? `animation: imglite_bg_pulse 1.5s infinite;` : ''} 
-    }`
+    }
+    
+    .webp ${baseSelector}${visibilitySelector} {
+      background-image: url('${webpUrl instanceof URL ? webpUrl.toString() : liteSrc}');
+    }
+    
+    .no-webp ${baseSelector}${visibilitySelector} {
+      background-image: url('${liteSrc}');
+    }
+    `
 
     const styleElement = globalThis.document?.createElement('style')
 

@@ -5,6 +5,7 @@ import { ImgLite } from './ImgLite'
 const EXAMPLE_IMAGE =
   'https://as-ue2-prod-public-assets.s3.us-east-2.amazonaws.com/homes/f13db466-c43e-11e9-b969-e1b04f6aaad4/images/original_155252149.jpeg'
 const EXAMPLE_IMAGE_2 = 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'
+const EXAMPLE_IMAGE_3 = 'https://images.pexels.com/photos/8984213/pexels-photo-8984213.jpeg'
 
 const Stories = storiesOf('ImgLite', module)
 
@@ -13,17 +14,11 @@ Stories.add('Default usage', () => {
 
   return (
     <div>
-      <ImgLite
-        src={src}
-        quality={85}
-        density={1}
-        width={'40vw'}
-        height={'50vh'}
-        ssrHeight={100}
-        ssrWidth={100}
-        pulseBackground={false}
-      />
+      <ImgLite src={src} quality={85} density={1} width={'40vw'} height={'50vh'} pulseBackground={false} />
       <button onClick={() => setSrc(EXAMPLE_IMAGE_2)}>Change</button>
+      <div style={{ marginTop: '100vh' }}>
+        <ImgLite src={EXAMPLE_IMAGE_3} quality={85} density={1} width={'40vw'} height={'50vh'} />
+      </div>
     </div>
   )
 })

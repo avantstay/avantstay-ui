@@ -4,6 +4,7 @@ import { MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, u
 import { Fit, Gravity } from './__types'
 import { useImgLiteStyles } from './ImgLite.styles'
 import thumbnail from './utils/thumbnail'
+import './utils/modernizr-webp'
 
 type ImgLiteElement = HTMLDivElement | HTMLImageElement
 
@@ -181,6 +182,30 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   useEffect(() => {
     imageRef.current?.setAttribute('data-imglite-id', uniqueId)
   }, [uniqueId, imageRef])
+
+  useIsomorphicLayoutEffect(() => {
+    let intersectionObserver: IntersectionObserver
+
+    if ('IntersectionObserver' in globalThis && imageRef.current) {
+      intersectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const imgLiteElement = entry.target
+            imgLiteElement.setAttribute('data-imglite-visible', 'true')
+            intersectionObserver.unobserve(imgLiteElement)
+          }
+        })
+      })
+
+      intersectionObserver.observe(imageRef.current)
+    } else if (imageRef.current) {
+      imageRef.current?.setAttribute('data-imglite-visible', 'true')
+    }
+
+    return () => {
+      intersectionObserver.disconnect()
+    }
+  }, [])
 
   if (isServerSide && !liteSrc && (Number.isFinite(height) || ssrHeight) && (Number.isFinite(width) || ssrWidth)) {
     updateLiteSrc({

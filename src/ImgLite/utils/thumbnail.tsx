@@ -29,14 +29,18 @@ function thumbnail(url: string, { density = 1, height = 0, width = 0, ...restOpt
       }
     : {}
 
+  const queryParams = Object.fromEntries(
+    Object.entries({
+      ...restOptions,
+      ..._height,
+      ..._width,
+    }).sort(([a], [b]) => a.localeCompare(b))
+  )
+
   return queryString.stringifyUrl(
     {
       url: new URL(getImageAddress(url), serverUrl).toString(),
-      query: {
-        ...restOptions,
-        ..._height,
-        ..._width,
-      } as any,
+      query: queryParams as any,
     },
     { skipEmptyString: true }
   )

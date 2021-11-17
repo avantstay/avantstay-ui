@@ -4,6 +4,9 @@ import { MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, u
 import { Fit, Gravity } from './__types'
 import { useImgLiteStyles } from './ImgLite.styles'
 import thumbnail from './utils/thumbnail'
+import { checkWebPSupport } from 'supports-webp-sync'
+
+const supportsWebp = !!(globalThis.document && checkWebPSupport())
 
 type ImgLiteElement = HTMLDivElement | HTMLImageElement
 
@@ -97,6 +100,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   }, [ref])
 
   const [liteSrc, setLiteSrc] = useState('')
+  const [isVisible, setVisible] = useState(false)
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
   const [measuredHeight, setMeasuredHeight] = useState(0)
@@ -106,7 +110,6 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   updateDimensionsRef.current = () => {
     const newWidth = imageRef.current!.offsetWidth
     const newHeight = imageRef.current!.offsetHeight
-    const isVisible = imageRef.current?.getAttribute('data-imglite-visible') === 'true'
 
     if (!isServerSide && isVisible && (newHeight === 0 || newWidth === 0)) {
       console.error('[ImgLite] The following image container should have positive height and width:', imageRef.current)
@@ -135,6 +138,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
         gravity,
         quality,
         sharpen,
+        webp: supportsWebp,
       })
 
       if (!liteSrc) {
@@ -171,13 +175,13 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   }, [imageRef, updateDimensionsRef])
 
   useEffect(() => {
-    if (measuredWidth && measuredHeight) {
+    if (measuredWidth && measuredHeight && isVisible) {
       updateLiteSrc({
         width: measuredWidth,
         height: measuredHeight,
       })
     }
-  }, [measuredHeight, measuredWidth, updateLiteSrc])
+  }, [measuredHeight, measuredWidth, updateLiteSrc, isVisible])
 
   useEffect(() => {
     imageRef.current?.setAttribute('data-imglite-id', uniqueId)
@@ -192,6 +196,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
           if (entry.isIntersecting) {
             const imgLiteElement = entry.target
             imgLiteElement.setAttribute('data-imglite-visible', 'true')
+            setVisible(true)
             intersectionObserver.unobserve(imgLiteElement)
           }
         })
@@ -200,6 +205,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
       intersectionObserver.observe(imageRef.current)
     } else if (imageRef.current) {
       imageRef.current?.setAttribute('data-imglite-visible', 'true')
+      setVisible(true)
     }
 
     return () => {

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useEffect, useMemo } from 'react'
-import { checkWebPSupport } from 'supports-webp-sync'
 
 if (globalThis.document) {
   const styleElement = globalThis.document.createElement('style')
@@ -12,8 +11,6 @@ if (globalThis.document) {
       }`
   globalThis.document.head.prepend(styleElement)
 }
-
-const supportsWebp = !!globalThis.document && checkWebPSupport()
 
 function getRandomId() {
   return Math.random().toString(36).substr(2)
@@ -41,9 +38,6 @@ export function useImgLiteStyles({
   const uniqueId = useMemo(() => `imglite_${getRandomId()}`, [])
 
   useEffect(() => {
-    const srcWithWebpFlag = liteSrc && liteSrc.startsWith('http') ? new URL(liteSrc) : undefined
-    srcWithWebpFlag?.searchParams.set('webp', String(supportsWebp))
-
     const baseSelector = `[data-imglite-id=${uniqueId}]`
     const visibilitySelector = `[data-imglite-visible=true]`
 
@@ -63,7 +57,7 @@ export function useImgLiteStyles({
     }
     
     ${baseSelector}${visibilitySelector} {
-      background-image: url('${srcWithWebpFlag instanceof URL ? srcWithWebpFlag.toString() : liteSrc}');
+      background-image: url('${liteSrc}');
     }
     `
 

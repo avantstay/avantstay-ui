@@ -26,6 +26,7 @@ export interface ImgLiteOwnProps {
   src: string
   height?: number | string
   width?: number | string
+  priority?: boolean
   /**
    * @deprecated
    */
@@ -88,6 +89,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     sharpen,
     src,
     children,
+    priority = false,
     ...otherProps
   } = props
 
@@ -100,7 +102,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   }, [ref])
 
   const [liteSrc, setLiteSrc] = useState('')
-  const [isVisible, setVisible] = useState(false)
+  const [isVisible, setVisible] = useState(priority)
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
   const [measuredHeight, setMeasuredHeight] = useState(0)
@@ -224,6 +226,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     <div
       ref={imageRef}
       data-imglite-id={uniqueId}
+      data-imglite-visible={String(!!isVisible)}
       {...(isServerSide ? { style: { width, height } } : {})}
       {...otherProps}
       suppressHydrationWarning

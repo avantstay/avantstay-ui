@@ -4,7 +4,6 @@ import { MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, u
 import { Fit, Gravity } from './__types'
 import { useImgLiteStyles } from './ImgLite.styles'
 import thumbnail from './utils/thumbnail'
-import './utils/modernizr-webp'
 
 type ImgLiteElement = HTMLDivElement | HTMLImageElement
 
@@ -107,8 +106,9 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   updateDimensionsRef.current = () => {
     const newWidth = imageRef.current!.offsetWidth
     const newHeight = imageRef.current!.offsetHeight
+    const isVisible = imageRef.current?.getAttribute('data-imglite-visible') === 'true'
 
-    if (!isServerSide && (newHeight === 0 || newWidth === 0)) {
+    if (!isServerSide && isVisible && (newHeight === 0 || newWidth === 0)) {
       console.error('[ImgLite] The following image container should have positive height and width:', imageRef.current)
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@avantstay/avantstay-ui",
-  "version": "8.6.3",
+  "version": "8.6.4",
   "homepage": "https://github.com/avantstay/avantstay-ui",
   "bugs": "https://github.com/avantstay/avantstay-ui/issues",
   "files": [
@@ -26,6 +26,7 @@
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
+    "supports-webp-sync": "^1.1.1",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",

@@ -110,11 +110,14 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
   const updateDimensionsRef = useRef<() => void>(null) as MutableRefObject<() => void>
 
   updateDimensionsRef.current = () => {
-    const newWidth = imageRef.current!.offsetWidth
-    const newHeight = imageRef.current!.offsetHeight
+    const imageElement = imageRef.current
+    if (!imageElement) return
+
+    const newWidth = imageElement.offsetWidth
+    const newHeight = imageElement.offsetHeight
 
     if (!isServerSide && isVisible && (newHeight === 0 || newWidth === 0)) {
-      console.error('[ImgLite] The following image container should have positive height and width:', imageRef.current)
+      console.error('[ImgLite] The following image container should have positive height and width:', imageElement)
     }
 
     const shouldUpdate = shouldUpdateDimensions({

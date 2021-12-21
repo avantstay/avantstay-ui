@@ -1,30 +1,40 @@
-import debounce from 'lodash/debounce'
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { FC, HTMLAttributes, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
+
 import * as S from './CollapsibleContainer.styles'
 
-type CollapsibleContainerProps = React.HTMLAttributes<HTMLDivElement> & {
+interface CollapsibleContainerProps extends HTMLAttributes<HTMLDivElement> {
   delay?: number
   isCollapsed?: boolean
 }
 
 const MINIMUM_HEIGHT_DIFFERENCE = 2
 
-function CollapsibleContainer({ children, delay = 250, isCollapsed = false, ...restProps }: CollapsibleContainerProps) {
+export const CollapsibleContainer: FC<CollapsibleContainerProps> = ({
+  children,
+  delay = 250,
+  isCollapsed = false,
+  ...restProps
+}) => {
   const containerRef = useRef<HTMLDivElement>(null)
+  const setContainerHeightTimeout = useRef<number>()
 
   const [containerHeight, setContainerHeight] = useState(0)
 
-  const setContainerHeightDebounced = useMemo(() => {
-    return debounce(nextHeight => {
-      setContainerHeight(previousHeight => {
-        const heightDifference = Math.abs(previousHeight - nextHeight)
-        const shouldChangeHeight = heightDifference >= MINIMUM_HEIGHT_DIFFERENCE
+  const setContainerHeightDebounced = useCallback(
+    (nextHeight: number) => {
+      window.clearTimeout(setContainerHeightTimeout.current)
+      setContainerHeightTimeout.current = window.setTimeout(() => {
+        setContainerHeight(previousHeight => {
+          const heightDifference = Math.abs(previousHeight - nextHeight)
+          const shouldChangeHeight = heightDifference >= MINIMUM_HEIGHT_DIFFERENCE
 
-        return shouldChangeHeight ? nextHeight : previousHeight
-      })
-    }, delay)
-  }, [delay])
+          return shouldChangeHeight ? nextHeight : previousHeight
+        })
+      }, delay)
+    },
+    [delay]
+  )
 
   useEffect(() => {
     const containerElement = containerRef.current
@@ -41,6 +51,13 @@ function CollapsibleContainer({ children, delay = 250, isCollapsed = false, ...r
     }
   }, [setContainerHeightDebounced])
 
+  useEffect(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      window.clearTimeout(setContainerHeightTimeout.current)
+    }
+  }, [])
+
   useLayoutEffect(() => {
     const containerElement = containerRef.current
     if (containerElement) {
@@ -54,5 +71,3 @@ function CollapsibleContainer({ children, delay = 250, isCollapsed = false, ...r
     </S.Root>
   )
 }
-
-export default React.memo(CollapsibleContainer)

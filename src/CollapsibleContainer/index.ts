@@ -1,1 +1,1 @@
-export { default } from './CollapsibleContainer'
+export { CollapsibleContainer } from './CollapsibleContainer'

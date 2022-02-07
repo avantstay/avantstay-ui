@@ -32,6 +32,7 @@ export interface CalendarProps {
   }
   minDate: any
   maxDate: any
+  minRangeLength?: number
   date: any
   offset: any
   shownDate: any
@@ -193,7 +194,7 @@ class Calendar extends React.Component<any, CalendarState> {
 
   renderDays(classes: any) {
     // TODO: Split this logic into smaller chunks
-    const { range, minDate, maxDate, disableDaysBeforeToday, specialDays, dateTooltip } = this.props
+    const { range, minDate, maxDate, minRangeLength, disableDaysBeforeToday, specialDays, dateTooltip } = this.props
 
     const shownDate = this.getShownDate()
     const { date, firstDayOfWeek } = this.state
@@ -221,7 +222,13 @@ class Calendar extends React.Component<any, CalendarState> {
       if (disableDaysBeforeToday && differenceInDays(dayMoment, _today) <= -1) {
         days.push({ dayMoment, isPassive: true })
       } else {
-        days.push({ dayMoment })
+        // if there is minRangeLength, some days will be disabled (passive) for endDate selection
+        const isPassive =
+          minRangeLength &&
+          range.startDate &&
+          !range.endDate &&
+          Math.abs(differenceInDays(dayMoment, range.startDate)) < minRangeLength
+        days.push({ dayMoment, isPassive })
       }
     }
 

@@ -33,6 +33,7 @@ export interface DateRangePickerProps {
   endDate?: AnyDate | DateFactory
   minDate?: AnyDate | DateFactory
   maxDate?: AnyDate | DateFactory
+  minRangeLength?: number
   dateLimit?: DateFactory
   linkedCalendars?: boolean
   twoStepChange?: boolean
@@ -204,6 +205,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       firstDayOfWeek,
       minDate,
       maxDate,
+      minRangeLength,
       specialDays,
       lang,
       disableDaysBeforeToday,
@@ -234,6 +236,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       firstDayOfWeek,
       minDate,
       maxDate,
+      minRangeLength,
       specialDays,
       dateTooltip,
       singleDateRange,

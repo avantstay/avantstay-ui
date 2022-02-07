@@ -247,23 +247,19 @@ export const CalendarContainer = styled.div`
       color ${ACCENT_MEDIUM};
     }
 
-    &.is-selected:not(.is-passive) {
-      background: ${ACCENT_MEDIUM};
-      color: white;
-      border-radius: 2px;
+    &.is-selected {
+      background: ${ACCENT_MEDIUM} !important;
+      color: white !important;
+      border-radius: 2px !important;
     }
 
-    &:hover {
+    &:hover:not(.is-passive) {
       background: ${NEUTRAL_LIGHT_2};
     }
   }
 
   & .rdr-DayWrapper.is-passive {
     color: ${NEUTRAL_DARK};
-  }
-
-  & .rdr-DayWrapper:not(.is-passive) ~ .rdr-DayWrapper.is-passive {
-    opacity: 0;
   }
 
   & .rdr-DayWrapper.is-inRange {
@@ -374,7 +370,7 @@ export const ClearButton = styled.button<ClearButtonProps>`
   position: relative;
   z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2};
 
-  &: hover {
+  &:hover {
     color: ${FAILURE_DARK};
   }
 `

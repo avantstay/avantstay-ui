@@ -5,6 +5,7 @@ import * as React from 'react'
 import DateRangePicker from './'
 
 const DateRangePickerStories = storiesOf('DatePicker', module)
+const now = new Date()
 
 DateRangePickerStories.add('Default usage', () => (
   <div>
@@ -132,8 +133,17 @@ DateRangePickerStories.add('Default usage', () => (
   .add('With min and max date', () => (
     <DateRangePicker
       show={boolean('show', true)}
-      minDate={text('minDate', '2019-01-01')}
-      maxDate={text('maxDate', '2020-01-10')}
+      minDate={text('minDate', `${now.getFullYear()}-${now.getMonth() + 1}-10`)}
+      maxDate={text('maxDate', `${now.getFullYear()}-${now.getMonth() + 2}-10`)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+    />
+  ))
+  .add('With min range length', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      minRangeLength={3}
       onChange={action('DateRangePicker[onChange]')}
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}

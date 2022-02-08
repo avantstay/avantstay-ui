@@ -5,6 +5,8 @@ import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'
 import CloseIcon from './assets/CloseIcon'
 import {
+  ACCENT_DARK,
+  ACCENT_EXTRA_LIGHT,
   ACCENT_EXTREMELY_LIGHT,
   ACCENT_MEDIUM,
   ERROR,
@@ -226,6 +228,7 @@ export const CalendarContainer = styled.div`
     font-weight: 400;
     z-index: 1;
     position: relative;
+    color: ${NEUTRAL_EXTREMELY_DARK};
 
     ${MAXW_SM_SCREEN} {
       width: calc((100vw - 34px) / 7);
@@ -236,34 +239,37 @@ export const CalendarContainer = styled.div`
     &.is-passive {
       cursor: not-allowed;
     }
-
-    &:not(.is-passive) {
-      color: ${NEUTRAL_EXTREMELY_DARK};
-    }
-
-    &.is-inRange:not(.is-passive) {
+    
+    &.is-inRange {
       background: ${ACCENT_EXTREMELY_LIGHT};
       border-radius: 0;
       color ${ACCENT_MEDIUM};
-    }
 
+      &:hover {
+        background: ${ACCENT_EXTRA_LIGHT};
+      }
+    }
+    
+    &.is-passive {
+      color: ${NEUTRAL_DARK};
+    }
+    
     &.is-selected {
-      background: ${ACCENT_MEDIUM} !important;
-      color: white !important;
-      border-radius: 2px !important;
+      background: ${ACCENT_MEDIUM};
+      color: white;
+      border-radius: 2px;
+      
+      &:hover {
+        background: ${ACCENT_DARK};
+      }
     }
-
-    &:hover:not(.is-passive) {
+    
+    &:hover {
       background: ${NEUTRAL_LIGHT_2};
     }
   }
 
-  & .rdr-DayWrapper.is-passive {
-    color: ${NEUTRAL_DARK};
-  }
-
   & .rdr-DayWrapper.is-inRange {
-    color: ${ACCENT_MEDIUM};
     &:nth-child(7n),
     &:last-child {
       & .rdr-Day,

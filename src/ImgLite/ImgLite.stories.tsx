@@ -19,6 +19,20 @@ Stories.add('Default usage', () => {
       <div style={{ marginTop: '100vh' }}>
         <ImgLite src={EXAMPLE_IMAGE_3} quality={85} density={1} width={'40vw'} height={'50vh'} />
       </div>
+      <div style={{ marginTop: '100vh' }}>
+        <ImgLite src={EXAMPLE_IMAGE_3} quality={85} density={1} width={'40vw'} height={'50vh'} avif={true} />
+      </div>
+    </div>
+  )
+})
+
+Stories.add('Default usage (AVIF)', () => {
+  const [src, setSrc] = React.useState(EXAMPLE_IMAGE)
+
+  return (
+    <div>
+      <ImgLite src={src} quality={85} density={1} width={'40vw'} height={'50vh'} avif={true} />
+      <button onClick={() => setSrc(EXAMPLE_IMAGE_2)}>Change</button>
     </div>
   )
 })

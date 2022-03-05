@@ -11,6 +11,7 @@ const supportsWebp = !!(globalThis.document && checkWebPSupport())
 type ImgLiteElement = HTMLDivElement | HTMLImageElement
 
 export interface ImgLiteOwnProps {
+  avif?: boolean
   className?: string
   density?: number
   fit?: Fit
@@ -90,6 +91,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     src,
     children,
     priority = false,
+    avif = false,
     ...otherProps
   } = props
 
@@ -143,6 +145,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
         gravity,
         quality,
         sharpen,
+        avif,
         webp: supportsWebp,
       })
 

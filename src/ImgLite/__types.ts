@@ -21,5 +21,6 @@ export interface ImgLiteThumbnailOptions {
   quality?: number
   sharpen?: string
   width?: number
+  avif?: boolean
   webp?: boolean
 }

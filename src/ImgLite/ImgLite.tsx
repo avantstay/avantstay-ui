@@ -28,6 +28,8 @@ export interface ImgLiteOwnProps {
   height?: number | string
   width?: number | string
   priority?: boolean
+  grayscale?: boolean
+  tint?: string
   /**
    * @deprecated
    */
@@ -78,6 +80,8 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
     density = getDevicePixelRation(),
     fit,
     gravity,
+    tint,
+    grayscale,
     height,
     width,
     ssrWidth,
@@ -146,6 +150,8 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
         quality,
         sharpen,
         avif,
+        tint,
+        grayscale,
         webp: supportsWebp,
       })
 
@@ -159,7 +165,7 @@ function ImgLite_(props: ImgLiteProps, ref: React.Ref<ImgLiteElement>) {
         })
       }
     },
-    [src, density, fit, gravity, quality, sharpen, liteSrc]
+    [src, liteSrc, setLiteSrc, density, fit, gravity, quality, sharpen, avif, tint, grayscale]
   )
 
   const uniqueId = useImgLiteStyles({

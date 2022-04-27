@@ -23,4 +23,6 @@ export interface ImgLiteThumbnailOptions {
   width?: number
   avif?: boolean
   webp?: boolean
+  grayscale?: boolean
+  tint?: string
 }

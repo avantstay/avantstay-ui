@@ -6,9 +6,6 @@ export default thumbnail
 const serverUrl = process.env.IMG_LITE_SERVER_URL || 'https://imglite.avantstay.com/'
 
 function thumbnail(url: string, { density = 1, height = 0, width = 0, ...restOptions }: ImgLiteThumbnailOptions = {}) {
-  const heightStep = getSizingStep(height)
-  const widthStep = getSizingStep(width)
-
   const isLocalhost = /localhost/.test(globalThis?.location?.host ?? '')
   const isLocalFile = isLocalhost && url && !/^http/i.test(url)
   const isBlobOrDataUrl = url && /^(blob|data):/i.test(url)
@@ -18,14 +15,19 @@ function thumbnail(url: string, { density = 1, height = 0, width = 0, ...restOpt
     return url
   }
 
-  const _height = height
-    ? {
-        height: Math.round(density * Math.ceil(height / heightStep) * heightStep),
-      }
-    : {}
+  const widthStep = getSizingStep(width)
+  const heightStep = getSizingStep(height)
+
   const _width = width
     ? {
         width: Math.round(density * Math.ceil(width / widthStep) * widthStep),
+      }
+    : {}
+  const _height = height
+    ? {
+        height: width
+          ? (_width.width / width) * height
+          : Math.round(density * Math.ceil(height / heightStep) * heightStep),
       }
     : {}
 

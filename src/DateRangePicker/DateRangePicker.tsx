@@ -28,6 +28,7 @@ export type DateRange<T = AnyDate> = {
 export interface DateRangePickerProps {
   className?: string
   clearButtonLabel?: string
+  clearButtonColor?: string
   firstDayOfWeek?: number
   startDate?: AnyDate | DateFactory
   endDate?: AnyDate | DateFactory
@@ -72,6 +73,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     specialDays: [],
     twoStepChange: false,
     clearButtonLabel: 'Clear',
+    clearButtonColor: ERROR,
     showApply: false,
     applyLabel: 'Apply',
     horizontalAlignment: 'left',
@@ -216,6 +218,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       showApply,
       applyLabel,
       clearButtonLabel,
+      clearButtonColor,
       onChange,
       horizontalAlignment,
       dateTooltip,
@@ -255,10 +258,11 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                 <ClearButton
                   show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
                   onClick={this.clearRange}
+                  color={clearButtonColor}
                 >
                   {clearButtonLabel}
                 </ClearButton>
-                <CloseButton onClick={onClose}>
+                <CloseButton onClick={onClose} color={clearButtonColor}>
                   <IconClose />
                 </CloseButton>
               </ClearButtonContainer>

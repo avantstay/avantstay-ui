@@ -170,3 +170,15 @@ DateRangePickerStories.add('Default usage', () => (
       clearButtonLabel={text('clear button label', '')}
     />
   ))
+  .add('With personalized clear button color', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+      onClickOut={action('DateRangePicker[onClickOut]')}
+      dateTooltip={text('tooltip', 'This is a tooltip')}
+      clearButtonLabel={text('clear button label', '')}
+      clearButtonColor="#3788F7"
+    />
+  ))

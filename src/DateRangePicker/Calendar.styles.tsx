@@ -1,6 +1,6 @@
 import { renderIf } from 'react-renderif-hoc'
 import styled from '@emotion/styled'
-import { lighten } from '../utils/cssUtils'
+import { lighten, darken } from '../utils/cssUtils'
 import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'
 import CloseIcon from './assets/CloseIcon'
@@ -9,8 +9,6 @@ import {
   ACCENT_EXTRA_LIGHT,
   ACCENT_EXTREMELY_LIGHT,
   ACCENT_MEDIUM,
-  ERROR,
-  FAILURE_DARK,
   NEUTRAL_DARK,
   NEUTRAL_EXTRA_DARK,
   NEUTRAL_EXTREMELY_DARK,
@@ -357,6 +355,7 @@ export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean 
 
 interface ClearButtonProps {
   show: boolean
+  color: string
 }
 
 export const ClearButton = styled.button<ClearButtonProps>`
@@ -366,7 +365,7 @@ export const ClearButton = styled.button<ClearButtonProps>`
   height: 24px;
   line-height: 19px;
   font-weight: 500;
-  color: ${ERROR};
+  color: ${({ color }) => color};
   font-size: 13px;
   display: ${p => (p.show ? 'flex' : 'none')};
   align-items: center;
@@ -377,17 +376,22 @@ export const ClearButton = styled.button<ClearButtonProps>`
   z-index: ${Z_INDEX_CALENDAR_CONTAINER + 2};
 
   &:hover {
-    color: ${FAILURE_DARK};
+    color: ${({ color }) => darken(color, 15)};
   }
 `
 
-export const CloseButton = styled('button')`
+interface CloseButtonProps {
+  show: boolean
+  color: string
+}
+
+export const CloseButton = styled.button<CloseButtonProps>`
   display: none;
   position: absolute;
   border: none;
   right: 0;
   z-index: ${Z_INDEX_CALENDAR_CONTAINER + 1};
-  background: ${ERROR};
+  background: ${({ color }) => color};
   border-radius: 99px;
   height: 24px;
   width: 40px;
@@ -401,7 +405,7 @@ export const CloseButton = styled('button')`
   }
 
   &:active {
-    background: ${lighten(ERROR, 10)};
+    background: ${({ color }) => lighten(color, 10)};
   }
 `
 

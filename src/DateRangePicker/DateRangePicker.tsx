@@ -16,6 +16,7 @@ import {
   IconClose,
 } from './Calendar.styles'
 import { defaultClasses } from './enums'
+import { ERROR } from './colors'
 
 export type AnyDate = Date | string | number
 export type DateFactory = () => AnyDate

@@ -71,13 +71,13 @@ class FloatingContainer extends React.PureComponent<FloatingContainerProps, Floa
 
   addWindowListeners = () => {
     setTimeout(() => {
-      window.addEventListener('click', this.onClickOut)
+      window.addEventListener('click', this.onClickOut, true)
       window.addEventListener('resize', this.onWindowResize)
     }, 10)
   }
 
   removeWindowListeners = () => {
-    window.removeEventListener('click', this.onClickOut)
+    window.removeEventListener('click', this.onClickOut, true)
     window.removeEventListener('resize', this.onWindowResize)
   }
 
@@ -86,9 +86,9 @@ class FloatingContainer extends React.PureComponent<FloatingContainerProps, Floa
   }, this.props.windowResizeDebounceDelay)
 
   onClickOut = (e: MouseEvent) => {
-    e.stopPropagation()
+    const isOutside = this.floatingContainerRef.current && !this.floatingContainerRef.current.contains(e.target)
 
-    if (this.props.show && !isDescendant(this.floatingContainerRef.current, e.target)) {
+    if (this.props.show && isOutside) {
       this.props.onClickOut && this.props.onClickOut(e)
     }
   }

@@ -30,6 +30,10 @@ export interface CalendarProps {
     startDate: any
     endDate: any
   }
+  originalRange?: {
+    startDate: any
+    endDate: any
+  }
   minDate: any
   maxDate: any
   minRangeLength?: number
@@ -194,7 +198,8 @@ class Calendar extends React.Component<any, CalendarState> {
 
   renderDays(classes: any) {
     // TODO: Split this logic into smaller chunks
-    const { range, minDate, maxDate, minRangeLength, disableDaysBeforeToday, specialDays, dateTooltip } = this.props
+    const { range, minDate, maxDate, minRangeLength, disableDaysBeforeToday, specialDays, dateTooltip, originalRange } =
+      this.props
 
     const shownDate = this.getShownDate()
     const { date, firstDayOfWeek } = this.state
@@ -243,6 +248,7 @@ class Calendar extends React.Component<any, CalendarState> {
       const isEdge = isStartEdge || isEndEdge
       const isToday = isEqual(today, dayMoment)
       const isSunday = getDay(dayMoment) === 0
+      const isInOriginalRange = originalRange && checkRange(dayMoment, originalRange)
       const isSpecialDay =
         specialDays && specialDays.some((specialDay: any) => isEqual(endOfDay(dayMoment), endOfDay(specialDay.date)))
       const isOutOfRange = isOutsideMinMax(dayMoment, minDate, maxDate)
@@ -253,6 +259,8 @@ class Calendar extends React.Component<any, CalendarState> {
           {...data}
           isStartEdge={isStartEdge}
           isEndEdge={isEndEdge}
+          hasOriginalRange={!!originalRange}
+          isInOriginalRange={isInOriginalRange}
           isSelected={isSelected || isEdge}
           isInRange={isInRange}
           isSunday={isSunday}

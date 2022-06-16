@@ -22,6 +22,7 @@ const daySize = 28
 
 export const CalendarContainer = styled.div`
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 
   & * {
     box-sizing: border-box;
@@ -236,34 +237,57 @@ export const CalendarContainer = styled.div`
 
     &.is-passive {
       cursor: not-allowed;
+      text-decoration: line-through;
+      color: ${NEUTRAL_DARK};
     }
-    
+
+    &.is-original-range {
+      background: ${ACCENT_EXTREMELY_LIGHT};
+      color: ${ACCENT_MEDIUM};
+    }
+
     &.is-inRange {
       background: ${ACCENT_EXTREMELY_LIGHT};
       border-radius: 0;
-      color ${ACCENT_MEDIUM};
+      color: ${ACCENT_MEDIUM};
 
       &:hover {
         background: ${ACCENT_EXTRA_LIGHT};
       }
+
+      &.has-original-range {
+        background: ${ACCENT_EXTRA_LIGHT};
+        color: ${ACCENT_MEDIUM};
+
+        &:hover:not(.is-selected) {
+          background: ${ACCENT_EXTREMELY_LIGHT};
+        }
+      }
     }
-    
+
     &.is-passive {
       color: ${NEUTRAL_DARK};
     }
-    
+
     &.is-selected {
       background: ${ACCENT_MEDIUM};
       color: white;
       border-radius: 2px;
-      
+
+      &.has-original-range {
+        background: ${ACCENT_MEDIUM};
+        color: white;
+        border-radius: 2px;
+      }
+
       &:hover {
         background: ${ACCENT_DARK};
       }
     }
-    
+
     &:hover {
-      background: ${NEUTRAL_LIGHT_2};
+      background: ${ACCENT_EXTREMELY_LIGHT};
+      color: ${ACCENT_MEDIUM};
     }
   }
 
@@ -443,3 +467,22 @@ export const ApplyButton = renderIf('show')(styled.button`
     background-color: rgb(0, 100, 177);
   }
 `)
+
+export const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: ${NEUTRAL_MEDIUM};
+  margin-top: 20px;
+  margin-bottom: 14px;
+`
+
+export const FooterText = styled.span`
+  font-size: 13px;
+  color: ${NEUTRAL_EXTREMELY_DARK};
+`
+
+export const FooterTextLinedThrough = styled.span`
+  font-size: 13px;
+  color: ${NEUTRAL_EXTREMELY_DARK};
+  text-decoration: line-through;
+`

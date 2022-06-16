@@ -13,10 +13,14 @@ import {
   ClearButton,
   ClearButtonContainer,
   CloseButton,
+  Divider,
+  FooterText,
+  FooterTextLinedThrough,
   IconClose,
 } from './Calendar.styles'
 import { defaultClasses } from './enums'
 import { ERROR } from './colors'
+import differenceInDays from 'date-fns/difference_in_days'
 
 export type AnyDate = Date | string | number
 export type DateFactory = () => AnyDate
@@ -55,6 +59,8 @@ export interface DateRangePickerProps {
   singleDateRange?: boolean
   onClose?: () => void
   onClickOut?: () => void
+  originalRange?: DateRange
+  totalAmount?: string
 }
 
 export interface DateRangePickerState {
@@ -66,6 +72,13 @@ export interface DateRangePickerState {
 const getDate = (date: AnyDate | DateFactory, defaultValue: AnyDate = ''): AnyDate => {
   return (typeof date === 'function' ? date() : date) || defaultValue
 }
+
+const dateFormat = { month: 'short', day: 'numeric', year: 'numeric' }
+
+const formatRange = (range?: DateRange) =>
+  new Intl.DateTimeFormat('en', dateFormat).formatRange(range?.startDate, range?.endDate)
+
+const getDaysRange = (range?: DateRange) => differenceInDays(range?.endDate, range?.startDate)
 
 class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerState> {
   static defaultProps = {
@@ -87,12 +100,13 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     super(props)
 
     const { linkedCalendars } = props
+    const shouldStartEmptySelected = this.props.originalRange && props.startDate === undefined
 
     const startDate = startOfDay(getDate(props.startDate as Date, new Date()))
     const endDate = endOfDay(getDate(props.endDate as Date, new Date()))
 
     this.state = {
-      range: { startDate, endDate },
+      range: shouldStartEmptySelected ? { startDate: undefined, endDate: undefined } : { startDate, endDate },
       link: linkedCalendars && endDate,
       linkStepsCount: 0,
     }
@@ -179,6 +193,11 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     const triggerChange = !this.props.twoStepChange || (this.step === 0 && this.props.twoStepChange)
 
+    if (this.props.originalRange && range.startDate === undefined) {
+      range.startDate = originalStartDate
+      range.endDate = originalEndDate
+    }
+
     this.setRange(range, source, triggerChange)
   }
 
@@ -224,6 +243,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       horizontalAlignment,
       dateTooltip,
       singleDateRange,
+      originalRange,
+      totalAmount,
     } = this.props
 
     const { range, link } = this.state
@@ -247,7 +268,11 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       link: linkedCalendars && link,
       linkCB: this.moveCalendarDisplay,
       onChange: this.handleSelect,
+      originalRange,
     }
+
+    const selectedRange = !range.endDate ? originalRange : range
+    const days = getDaysRange(selectedRange)
 
     return (
       <FloatingContainer show={show} onClickOut={this.onClickOut} horizontalAlignment={horizontalAlignment}>
@@ -278,6 +303,18 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             >
               {applyLabel}
             </ApplyButton>
+
+            {originalRange && (
+              <>
+                <Divider />
+                <div>
+                  {range.endDate && <FooterTextLinedThrough>{formatRange(originalRange)}</FooterTextLinedThrough>}
+                  <FooterText>
+                    &nbsp;{`${formatRange(selectedRange)} • ${days} night${days > 1 ? 's' : ''} • ${totalAmount}`}
+                  </FooterText>
+                </div>
+              </>
+            )}
           </div>
         </CalendarContainer>
       </FloatingContainer>

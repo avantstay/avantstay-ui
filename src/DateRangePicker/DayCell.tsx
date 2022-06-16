@@ -1,13 +1,15 @@
 import cn from 'classnames'
 import getDate from 'date-fns/get_date'
 import React, { Component } from 'react'
-import { HorizontalGravity, Tooltip, VerticalGravity } from '../index'
 
 interface DayCellProps {
   dayMoment: any
   onSelect: (date: Date | string) => void
+  onHover: (date: Date | string) => void
   isSelected: boolean
   isInRange: boolean
+  hasOriginalRange?: boolean
+  isInOriginalRange?: boolean
   isFromPreviousMonth?: boolean
   isPassive: boolean
   isSpecialDay: boolean
@@ -29,32 +31,6 @@ class DayCell extends Component<DayCellProps & any> {
     }
   }
 
-  handleMouseEvent = (event: MouseEvent) => {
-    event.preventDefault()
-
-    if (this.props.isPassive) return null
-
-    const newState = {} as any
-
-    switch (event.type) {
-      case 'mouseenter':
-        newState.hover = true
-        break
-
-      case 'mouseup':
-      case 'mouseleave':
-        newState.hover = false
-        newState.active = false
-        break
-
-      case 'mousedown':
-        newState.active = true
-        break
-    }
-
-    this.setState(newState)
-  }
-
   handleSelect = (event: MouseEvent) => {
     event.preventDefault()
 
@@ -74,6 +50,8 @@ class DayCell extends Component<DayCellProps & any> {
       isSunday,
       isFromPreviousMonth,
       isSpecialDay,
+      hasOriginalRange,
+      isInOriginalRange,
     } = this.props
 
     return cn({
@@ -87,41 +65,24 @@ class DayCell extends Component<DayCellProps & any> {
       [classes.daySunday]: isSunday,
       [classes.dayFromPreviousMonth]: isFromPreviousMonth,
       [classes.daySpecialDay]: isSpecialDay,
+      [classes.dayOriginalRange]: isInOriginalRange,
+      [classes.dayHasOriginalRange]: hasOriginalRange,
     })
   }
 
   render() {
     const { dayMoment, classNames, tooltip } = this.props
+    const Tooltip = tooltip
 
     const classes = this.getClassNames(classNames)
 
     const date = () => {
-      return (
-        <span
-          onMouseEnter={this.handleMouseEvent as any}
-          onMouseLeave={this.handleMouseEvent as any}
-          onMouseDown={this.handleMouseEvent as any}
-          onMouseUp={this.handleMouseEvent as any}
-          className={classes}
-        >
-          {getDate(dayMoment)}
-        </span>
-      )
+      return <span className={classes}>{getDate(dayMoment)}</span>
     }
 
     return (
       <span className={classes.replace(classNames.day, classNames.dayWrapper)} onClick={this.handleSelect as any}>
-        {tooltip ? (
-          <Tooltip
-            tip={tooltip}
-            preferredHorizontalGravity={HorizontalGravity.center}
-            preferredVerticalGravity={VerticalGravity.top}
-          >
-            {date()}
-          </Tooltip>
-        ) : (
-          date()
-        )}
+        {tooltip ? <Tooltip day={dayMoment}>{date()}</Tooltip> : date()}
       </span>
     )
   }

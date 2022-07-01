@@ -235,10 +235,20 @@ export const CalendarContainer = styled.div`
       font-size: 4vw;
     }
 
+    &:hover {
+      background: ${ACCENT_EXTREMELY_LIGHT};
+      color: ${ACCENT_MEDIUM};
+    }
+
     &.is-passive {
       cursor: not-allowed;
       text-decoration: line-through;
       color: ${NEUTRAL_DARK};
+
+      &:hover {
+        color: ${NEUTRAL_DARK};
+        background: ${NEUTRAL_LIGHT_2};
+      }
     }
 
     &.is-original-range {
@@ -265,10 +275,6 @@ export const CalendarContainer = styled.div`
       }
     }
 
-    &.is-passive {
-      color: ${NEUTRAL_DARK};
-    }
-
     &.is-selected {
       background: ${ACCENT_MEDIUM};
       color: white;
@@ -282,12 +288,8 @@ export const CalendarContainer = styled.div`
 
       &:hover {
         background: ${ACCENT_DARK};
+        color: white;
       }
-    }
-
-    &:hover {
-      background: ${ACCENT_EXTREMELY_LIGHT};
-      color: ${ACCENT_MEDIUM};
     }
   }
 
@@ -324,15 +326,6 @@ export const CalendarContainer = styled.div`
       border-bottom-left-radius: 2px;
       border-top-left-radius: 2px;
     }
-  }
-`
-
-export const FieldsContainer = styled('div')`
-  display: flex;
-  width: 100%;
-
-  & > * {
-    width: 50%;
   }
 `
 

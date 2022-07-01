@@ -156,7 +156,7 @@ DateRangePickerStories.add('Default usage', () => (
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}
       onClickOut={action('DateRangePicker[onClickOut]')}
-      clearButtonLabel={text('clear button label', '')}
+      clearButtonLabel={'Clear button label'}
     />
   ))
   .add('With personalized clear button color', () => (
@@ -166,7 +166,6 @@ DateRangePickerStories.add('Default usage', () => (
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}
       onClickOut={action('DateRangePicker[onClickOut]')}
-      clearButtonLabel={text('clear button label', '')}
       clearButtonColor="#3788F7"
     />
   ))

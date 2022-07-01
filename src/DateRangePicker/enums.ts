@@ -27,6 +27,8 @@ export const defaultClasses = {
   dayEndEdge: 'is-endEdge',
   dayToday: 'is-today',
   dayFromPreviousMonth: 'is-fromPreviousMonth',
+  dayHasOriginalRange: 'has-original-range',
+  dayOriginalRange: 'is-original-range',
   monthAndYearWrapper: 'rdr-MonthAndYear-innerWrapper',
   monthAndYearWrapperSingleMonth: 'rdr-MonthAndYear-innerWrapper single',
   prevButton: 'rdr-MonthAndYear-button prev',

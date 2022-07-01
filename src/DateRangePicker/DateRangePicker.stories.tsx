@@ -149,16 +149,6 @@ DateRangePickerStories.add('Default usage', () => (
       onInit={action('DateRangePicker[onInit]')}
     />
   ))
-  .add('With tooltip', () => (
-    <DateRangePicker
-      show={boolean('show', true)}
-      onChange={action('DateRangePicker[onChange]')}
-      onClose={action('DateRangePicker[onClose]')}
-      onInit={action('DateRangePicker[onInit]')}
-      onClickOut={action('DateRangePicker[onClickOut]')}
-      dateTooltip={text('tooltip', 'This is a tooltip')}
-    />
-  ))
   .add('With clear button label', () => (
     <DateRangePicker
       show={boolean('show', true)}
@@ -166,7 +156,6 @@ DateRangePickerStories.add('Default usage', () => (
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}
       onClickOut={action('DateRangePicker[onClickOut]')}
-      dateTooltip={text('tooltip', 'This is a tooltip')}
       clearButtonLabel={text('clear button label', '')}
     />
   ))
@@ -177,8 +166,54 @@ DateRangePickerStories.add('Default usage', () => (
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}
       onClickOut={action('DateRangePicker[onClickOut]')}
-      dateTooltip={text('tooltip', 'This is a tooltip')}
       clearButtonLabel={text('clear button label', '')}
       clearButtonColor="#3788F7"
     />
+  ))
+  .add('With possibility to extend date', () => (
+    <div>
+      <p>
+        First first first first first first first first first first first first first first first first first first
+        first first first first first first first first first first first first first first first first first first
+        first first first first first first first first first first first first first first first first first first
+        first first first first first first first first first first first first first
+      </p>
+      {boolean('show extra paragraph at the top', false) && (
+        <p>
+          Second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second
+        </p>
+      )}
+      <div className="oito">
+        <DateRangePicker
+          show={boolean('show', true)}
+          singleDateRange={boolean('singleDateRange', false)}
+          onChange={action('DateRangePicker[onChange]')}
+          onClose={action('DateRangePicker[onClose]')}
+          onInit={action('DateRangePicker[onInit]')}
+          onClickOut={action('DateRangePicker[onClickOut]')}
+          clearButtonLabel="Clear"
+          clearButtonColor="#3788F7"
+          originalRange={{
+            startDate: new Date('2022-06-10T12:00:00Z'),
+            endDate: new Date('2022-06-12T12:00:00Z'),
+          }}
+          startDate={new Date('2022-06-13T12:00:00Z')}
+          endDate={new Date('2022-06-17T12:00:00Z')}
+          totalAmount="$4,890.00"
+        />
+      </div>
+      {new Array(100).fill(1).map((it, i) => (
+        <p key={i}>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor,
+          eaque error esse ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam. Lorem
+          ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque
+          error esse ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
+        </p>
+      ))}
+    </div>
   ))

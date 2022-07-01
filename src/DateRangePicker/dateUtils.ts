@@ -3,8 +3,8 @@ import { endOfDay, isAfter, isBefore, isEqual, isWithinRange, startOfDay } from 
 
 export function checkRange(dayMoment: AnyDate, range: DateRange) {
   return isBefore(range.startDate, range.endDate)
-    ? isWithinRange(dayMoment, range.startDate, range.endDate)
-    : isWithinRange(dayMoment, range.endDate, range.startDate)
+    ? isWithinRange(dayMoment, startOfDay(range.startDate), endOfDay(range.endDate))
+    : isWithinRange(dayMoment, startOfDay(range.endDate), endOfDay(range.startDate))
 }
 
 export function checkStartEdge(dayMoment: AnyDate, range: DateRange) {

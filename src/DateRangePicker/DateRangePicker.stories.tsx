@@ -197,6 +197,8 @@ DateRangePickerStories.add('Default usage', () => (
           onClickOut={action('DateRangePicker[onClickOut]')}
           clearButtonLabel="Clear"
           clearButtonColor="#3788F7"
+          disableDaysBeforeToday
+          minRangeLength={1}
           originalRange={{
             startDate: new Date('2022-06-10T12:00:00Z'),
             endDate: new Date('2022-06-12T12:00:00Z'),

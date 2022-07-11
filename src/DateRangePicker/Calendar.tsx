@@ -252,6 +252,7 @@ class Calendar extends React.Component<any, CalendarState> {
       const isSpecialDay =
         specialDays && specialDays.some((specialDay: any) => isEqual(endOfDay(dayMoment), endOfDay(specialDay.date)))
       const isOutOfRange = isOutsideMinMax(dayMoment, minDate, maxDate)
+      const shouldNotApplyPassive = !isInOriginalRange && !isInRange && !isStartEdge
 
       return (
         <DayCell
@@ -267,7 +268,7 @@ class Calendar extends React.Component<any, CalendarState> {
           isSpecialDay={isSpecialDay}
           isToday={isToday}
           key={index}
-          isPassive={isPassive || isOutOfRange}
+          isPassive={shouldNotApplyPassive && (isPassive || isOutOfRange)}
           classNames={classes}
           tooltip={dateTooltip}
         />

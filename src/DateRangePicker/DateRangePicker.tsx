@@ -61,6 +61,7 @@ export interface DateRangePickerProps {
   onClickOut?: () => void
   originalRange?: DateRange
   totalAmount?: string
+  blockedDates?: string[]
 }
 
 export interface DateRangePickerState {
@@ -245,6 +246,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       singleDateRange,
       originalRange,
       totalAmount,
+      blockedDates,
     } = this.props
 
     const { range, link } = this.state
@@ -269,6 +271,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       linkCB: this.moveCalendarDisplay,
       onChange: this.handleSelect,
       originalRange,
+      blockedDates,
     }
 
     const selectedRange = !range.endDate ? originalRange : range

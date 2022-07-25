@@ -1,10 +1,14 @@
 import addMonths from 'date-fns/add_months'
 import differenceInDays from 'date-fns/difference_in_days'
+import eachDay from 'date-fns/each_day'
 import endOfDay from 'date-fns/end_of_day'
+import format from 'date-fns/format'
 import getDay from 'date-fns/get_day'
 import getDaysInMonth from 'date-fns/get_days_in_month'
 import getMonth from 'date-fns/get_month'
 import getYear from 'date-fns/get_year'
+import isAfter from 'date-fns/is_after'
+import isBefore from 'date-fns/is_before'
 import isEqual from 'date-fns/is_equal'
 import isSameDay from 'date-fns/is_same_day'
 import parse from 'date-fns/parse'
@@ -57,6 +61,7 @@ export interface CalendarProps {
   locale: string
   dateTooltip?: any
   singleDateRange?: boolean
+  blockedDates?: string[]
 }
 
 export interface CalendarState {
@@ -198,8 +203,17 @@ class Calendar extends React.Component<any, CalendarState> {
 
   renderDays(classes: any) {
     // TODO: Split this logic into smaller chunks
-    const { range, minDate, maxDate, minRangeLength, disableDaysBeforeToday, specialDays, dateTooltip, originalRange } =
-      this.props
+    const {
+      range,
+      minDate,
+      maxDate,
+      minRangeLength,
+      disableDaysBeforeToday,
+      specialDays,
+      dateTooltip,
+      originalRange,
+      blockedDates,
+    } = this.props
 
     const shownDate = this.getShownDate()
     const { date, firstDayOfWeek } = this.state
@@ -241,6 +255,7 @@ class Calendar extends React.Component<any, CalendarState> {
 
     return days.map((data, index) => {
       const { dayMoment, isPassive } = data
+      const formattedDay = format(dayMoment, 'YYYY-MM-DD')
       const isSelected = !range && +parse(dayMoment) === dateUnix
       const isInRange = range && checkRange(dayMoment, range)
       const isStartEdge = range && checkStartEdge(dayMoment, range)
@@ -253,6 +268,21 @@ class Calendar extends React.Component<any, CalendarState> {
         specialDays && specialDays.some((specialDay: any) => isEqual(endOfDay(dayMoment), endOfDay(specialDay.date)))
       const isOutOfRange = isOutsideMinMax(dayMoment, minDate, maxDate)
       const shouldNotApplyPassive = !isInOriginalRange && !isInRange && !isStartEdge
+      const isBlockedDay = blockedDates && blockedDates.includes(formattedDay)
+
+      const isAllDaysBeforeAvailable =
+        blockedDates && range && !range.endDate && isBefore(dayMoment, range.startDate)
+          ? eachDay(dayMoment, range.startDate)
+              .map(it => format(it, 'YYYY-MM-DD'))
+              .every(it => !blockedDates.includes(it))
+          : true
+
+      const isAllDaysAfterAvailable =
+        blockedDates && range && !range.endDate && isAfter(dayMoment, range.startDate)
+          ? eachDay(range.startDate, dayMoment)
+              .map(it => format(it, 'YYYY-MM-DD'))
+              .every(it => !blockedDates.includes(it))
+          : true
 
       return (
         <DayCell
@@ -268,7 +298,10 @@ class Calendar extends React.Component<any, CalendarState> {
           isSpecialDay={isSpecialDay}
           isToday={isToday}
           key={index}
-          isPassive={shouldNotApplyPassive && (isPassive || isOutOfRange)}
+          isPassive={
+            shouldNotApplyPassive &&
+            (isPassive || isOutOfRange || isBlockedDay || !isAllDaysBeforeAvailable || !isAllDaysAfterAvailable)
+          }
           classNames={classes}
           tooltip={dateTooltip}
         />

@@ -206,6 +206,7 @@ DateRangePickerStories.add('Default usage', () => (
           startDate={new Date('2022-06-13T12:00:00Z')}
           endDate={new Date('2022-06-17T12:00:00Z')}
           totalAmount="$4,890.00"
+          blockedDates={['2022-08-08', '2022-08-09', '2022-08-16', '2022-08-17']}
         />
       </div>
       {new Array(100).fill(1).map((it, i) => (

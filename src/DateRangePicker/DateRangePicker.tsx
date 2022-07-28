@@ -274,7 +274,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       blockedDates,
     }
 
-    const selectedRange = !range.endDate ? originalRange : range
+    const isSameDayRange = isEqual(range.startDate, range.endDate)
+    const selectedRange = !range.endDate || isSameDayRange ? originalRange : range
     const days = getDaysRange(selectedRange)
 
     return (
@@ -311,7 +312,9 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
               <>
                 <Divider />
                 <div>
-                  {range.endDate && <FooterTextLinedThrough>{formatRange(originalRange)}</FooterTextLinedThrough>}
+                  {range.endDate && !isSameDayRange && (
+                    <FooterTextLinedThrough>{formatRange(originalRange)}</FooterTextLinedThrough>
+                  )}
                   <FooterText>
                     &nbsp;{`${formatRange(selectedRange)} • ${days} night${days > 1 ? 's' : ''} • ${totalAmount}`}
                   </FooterText>

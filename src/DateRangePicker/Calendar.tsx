@@ -284,15 +284,21 @@ class Calendar extends React.Component<any, CalendarState> {
               .every(it => !blockedDates.includes(it))
           : true
 
+      const shouldNotHighlight =
+        originalRange &&
+        range &&
+        isEqual(startOfDay(originalRange.startDate), startOfDay(range.startDate)) &&
+        isEqual(startOfDay(originalRange.endDate), startOfDay(range.endDate))
+
       return (
         <DayCell
           onSelect={this.handleSelect}
           {...data}
-          isStartEdge={isStartEdge}
-          isEndEdge={isEndEdge}
+          isStartEdge={!shouldNotHighlight && isStartEdge}
+          isEndEdge={!shouldNotHighlight && isEndEdge}
           hasOriginalRange={!!originalRange}
           isInOriginalRange={isInOriginalRange}
-          isSelected={isSelected || isEdge}
+          isSelected={!shouldNotHighlight && (isSelected || isEdge)}
           isInRange={isInRange}
           isSunday={isSunday}
           isSpecialDay={isSpecialDay}

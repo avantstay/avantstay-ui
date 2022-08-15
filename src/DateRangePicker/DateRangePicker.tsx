@@ -62,6 +62,7 @@ export interface DateRangePickerProps {
   originalRange?: DateRange
   totalAmount?: string
   blockedDates?: string[]
+  isBothDatesEqual?: boolean
 }
 
 export interface DateRangePickerState {
@@ -93,6 +94,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     applyLabel: 'Apply',
     horizontalAlignment: 'left',
     singleDateRange: false,
+    isBothDatesEqual: false,
   }
 
   step = 0
@@ -247,6 +249,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       originalRange,
       totalAmount,
       blockedDates,
+      isBothDatesEqual,
     } = this.props
 
     const { range, link } = this.state
@@ -311,7 +314,9 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
               <>
                 <Divider />
                 <div>
-                  {range.endDate && <FooterTextLinedThrough>{formatRange(originalRange)}</FooterTextLinedThrough>}
+                  {!isBothDatesEqual && range.endDate && (
+                    <FooterTextLinedThrough>{formatRange(originalRange)}</FooterTextLinedThrough>
+                  )}
                   <FooterText>
                     &nbsp;{`${formatRange(selectedRange)} • ${days} night${days > 1 ? 's' : ''} • ${totalAmount}`}
                   </FooterText>

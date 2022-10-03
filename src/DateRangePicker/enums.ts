@@ -35,6 +35,7 @@ export const defaultClasses = {
   nextButton: 'rdr-MonthAndYear-button next',
   nextButtonSingleMonth: 'rdr-MonthAndYear-button next-single',
   month: 'rdr-MonthAndYear-month',
+  monthAndYearContainer: 'rdr-MonthAndYear-container',
   monthAndYearDivider: 'rdr-MonthAndYear-divider',
   year: 'rdr-MonthAndYear-year',
   daySunday: 'rdr-Sunday',

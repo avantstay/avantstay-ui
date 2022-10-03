@@ -17,10 +17,12 @@ import {
   NEUTRAL_MEDIUM,
 } from './colors'
 import { MAXW_SM_SCREEN, MINW_SM_SCREEN, Z_INDEX_CALENDAR_CONTAINER } from './constants'
+import { boolean } from '@storybook/addon-knobs'
 
 const daySize = 28
+const singleMonthDaySize = 32
 
-export const CalendarContainer = styled.div`
+export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 
@@ -68,9 +70,9 @@ export const CalendarContainer = styled.div`
     align-items: center;
     margin-bottom: 10px;
     font-weight: 400;
+    font-size: 16px;
 
     ${MAXW_SM_SCREEN} {
-      font-size: 16px;
       margin: 0 8px 20px;
     }
   }
@@ -93,12 +95,12 @@ export const CalendarContainer = styled.div`
 
   & .rdr-WeekDay {
     display: inline-block;
-    width: ${daySize}px;
+    width: ${({ isSingleMonthPicker }) => (isSingleMonthPicker ? singleMonthDaySize : daySize)}px;
     text-align: center;
     text-transform: capitalize;
     font-size: 10px;
-    font-weight: 700;
-    color: ${NEUTRAL_DARK};
+    font-weight: 500;
+    color: ${NEUTRAL_EXTRA_DARK};
 
     ${MAXW_SM_SCREEN} {
       font-size: 3vw;
@@ -107,10 +109,18 @@ export const CalendarContainer = styled.div`
   }
 
   & .rdr-MonthAndYear-month {
+    margin: 0 2.5px;
   }
 
   & .rdr-MonthAndYear-year {
-    margin-left: 5px;
+    margin: 0 2.5px;
+  }
+
+  & .rdr-MonthAndYear-container {
+    width: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   & .rdr-MonthAndYear-button {
@@ -124,6 +134,7 @@ export const CalendarContainer = styled.div`
     align-items: center;
     justify-content: center;
     transition: all 0ms;
+    width: 28px;
 
     & * {
       cursor: pointer !important;
@@ -131,6 +142,8 @@ export const CalendarContainer = styled.div`
 
     svg {
       color: ${NEUTRAL_EXTRA_DARK};
+      width: 22px;
+      height: 22px;
     }
 
     &:hover {
@@ -140,6 +153,21 @@ export const CalendarContainer = styled.div`
         }
       }
     }
+  }
+
+  & .rdr-MonthAndYear-innerWrapper.single {
+    button {
+      width: 22px;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  & .rdr-MonthAndYear-button.next-single {
+    padding-right: 0;
   }
 
   ${MINW_SM_SCREEN} {
@@ -163,7 +191,7 @@ export const CalendarContainer = styled.div`
   & .rdr-Days {
     display: flex;
     flex-wrap: wrap;
-    width: ${daySize * 7}px;
+    width: ${({ isSingleMonthPicker }) => (isSingleMonthPicker ? singleMonthDaySize : daySize) * 7}px;
 
     ${MAXW_SM_SCREEN} {
       width: 100%;
@@ -216,9 +244,9 @@ export const CalendarContainer = styled.div`
   & .rdr-Day {
     display: flex;
     cursor: pointer;
-    width: ${daySize}px;
-    height: ${daySize}px;
-    line-height: ${daySize}px;
+    width: ${({ isSingleMonthPicker }) => (isSingleMonthPicker ? singleMonthDaySize : daySize)}px;
+    height: ${({ isSingleMonthPicker }) => (isSingleMonthPicker ? singleMonthDaySize : daySize)}px;
+    line-height: ${({ isSingleMonthPicker }) => (isSingleMonthPicker ? singleMonthDaySize : daySize)}px;
     font-size: 12px;
     border: 2px solid transparent;
     justify-content: center;
@@ -330,7 +358,7 @@ export const CalendarContainer = styled.div`
 `
 
 export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean }>`
-  height: 60px;
+  height: 53px;
   justify-content: center;
   width: 100%;
   position: relative;
@@ -349,6 +377,7 @@ export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean 
     `
     ${MINW_SM_SCREEN} {
       width: 50px;
+      height: 50px;
       left: auto;
       right: 20px;
     } 

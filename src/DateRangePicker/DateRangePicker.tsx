@@ -286,7 +286,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     return (
       <FloatingContainer show={show} onClickOut={this.onClickOut} horizontalAlignment={horizontalAlignment}>
-        <CalendarContainer className={className}>
+        <CalendarContainer className={className} isSingleMonthPicker={singleDateRange}>
           <div className={classes.dateRange}>
             <div>
               <Calendar {...calendarProps} offset={0} />

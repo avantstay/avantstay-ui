@@ -358,7 +358,7 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 `
 
 export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean }>`
-  height: 53px;
+  height: 58px;
   justify-content: center;
   width: 100%;
   position: relative;

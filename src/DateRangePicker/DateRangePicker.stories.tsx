@@ -219,3 +219,48 @@ DateRangePickerStories.add('Default usage', () => (
       ))}
     </div>
   ))
+  .add('With custom component inside floating container', () => (
+    <div>
+      <p>
+        First first first first first first first first first first first first first first first first first first
+        first first first first first first first first first first first first first first first first first first
+        first first first first first first first first first first first first first first first first first first
+        first first first first first first first first first first first first first
+      </p>
+      {boolean('show extra paragraph at the top', false) && (
+        <p>
+          Second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second second second second second second second second second second second second second
+          second second second
+        </p>
+      )}
+      <div className="oito">
+        <DateRangePicker
+          show={boolean('show', true)}
+          singleDateRange={boolean('singleDateRange', false)}
+          onChange={action('DateRangePicker[onChange]')}
+          onClose={action('DateRangePicker[onClose]')}
+          onInit={action('DateRangePicker[onInit]')}
+          onClickOut={action('DateRangePicker[onClickOut]')}
+          customHeaderComponent={
+            <div>
+              Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom
+              Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom
+              Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom
+            </div>
+          }
+        />
+      </div>
+      {new Array(100).fill(1).map((it, i) => (
+        <p key={i}>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor,
+          eaque error esse ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam. Lorem
+          ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consequuntur, culpa cumque dicta dolor, eaque
+          error esse ipsam libero maxime natus nisi quae quod ratione repudiandae rerum saepe ullam veniam.
+        </p>
+      ))}
+    </div>
+  ))

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { Component } from 'react'
+import React, { Component, ReactNode } from 'react'
 import addMonths from 'date-fns/add_months'
 import endOfDay from 'date-fns/end_of_day'
 import isAfter from 'date-fns/is_after'
@@ -62,6 +62,7 @@ export interface DateRangePickerProps {
   originalRange?: DateRange
   totalAmount?: string
   blockedDates?: string[]
+  customHeaderComponent?: ReactNode
 }
 
 export interface DateRangePickerState {
@@ -247,6 +248,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       originalRange,
       totalAmount,
       blockedDates,
+      customHeaderComponent,
     } = this.props
 
     const { range, link } = this.state
@@ -272,6 +274,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       onChange: this.handleSelect,
       originalRange,
       blockedDates,
+      customHeaderComponent,
     }
 
     const isBothDatesEqual =
@@ -288,7 +291,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       <FloatingContainer show={show} onClickOut={this.onClickOut} horizontalAlignment={horizontalAlignment}>
         <CalendarContainer className={className} isSingleMonthPicker={singleDateRange}>
           <div className={classes.dateRange}>
-            <div>
+            {customHeaderComponent && <div className={classes.customComponentContainer}>{customHeaderComponent}</div>}
+            <div className={classes.dateRangeContainer}>
               <Calendar {...calendarProps} offset={0} />
               <ClearButtonContainer singleMonthPicker={singleDateRange}>
                 <ClearButton

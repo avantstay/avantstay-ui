@@ -21,6 +21,8 @@ import { boolean } from '@storybook/addon-knobs'
 
 const daySize = 28
 const singleMonthDaySize = 32
+const datePickerMaxWidth = 420
+const singleMonthMaxWidth = 220
 
 export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
   box-sizing: border-box;
@@ -37,6 +39,10 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
     right: 0 !important;
     left: 0 !important;
     overflow: auto;
+  }
+
+  & .rdr-CustomComponent-container {
+    max-width: ${({ isSingleMonthPicker }) => (isSingleMonthPicker ? singleMonthMaxWidth : datePickerMaxWidth)}px;
   }
 
   & .rdr-DateRange {
@@ -62,6 +68,10 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
         transition: all 0ms;
       }
     }
+  }
+
+  & .rdr-DateRange-container {
+    position: relative;
   }
 
   & .rdr-MonthAndYear-innerWrapper {
@@ -358,7 +368,6 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 `
 
 export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean }>`
-  height: 58px;
   justify-content: center;
   width: 100%;
   position: relative;
@@ -376,10 +385,10 @@ export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean 
     props.singleMonthPicker &&
     `
     ${MINW_SM_SCREEN} {
-      width: 50px;
-      height: 50px;
+      width: 45px;
       left: auto;
-      right: 20px;
+      right: 0;
+      top: -2px;
     } 
   `}
 

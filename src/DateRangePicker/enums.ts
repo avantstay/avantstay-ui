@@ -10,7 +10,9 @@ export const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].reduce(
 
 export const defaultClasses = {
   calendar: 'rdr-Calendar',
+  customComponentContainer: 'rdr-CustomComponent-container',
   dateRange: 'rdr-DateRange',
+  dateRangeContainer: 'rdr-DateRange-container',
   predefinedRanges: 'rdr-PredefinedRanges',
   predefinedRangesItem: 'rdr-PredefinedRangesItem',
   predefinedRangesItemActive: 'rdr-PredefinedRangesItemActive',
@@ -35,6 +37,7 @@ export const defaultClasses = {
   nextButton: 'rdr-MonthAndYear-button next',
   nextButtonSingleMonth: 'rdr-MonthAndYear-button next-single',
   month: 'rdr-MonthAndYear-month',
+  monthAndYearContainer: 'rdr-MonthAndYear-container',
   monthAndYearDivider: 'rdr-MonthAndYear-divider',
   year: 'rdr-MonthAndYear-year',
   daySunday: 'rdr-Sunday',

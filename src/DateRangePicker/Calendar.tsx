@@ -166,7 +166,7 @@ class Calendar extends React.Component<any, CalendarState> {
             <HiddenAccessibilityText>prev</HiddenAccessibilityText>
           </button>
         ) : null}
-        <span>
+        <span className={classes.monthAndYearContainer}>
           <span className={classes.month}>{month}</span>
           <span className={classes.year}>{year}</span>
         </span>

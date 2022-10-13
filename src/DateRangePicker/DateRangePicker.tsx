@@ -57,6 +57,7 @@ export interface DateRangePickerProps {
   showMonthArrow?: any
   dateTooltip?: any
   singleDateRange?: boolean
+  singleMonthPicker?: boolean
   onClose?: () => void
   onClickOut?: () => void
   originalRange?: DateRange
@@ -94,6 +95,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     applyLabel: 'Apply',
     horizontalAlignment: 'left',
     singleDateRange: false,
+    showSingleMonthPicker: false,
   }
 
   step = 0
@@ -245,6 +247,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       horizontalAlignment,
       dateTooltip,
       singleDateRange,
+      showSingleMonthPicker,
       originalRange,
       totalAmount,
       blockedDates,
@@ -269,6 +272,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       specialDays,
       dateTooltip,
       singleDateRange,
+      showSingleMonthPicker,
       link: linkedCalendars && link,
       linkCB: this.moveCalendarDisplay,
       onChange: this.handleSelect,
@@ -289,12 +293,12 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
     return (
       <FloatingContainer show={show} onClickOut={this.onClickOut} horizontalAlignment={horizontalAlignment}>
-        <CalendarContainer className={className} isSingleMonthPicker={singleDateRange}>
+        <CalendarContainer className={className} isSingleMonthPicker={showSingleMonthPicker}>
           <div className={classes.dateRange}>
             {customHeaderComponent && <div className={classes.customComponentContainer}>{customHeaderComponent}</div>}
             <div className={classes.dateRangeContainer}>
               <Calendar {...calendarProps} offset={0} />
-              <ClearButtonContainer singleMonthPicker={singleDateRange}>
+              <ClearButtonContainer singleMonthPicker={showSingleMonthPicker}>
                 <ClearButton
                   show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
                   onClick={this.clearRange}
@@ -306,7 +310,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                   <IconClose />
                 </CloseButton>
               </ClearButtonContainer>
-              {!singleDateRange && <Calendar {...calendarProps} offset={1} />}
+              {!showSingleMonthPicker && <Calendar {...calendarProps} offset={1} />}
             </div>
             <ApplyButton
               show={showApply}

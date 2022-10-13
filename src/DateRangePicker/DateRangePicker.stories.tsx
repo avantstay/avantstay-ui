@@ -264,3 +264,25 @@ DateRangePickerStories.add('Default usage', () => (
       ))}
     </div>
   ))
+  .add('With single month picker', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      minDate={text('minDate', `${now.getFullYear()}-${now.getMonth() + 1}-10`)}
+      maxDate={text('maxDate', `${now.getFullYear()}-${now.getMonth() + 2}-10`)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+      showSingleMonthPicker={true}
+    />
+  ))
+  .add('With single day picker', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      minDate={text('minDate', `${now.getFullYear()}-${now.getMonth() + 1}-10`)}
+      maxDate={text('maxDate', `${now.getFullYear()}-${now.getMonth() + 2}-10`)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+      singleDateRange={true}
+    />
+  ))

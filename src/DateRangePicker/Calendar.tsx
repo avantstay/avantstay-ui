@@ -77,7 +77,7 @@ class Calendar extends React.Component<any, CalendarState> {
     disableDaysBeforeToday: false,
     classNames: {},
     specialDays: [],
-    singleDateRange: false,
+    showSingleMonthPicker: false,
   }
 
   constructor(props: CalendarProps, context: any) {
@@ -152,14 +152,14 @@ class Calendar extends React.Component<any, CalendarState> {
   }
 
   renderMonthAndYear(classes: any) {
-    const { showMonthArrow, singleDateRange } = this.props
+    const { showMonthArrow, showSingleMonthPicker } = this.props
 
     const shownDate = this.getShownDate()
     const month = months[getMonth(shownDate)]
     const year = getYear(shownDate)
 
     return (
-      <div className={singleDateRange ? classes.monthAndYearWrapperSingleMonth : classes.monthAndYearWrapper}>
+      <div className={showSingleMonthPicker ? classes.monthAndYearWrapperSingleMonth : classes.monthAndYearWrapper}>
         {showMonthArrow ? (
           <button type="button" className={classes.prevButton} onClick={(e: any) => this.changeMonth(-1, e)}>
             <IconAngleLeft />
@@ -173,7 +173,7 @@ class Calendar extends React.Component<any, CalendarState> {
         {showMonthArrow ? (
           <button
             type="button"
-            className={singleDateRange ? classes.nextButtonSingleMonth : classes.nextButton}
+            className={showSingleMonthPicker ? classes.nextButtonSingleMonth : classes.nextButton}
             onClick={(e: any) => this.changeMonth(1, e)}
           >
             <IconAngleRight />

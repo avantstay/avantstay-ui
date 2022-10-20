@@ -57,13 +57,14 @@ export interface DateRangePickerProps {
   showMonthArrow?: any
   dateTooltip?: any
   singleDateRange?: boolean
-  singleMonthPicker?: boolean
+  showSingleMonthPicker?: boolean
   onClose?: () => void
   onClickOut?: () => void
   originalRange?: DateRange
   totalAmount?: string
   blockedDates?: string[]
   customHeaderComponent?: ReactNode
+  shouldStartEmpty?: boolean
 }
 
 export interface DateRangePickerState {
@@ -96,6 +97,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     horizontalAlignment: 'left',
     singleDateRange: false,
     showSingleMonthPicker: false,
+    shouldStartEmpty: false,
   }
 
   step = 0
@@ -103,8 +105,8 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   constructor(props: DateRangePickerProps) {
     super(props)
 
-    const { linkedCalendars } = props
-    const shouldStartEmptySelected = this.props.originalRange && props.startDate === undefined
+    const { linkedCalendars, shouldStartEmpty } = props
+    const shouldStartEmptySelected = shouldStartEmpty || (this.props.originalRange && props.startDate === undefined)
 
     const startDate = startOfDay(getDate(props.startDate as Date, new Date()))
     const endDate = endOfDay(getDate(props.endDate as Date, new Date()))
@@ -298,7 +300,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             {customHeaderComponent && <div className={classes.customComponentContainer}>{customHeaderComponent}</div>}
             <div className={classes.dateRangeContainer}>
               <Calendar {...calendarProps} offset={0} />
-              <ClearButtonContainer singleMonthPicker={showSingleMonthPicker}>
+              <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker}>
                 <ClearButton
                   show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
                   onClick={this.clearRange}

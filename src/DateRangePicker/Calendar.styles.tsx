@@ -367,7 +367,7 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
   }
 `
 
-export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean }>`
+export const ClearButtonContainer = styled('div')<{ showSingleMonthPicker?: boolean }>`
   justify-content: center;
   width: 100%;
   position: relative;
@@ -382,7 +382,7 @@ export const ClearButtonContainer = styled('div')<{ singleMonthPicker?: boolean 
   }
 
   ${props =>
-    props.singleMonthPicker &&
+    props.showSingleMonthPicker &&
     `
     ${MINW_SM_SCREEN} {
       width: 45px;

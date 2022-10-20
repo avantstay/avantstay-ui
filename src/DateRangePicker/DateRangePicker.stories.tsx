@@ -159,6 +159,16 @@ DateRangePickerStories.add('Default usage', () => (
       clearButtonLabel={'Clear button label'}
     />
   ))
+  .add('With initial empty selection', () => (
+    <DateRangePicker
+      shouldStartEmpty
+      show={boolean('show', true)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+      onClickOut={action('DateRangePicker[onClickOut]')}
+    />
+  ))
   .add('With personalized clear button color', () => (
     <DateRangePicker
       show={boolean('show', true)}

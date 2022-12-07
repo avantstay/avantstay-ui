@@ -228,7 +228,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
   render() {
     const {
-      floatingContainerClassName,
+      rootClassName,
       className,
       format,
       linkedCalendars,

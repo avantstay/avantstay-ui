@@ -31,6 +31,7 @@ export type DateRange<T = AnyDate> = {
 }
 
 export interface DateRangePickerProps {
+  rootClassName?: string
   className?: string
   clearButtonLabel?: string
   clearButtonColor?: string
@@ -227,6 +228,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
 
   render() {
     const {
+      rootClassName,
       className,
       format,
       linkedCalendars,
@@ -294,7 +296,12 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     const days = getDaysRange(selectedRange)
 
     return (
-      <FloatingContainer show={show} onClickOut={this.onClickOut} horizontalAlignment={horizontalAlignment}>
+      <FloatingContainer
+        className={rootClassName}
+        show={show}
+        onClickOut={this.onClickOut}
+        horizontalAlignment={horizontalAlignment}
+      >
         <CalendarContainer className={className} isSingleMonthPicker={showSingleMonthPicker}>
           <div className={classes.dateRange}>
             {customHeaderComponent && <div className={classes.customComponentContainer}>{customHeaderComponent}</div>}

@@ -389,7 +389,7 @@ export const ClearButtonContainer = styled('div')<{ showSingleMonthPicker?: bool
       left: auto;
       right: 0;
       top: -2px;
-    } 
+    }
   `}
 
   &::before {
@@ -473,6 +473,9 @@ export const IconClose = styled(CloseIcon)`
   }
 `
 
+export const IconButton = styled.button`
+  padding: 0;
+`
 export const IconAngleRight = styled(AngleRightIcon)``
 
 export const IconAngleLeft = styled(AngleLeftIcon)``

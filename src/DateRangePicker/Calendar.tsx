@@ -17,7 +17,7 @@ import setMonth from 'date-fns/set_month'
 import startOfDay from 'date-fns/start_of_day'
 import startOfMonth from 'date-fns/start_of_month'
 import * as React from 'react'
-import { IconAngleLeft, IconAngleRight } from './Calendar.styles'
+import { IconAngleLeft, IconAngleRight, IconButton } from './Calendar.styles'
 import { AnyDate, DateRange } from './DateRangePicker'
 import { checkEndEdge, checkRange, checkStartEdge, isOutsideMinMax } from './dateUtils'
 import DayCell from './DayCell'
@@ -161,24 +161,24 @@ class Calendar extends React.Component<any, CalendarState> {
     return (
       <div className={showSingleMonthPicker ? classes.monthAndYearWrapperSingleMonth : classes.monthAndYearWrapper}>
         {showMonthArrow ? (
-          <button type="button" className={classes.prevButton} onClick={(e: any) => this.changeMonth(-1, e)}>
+          <IconButton type="button" className={classes.prevButton} onClick={(e: any) => this.changeMonth(-1, e)}>
             <IconAngleLeft />
             <HiddenAccessibilityText>prev</HiddenAccessibilityText>
-          </button>
+          </IconButton>
         ) : null}
         <span className={classes.monthAndYearContainer}>
           <span className={classes.month}>{month}</span>
           <span className={classes.year}>{year}</span>
         </span>
         {showMonthArrow ? (
-          <button
+          <IconButton
             type="button"
             className={showSingleMonthPicker ? classes.nextButtonSingleMonth : classes.nextButton}
             onClick={(e: any) => this.changeMonth(1, e)}
           >
             <IconAngleRight />
             <HiddenAccessibilityText>next</HiddenAccessibilityText>
-          </button>
+          </IconButton>
         ) : null}
       </div>
     )

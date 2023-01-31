@@ -13,6 +13,7 @@ export const defaultClasses = {
   customComponentContainer: 'rdr-CustomComponent-container',
   dateRange: 'rdr-DateRange',
   dateRangeContainer: 'rdr-DateRange-container',
+  dateRangeMobileHeader: 'rdr-DateRange-mobile-header',
   predefinedRanges: 'rdr-PredefinedRanges',
   predefinedRangesItem: 'rdr-PredefinedRangesItem',
   predefinedRangesItemActive: 'rdr-PredefinedRangesItemActive',

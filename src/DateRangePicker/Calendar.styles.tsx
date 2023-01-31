@@ -1,6 +1,6 @@
 import { renderIf } from 'react-renderif-hoc'
 import styled from '@emotion/styled'
-import { lighten, darken } from '../utils/cssUtils'
+import { darken } from '../utils/cssUtils'
 import AngleLeftIcon from './assets/AngleLeftIcon'
 import AngleRightIcon from './assets/AngleRightIcon'
 import CloseIcon from './assets/CloseIcon'
@@ -17,7 +17,6 @@ import {
   NEUTRAL_MEDIUM,
 } from './colors'
 import { MAXW_SM_SCREEN, MINW_SM_SCREEN, Z_INDEX_CALENDAR_CONTAINER } from './constants'
-import { boolean } from '@storybook/addon-knobs'
 
 const daySize = 28
 const singleMonthDaySize = 32
@@ -96,6 +95,7 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 
     ${MAXW_SM_SCREEN} {
       margin-left: 0;
+      margin-top: 30px;
     }
   }
 

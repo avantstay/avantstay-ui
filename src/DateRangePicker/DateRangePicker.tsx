@@ -306,6 +306,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
           <div className={classes.dateRange}>
             {customHeaderComponent && <div className={classes.customComponentContainer}>{customHeaderComponent}</div>}
             <div className={classes.dateRangeContainer}>
+              <div className={classes.dateRangeMobileHeader} />
               <Calendar {...calendarProps} offset={0} />
               <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker}>
                 <ClearButton

@@ -269,7 +269,7 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 
     ${MAXW_SM_SCREEN} {
       width: calc((100vw - 34px) / 7);
-      height: calc((50vh - 40px) / 7);
+      height: calc((50vh - 150px) / 7);
       font-size: 4vw;
     }
 
@@ -365,46 +365,43 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
       border-top-left-radius: 2px;
     }
   }
+
+  & .rdr-DateRange .rdr-DateRange-mobile-header {
+    display: none;
+
+    ${MAXW_SM_SCREEN} {
+      min-height: 30px;
+      display: flex;
+      width: 100%;
+      padding-bottom: 35px;
+    }
+  }
 `
 
 export const ClearButtonContainer = styled('div')<{ showSingleMonthPicker?: boolean }>`
-  justify-content: center;
-  width: 100%;
-  position: relative;
+  position: absolute;
+  width: 80px;
+  left: calc(50% - 40px);
+  top: 0;
   display: flex;
   align-items: center;
-
-  ${MINW_SM_SCREEN} {
-    position: absolute;
-    width: 80px;
-    left: calc(50% - 40px);
-    top: 0;
-  }
+  justify-content: center;
 
   ${props =>
     props.showSingleMonthPicker &&
     `
-    ${MINW_SM_SCREEN} {
       width: 45px;
       left: auto;
       right: 0;
       top: -2px;
-    }
   `}
 
-  &::before {
-    content: '';
+  ${MAXW_SM_SCREEN} {
     width: 100%;
-    position: absolute;
     left: 0;
-    top: 50%;
-    display: block;
-    border-top: 1px solid #ddd;
-    z-index: ${Z_INDEX_CALENDAR_CONTAINER + 1};
-
-    ${MINW_SM_SCREEN} {
-      display: none;
-    }
+    top: 0;
+    justify-content: space-between;
+    flex-direction: row-reverse;
   }
 `
 
@@ -433,6 +430,10 @@ export const ClearButton = styled.button<ClearButtonProps>`
   &:hover {
     color: ${({ color }) => darken(color, 15)};
   }
+
+  ${MAXW_SM_SCREEN} {
+    justify-content: flex-end;
+  }
 `
 
 interface CloseButtonProps {
@@ -442,35 +443,29 @@ interface CloseButtonProps {
 
 export const CloseButton = styled.button<CloseButtonProps>`
   display: none;
-  position: absolute;
+  position: relative;
   border: none;
-  right: 0;
   z-index: ${Z_INDEX_CALENDAR_CONTAINER + 1};
-  background: ${({ color }) => color};
-  border-radius: 99px;
   height: 24px;
-  width: 40px;
+  width: 24px;
   align-items: center;
   justify-content: center;
-  top: calc(50% - 12px);
   outline: none;
+  cursor: pointer;
+  background: none;
 
   ${MAXW_SM_SCREEN} {
-    display: flex;
+    display: block;
   }
 
-  &:active {
-    background: ${({ color }) => lighten(color, 10)};
+  &:hover {
+    opacity: 0.8;
   }
 `
 
 export const IconClose = styled(CloseIcon)`
   width: 20px;
   height: 20px;
-
-  & path {
-    fill: white;
-  }
 `
 
 export const IconButton = styled.button`

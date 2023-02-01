@@ -43,4 +43,7 @@ export const defaultClasses = {
   year: 'rdr-MonthAndYear-year',
   daySunday: 'rdr-Sunday',
   daySpecialDay: 'rdr-SpecialDay',
+  clearButton: 'rdr-clear-button',
+  closeButton: 'rdr-close-button',
+  actionsContainer: 'rdr-button-actions-container',
 }

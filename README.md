@@ -12,7 +12,6 @@ yarn add @avantstay/avantstay-ui
 
 ```typescript jsx
 import CollapsibleContainer from '@avantstay/avantstay-ui/lib/CollapsibleContainer'
-
 ;<CollapsibleContainer
   delay={number} // (optional, default: 250) Delay in milliseconds when expanding/collapsing
   isCollapsed={boolean} // (optional, default: false) Flag to control when it is collapsed
@@ -32,6 +31,7 @@ import DateRangePicker from '@avantstay/avantstay-ui/lib/DateRangePicker'
   endDate={...}
   minDate={...}
   maxDate={...}
+  dateLimit={...}
   onClose={...}
   onChange={...}
   onInit={...}
@@ -42,7 +42,6 @@ import DateRangePicker from '@avantstay/avantstay-ui/lib/DateRangePicker'
 
 ```typescript jsx
 import DropDownMenu from '@avantstay/avantstay-ui/lib/DropDownMenu'
-
 ;<DropDownMenu
   items={[
     {

@@ -66,6 +66,7 @@ export interface DateRangePickerProps {
   blockedDates?: string[]
   customHeaderComponent?: ReactNode
   shouldStartEmpty?: boolean
+  showCloseButton?: boolean
 }
 
 export interface DateRangePickerState {
@@ -99,6 +100,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     singleDateRange: false,
     showSingleMonthPicker: false,
     shouldStartEmpty: false,
+    showCloseButton: true,
   }
 
   step = 0
@@ -256,6 +258,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       totalAmount,
       blockedDates,
       customHeaderComponent,
+      showCloseButton,
     } = this.props
 
     const { range, link } = this.state
@@ -308,15 +311,21 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             <div className={classes.dateRangeContainer}>
               <div className={classes.dateRangeMobileHeader} />
               <Calendar {...calendarProps} offset={0} />
-              <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker}>
+              <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker} className={classes.actionsContainer}>
                 <ClearButton
                   show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
                   onClick={this.clearRange}
                   color={clearButtonColor}
+                  className={classes.clearButton}
                 >
                   {clearButtonLabel}
                 </ClearButton>
-                <CloseButton onClick={onClose} color={clearButtonColor}>
+                <CloseButton
+                  onClick={onClose}
+                  color={clearButtonColor}
+                  show={showCloseButton}
+                  className={classes.closeButton}
+                >
                   <IconClose />
                 </CloseButton>
               </ClearButtonContainer>

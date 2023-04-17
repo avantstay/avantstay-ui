@@ -7,6 +7,9 @@ import DateRangePicker from './'
 const DateRangePickerStories = storiesOf('DatePicker', module)
 const now = new Date()
 
+var threeDaysAfter = new Date(Date.now() + 3 * 86400000)
+var fiveDaysAfter = new Date(Date.now() + 5 * 86400000)
+
 DateRangePickerStories.add('Default usage', () => (
   <div>
     <p>
@@ -294,5 +297,18 @@ DateRangePickerStories.add('Default usage', () => (
       onClose={action('DateRangePicker[onClose]')}
       onInit={action('DateRangePicker[onInit]')}
       singleDateRange={true}
+    />
+  ))
+  .add('With multi selected days', () => (
+    <DateRangePicker
+      show={boolean('show', true)}
+      minDate={text('minDate', `${now.getFullYear()}-${now.getMonth() + 1}-10`)}
+      maxDate={text('maxDate', `${now.getFullYear()}-${now.getMonth() + 2}-10`)}
+      onChange={action('DateRangePicker[onChange]')}
+      onClose={action('DateRangePicker[onClose]')}
+      onInit={action('DateRangePicker[onInit]')}
+      singleDateRange={true}
+      showSingleMonthPicker
+      multiSelectedDates={[now, threeDaysAfter, fiveDaysAfter]}
     />
   ))

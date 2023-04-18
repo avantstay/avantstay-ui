@@ -67,6 +67,7 @@ export interface DateRangePickerProps {
   customHeaderComponent?: ReactNode
   shouldStartEmpty?: boolean
   showCloseButton?: boolean
+  multiSelectedDates?: AnyDate[]
 }
 
 export interface DateRangePickerState {
@@ -259,6 +260,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       blockedDates,
       customHeaderComponent,
       showCloseButton,
+      multiSelectedDates,
     } = this.props
 
     const { range, link } = this.state
@@ -286,6 +288,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       originalRange,
       blockedDates,
       customHeaderComponent,
+      multiSelectedDates,
     }
 
     const isBothDatesEqual =

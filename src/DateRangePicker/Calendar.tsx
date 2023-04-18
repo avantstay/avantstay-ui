@@ -62,6 +62,7 @@ export interface CalendarProps {
   dateTooltip?: any
   singleDateRange?: boolean
   blockedDates?: string[]
+  multiSelectedDates?: AnyDate[]
 }
 
 export interface CalendarState {
@@ -213,6 +214,7 @@ class Calendar extends React.Component<any, CalendarState> {
       dateTooltip,
       originalRange,
       blockedDates,
+      multiSelectedDates,
     } = this.props
 
     const shownDate = this.getShownDate()
@@ -257,6 +259,7 @@ class Calendar extends React.Component<any, CalendarState> {
       const { dayMoment, isPassive } = data
       const formattedDay = format(dayMoment, 'YYYY-MM-DD')
       const isSelected = !range && +parse(dayMoment) === dateUnix
+      const isMultiDateSelected = multiSelectedDates?.some(date => format(date, 'YYYY-MM-DD') === formattedDay)
       const isInRange = range && checkRange(dayMoment, range)
       const isStartEdge = range && checkStartEdge(dayMoment, range)
       const isEndEdge = (isStartEdge && range && !range.endDate) || (range && checkEndEdge(dayMoment, range))
@@ -298,7 +301,7 @@ class Calendar extends React.Component<any, CalendarState> {
           isEndEdge={!shouldNotHighlight && isEndEdge}
           hasOriginalRange={!!originalRange}
           isInOriginalRange={isInOriginalRange}
-          isSelected={!shouldNotHighlight && (isSelected || isEdge)}
+          isSelected={(!shouldNotHighlight && (isSelected || isEdge)) || isMultiDateSelected}
           isInRange={isInRange}
           isSunday={isSunday}
           isSpecialDay={isSpecialDay}

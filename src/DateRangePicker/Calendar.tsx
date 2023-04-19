@@ -273,20 +273,27 @@ class Calendar extends React.Component<any, CalendarState> {
       const shouldNotApplyPassive = !isInOriginalRange && !isInRange && !isStartEdge
       const isBlockedDay = blockedDates && blockedDates.includes(formattedDay)
 
-      const isAllDaysBeforeAvailable =
-        blockedDates && range && !range.endDate && isBefore(dayMoment, range.startDate)
+      const isAllDaysBeforeAvailable = () => {
+        if (multiSelectedDates) {
+          return true
+        }
+        return blockedDates && range && !range.endDate && isBefore(dayMoment, range.startDate)
           ? eachDay(dayMoment, range.startDate)
               .map(it => format(it, 'YYYY-MM-DD'))
               .every(it => !blockedDates.includes(it))
           : true
+      }
 
-      const isAllDaysAfterAvailable =
-        blockedDates && range && !range.endDate && isAfter(dayMoment, range.startDate)
+      const isAllDaysAfterAvailable = () => {
+        if (multiSelectedDates) {
+          return true
+        }
+        return blockedDates && range && !range.endDate && isAfter(dayMoment, range.startDate)
           ? eachDay(range.startDate, dayMoment)
               .map(it => format(it, 'YYYY-MM-DD'))
               .every(it => !blockedDates.includes(it))
           : true
-
+      }
       const shouldNotHighlight =
         originalRange &&
         range &&
@@ -309,7 +316,7 @@ class Calendar extends React.Component<any, CalendarState> {
           key={index}
           isPassive={
             shouldNotApplyPassive &&
-            (isPassive || isOutOfRange || isBlockedDay || !isAllDaysBeforeAvailable || !isAllDaysAfterAvailable)
+            (isPassive || isOutOfRange || isBlockedDay || !isAllDaysBeforeAvailable() || !isAllDaysAfterAvailable())
           }
           classNames={classes}
           tooltip={dateTooltip}

@@ -308,7 +308,7 @@ class Calendar extends React.Component<any, CalendarState> {
           isEndEdge={!shouldNotHighlight && isEndEdge}
           hasOriginalRange={!!originalRange}
           isInOriginalRange={isInOriginalRange}
-          isSelected={(!shouldNotHighlight && (isSelected || isEdge)) || isMultiDateSelected}
+          isSelected={multiSelectedDates ? isMultiDateSelected : !shouldNotHighlight && (isSelected || isEdge)}
           isInRange={isInRange}
           isSunday={isSunday}
           isSpecialDay={isSpecialDay}

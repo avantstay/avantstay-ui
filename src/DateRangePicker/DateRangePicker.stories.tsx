@@ -1,7 +1,8 @@
 import { action } from '@storybook/addon-actions'
 import { boolean, text } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import { isSameDay } from 'date-fns'
+import React, { useState } from 'react'
 import DateRangePicker from './'
 
 const DateRangePickerStories = storiesOf('DatePicker', module)
@@ -299,16 +300,32 @@ DateRangePickerStories.add('Default usage', () => (
       singleDateRange={true}
     />
   ))
-  .add('With multi selected days', () => (
-    <DateRangePicker
-      show={boolean('show', true)}
-      minDate={text('minDate', `${now.getFullYear()}-${now.getMonth() + 1}-10`)}
-      maxDate={text('maxDate', `${now.getFullYear()}-${now.getMonth() + 2}-10`)}
-      onChange={action('DateRangePicker[onChange]')}
-      onClose={action('DateRangePicker[onClose]')}
-      onInit={action('DateRangePicker[onInit]')}
-      singleDateRange={true}
-      showSingleMonthPicker
-      multiSelectedDates={[now, threeDaysAfter, fiveDaysAfter]}
-    />
-  ))
+  .add('With multi selected days', () => {
+    const [selectedDates, setSelectedDates] = useState([now, threeDaysAfter, fiveDaysAfter])
+    return (
+      <DateRangePicker
+        show={boolean('show', true)}
+        minDate={text('minDate', `${now.getFullYear()}-${now.getMonth() + 1}-10`)}
+        maxDate={text('maxDate', `${now.getFullYear()}-${now.getMonth() + 2}-10`)}
+        onChange={date => {
+          const startDate = date?.startDate as Date
+          if (!startDate) {
+            setSelectedDates([])
+          } else {
+            const isDateSelected = selectedDates.some(currentDate => isSameDay(currentDate, startDate))
+
+            setSelectedDates(prevState =>
+              isDateSelected
+                ? [...prevState.filter(currentDate => !isSameDay(currentDate, startDate))]
+                : [...prevState, startDate]
+            )
+          }
+        }}
+        onClose={action('DateRangePicker[onClose]')}
+        onInit={action('DateRangePicker[onInit]')}
+        singleDateRange={true}
+        showSingleMonthPicker
+        multiSelectedDates={selectedDates}
+      />
+    )
+  })

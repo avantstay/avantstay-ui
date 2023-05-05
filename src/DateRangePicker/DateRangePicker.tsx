@@ -360,9 +360,9 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
                 </div>
               </>
             )}
+            {children}
           </div>
         </CalendarContainer>
-        {children}
       </FloatingContainer>
     )
   }

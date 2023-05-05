@@ -266,7 +266,9 @@ DateRangePickerStories.add('Default usage', () => (
               Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom Custom
             </div>
           }
-        />
+        >
+          Sample custom footer
+        </DateRangePicker>
       </div>
       {new Array(100).fill(1).map((it, i) => (
         <p key={i}>

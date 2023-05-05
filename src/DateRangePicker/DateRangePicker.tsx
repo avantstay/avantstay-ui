@@ -32,6 +32,8 @@ export type DateRange<T = AnyDate> = {
 
 export interface DateRangePickerProps {
   rootClassName?: string
+
+  children?: ReactNode
   className?: string
   clearButtonLabel?: string
   clearButtonColor?: string
@@ -232,6 +234,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
   render() {
     const {
       rootClassName,
+      children,
       className,
       format,
       linkedCalendars,
@@ -359,6 +362,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
             )}
           </div>
         </CalendarContainer>
+        {children}
       </FloatingContainer>
     )
   }

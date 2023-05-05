@@ -326,12 +326,12 @@ class Calendar extends React.Component<any, CalendarState> {
   }
 
   render() {
-    const { classNames } = this.props
+    const { classNames, offset } = this.props
 
     const classes = { ...defaultClasses, ...classNames }
 
     return (
-      <div className={classes.calendar}>
+      <div className={`${classes.calendar} ${classes.calendar}-${offset}`}>
         <div className={classes.monthAndYear}>{this.renderMonthAndYear(classes)}</div>
         <div className={classes.weekDays}>{this.renderWeekdays(classes)}</div>
         <div className={classes.days}>{this.renderDays(classes)}</div>

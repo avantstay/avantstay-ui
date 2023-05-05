@@ -181,19 +181,19 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
   }
 
   ${MINW_SM_SCREEN} {
-    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.next {
+    & .rdr-Calendar-0 .rdr-MonthAndYear-button.next {
       visibility: hidden;
     }
-    & .rdr-Calendar:last-child .rdr-MonthAndYear-button.next {
+    & .rdr-Calendar-1 .rdr-MonthAndYear-button.next {
       padding-right: 0;
     }
-    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.prev {
+    & .rdr-Calendar-0 .rdr-MonthAndYear-button.prev {
       padding-left: 0;
     }
-    & .rdr-Calendar:last-child .rdr-MonthAndYear-button.prev {
+    & .rdr-Calendar-1 .rdr-MonthAndYear-button.prev {
       visibility: hidden;
     }
-    & .rdr-Calendar:first-child .rdr-MonthAndYear-button.next-single {
+    & .rdr-Calendar-0 .rdr-MonthAndYear-button.next-single {
       visibility: visible;
     }
   }

@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import { boolean, text } from '@storybook/addon-knobs'
+import { boolean, text, number } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import { isSameDay } from 'date-fns'
 import React, { useState } from 'react'
@@ -327,6 +327,7 @@ DateRangePickerStories.add('Default usage', () => (
         onInit={action('DateRangePicker[onInit]')}
         singleDateRange={true}
         showSingleMonthPicker
+        firstDayOfWeek={number('firstDayOfWeek', 6)}
         multiSelectedDates={selectedDates}
       />
     )

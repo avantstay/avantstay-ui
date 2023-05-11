@@ -23,7 +23,7 @@ import { checkEndEdge, checkRange, checkStartEdge, isOutsideMinMax } from './dat
 import DayCell from './DayCell'
 import { defaultClasses, months } from './enums'
 import { HiddenAccessibilityText } from './HiddenAccessibilityText'
-import { weekdaysShort } from './weekdays'
+import { twoWeekdaysShort } from './weekdays'
 
 export interface CalendarProps {
   showMonthArrow: boolean
@@ -190,7 +190,7 @@ class Calendar extends React.Component<any, CalendarState> {
     const weekdays = []
 
     for (let i: number = firstDayOfWeek; i < 7 + firstDayOfWeek; i++) {
-      const day = weekdaysShort[i]
+      const day = twoWeekdaysShort[i]
 
       weekdays.push(
         <span className={classes.weekDay} key={i + day}>

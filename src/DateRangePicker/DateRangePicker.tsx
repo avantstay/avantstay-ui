@@ -304,6 +304,15 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
     const selectedRange = !range.endDate || isSameDayRange ? originalRange : range
     const days = getDaysRange(selectedRange)
 
+    const shouldDisplayClearButton = () => {
+      if (!clearButtonLabel) return false
+
+      if (multiSelectedDates) {
+        return multiSelectedDates.length > 0
+      }
+      return Boolean(range.startDate || range.endDate)
+    }
+
     return (
       <FloatingContainer
         className={rootClassName}
@@ -319,7 +328,7 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
               <Calendar {...calendarProps} offset={0} />
               <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker} className={classes.actionsContainer}>
                 <ClearButton
-                  show={Boolean((range.startDate || range.endDate) && clearButtonLabel)}
+                  show={shouldDisplayClearButton()}
                   onClick={this.clearRange}
                   color={clearButtonColor}
                   className={classes.clearButton}

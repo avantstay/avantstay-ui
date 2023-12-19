@@ -32,7 +32,6 @@ export type DateRange<T = AnyDate> = {
 
 export interface DateRangePickerProps {
   rootClassName?: string
-
   children?: ReactNode
   className?: string
   clearButtonLabel?: string
@@ -322,28 +321,30 @@ class DateRangePicker extends Component<DateRangePickerProps, DateRangePickerSta
       >
         <CalendarContainer className={className} isSingleMonthPicker={showSingleMonthPicker}>
           <div className={classes.dateRange}>
+            <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker} className={classes.actionsContainer}>
+              <ClearButton
+                show={shouldDisplayClearButton()}
+                onClick={this.clearRange}
+                color={clearButtonColor}
+                className={classes.clearButton}
+              >
+                {clearButtonLabel}
+              </ClearButton>
+              <CloseButton
+                onClick={onClose}
+                color={clearButtonColor}
+                show={showCloseButton}
+                className={classes.closeButton}
+              >
+                <IconClose />
+              </CloseButton>
+            </ClearButtonContainer>
+
             {customHeaderComponent && <div className={classes.customComponentContainer}>{customHeaderComponent}</div>}
+
             <div className={classes.dateRangeContainer}>
-              <div className={classes.dateRangeMobileHeader} />
               <Calendar {...calendarProps} offset={0} />
-              <ClearButtonContainer showSingleMonthPicker={showSingleMonthPicker} className={classes.actionsContainer}>
-                <ClearButton
-                  show={shouldDisplayClearButton()}
-                  onClick={this.clearRange}
-                  color={clearButtonColor}
-                  className={classes.clearButton}
-                >
-                  {clearButtonLabel}
-                </ClearButton>
-                <CloseButton
-                  onClick={onClose}
-                  color={clearButtonColor}
-                  show={showCloseButton}
-                  className={classes.closeButton}
-                >
-                  <IconClose />
-                </CloseButton>
-              </ClearButtonContainer>
+
               {!showSingleMonthPicker && <Calendar {...calendarProps} offset={1} />}
             </div>
             <ApplyButton

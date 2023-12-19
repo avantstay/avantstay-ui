@@ -55,14 +55,6 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 
     & > div {
       display: inline-flex;
-
-      ${MAXW_SM_SCREEN} {
-        display: inline-flex;
-        flex-direction: column;
-        min-height: 100%;
-        justify-content: center;
-      }
-
       & * {
         transition: all 0ms;
       }
@@ -71,6 +63,14 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 
   & .rdr-DateRange-container {
     position: relative;
+
+    ${MAXW_SM_SCREEN} {
+      display: inline-flex;
+      flex-direction: column;
+      min-height: 100%;
+      justify-content: center;
+      padding-top: 15px;
+    }
   }
 
   & .rdr-MonthAndYear-innerWrapper {
@@ -88,6 +88,9 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
 
   & .rdr-MonthAndYear-innerWrapper.single {
     justify-content: flex-start;
+    ${MAXW_SM_SCREEN} {
+      justify-content: space-between;
+    }
   }
 
   & .rdr-Calendar:last-child {
@@ -98,6 +101,15 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
       margin-top: 30px;
     }
   }
+
+  ${({ isSingleMonthPicker }) =>
+    isSingleMonthPicker &&
+    `
+    & .rdr-Calendar:last-child {
+      margin-left: 0;
+      margin-top: 0;
+    }
+  `}
 
   & .rdr-WeekDays {
     margin-bottom: 10px;
@@ -173,6 +185,13 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
     svg {
       width: 16px;
       height: 16px;
+    }
+
+    ${MAXW_SM_SCREEN} {
+      svg {
+        width: 22px;
+        height: 22px;
+      }
     }
   }
 
@@ -365,41 +384,31 @@ export const CalendarContainer = styled.div<{ isSingleMonthPicker?: boolean }>`
       border-top-left-radius: 2px;
     }
   }
-
-  & .rdr-DateRange .rdr-DateRange-mobile-header {
-    display: none;
-
-    ${MAXW_SM_SCREEN} {
-      min-height: 30px;
-      display: flex;
-      width: 100%;
-      padding-bottom: 35px;
-    }
-  }
 `
 
 export const ClearButtonContainer = styled('div')<{ showSingleMonthPicker?: boolean }>`
-  position: absolute;
   width: 80px;
-  left: calc(50% - 40px);
-  top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  left: calc(50% - 40px);
 
-  ${props =>
-    props.showSingleMonthPicker &&
+  ${({ showSingleMonthPicker }) =>
+    showSingleMonthPicker &&
     `
       width: 45px;
       left: auto;
-      right: 0;
-      top: -2px;
+      right: 20px;
+      top: 14px;
   `}
 
   ${MAXW_SM_SCREEN} {
-    width: 100%;
+    position: relative;
     left: 0;
     top: 0;
+    right: 0;
+    width: 100%;
     justify-content: space-between;
     flex-direction: row-reverse;
   }

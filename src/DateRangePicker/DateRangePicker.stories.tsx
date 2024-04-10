@@ -3,7 +3,8 @@ import { boolean, text, number } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import { isSameDay } from 'date-fns'
 import React, { useState } from 'react'
-import DateRangePicker from './'
+import { DateRangePicker } from './'
+import { DateRangePickerBase } from './'
 
 const DateRangePickerStories = storiesOf('DatePicker', module)
 const now = new Date()
@@ -330,5 +331,12 @@ DateRangePickerStories.add('Default usage', () => (
         firstDayOfWeek={number('firstDayOfWeek', 6)}
         multiSelectedDates={selectedDates}
       />
+    )
+  })
+  .add('Without the ReactDOM.createPortal (DateRangePickerBase)', () => {
+    return (
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        <DateRangePickerBase onChange={action('DateRangePicker[onChange]')} />
+      </div>
     )
   })

@@ -1,4 +1,4 @@
-import { AnyDate, DateRange } from './DateRangePicker'
+import { AnyDate, DateRange } from './DateRangePicker.types'
 import { endOfDay, isAfter, isBefore, isEqual, isWithinRange, startOfDay } from 'date-fns'
 
 export function checkRange(dayMoment: AnyDate, range: DateRange) {

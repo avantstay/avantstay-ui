@@ -1,5 +1,5 @@
 export { CollapsibleContainer } from './CollapsibleContainer'
-export { default as DateRangePicker } from './DateRangePicker'
+export * from './DateRangePicker'
 export { default as Avatar } from './Avatar'
 export { default as FloatingContainer } from './FloatingContainer'
 export * from './ImgLite'

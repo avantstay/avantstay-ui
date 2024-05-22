@@ -1,3 +1,4 @@
 export { DateRangePicker } from './DateRangePicker'
 export { DateRangePickerBase } from './DateRangePickerBase'
-export { Calendar } from './Calendar'
+import Calendar  from './Calendar'
+export { Calendar }

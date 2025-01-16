@@ -7,6 +7,12 @@ export type DateRange<T = AnyDate> = {
   startDate: AnyDate | T
   endDate: AnyDate | T
 }
+
+export interface SpecialDay {
+  date: string
+  className?: string
+}
+
 export interface DateRangePickerBaseProps {
   rootClassName?: string
   children?: ReactNode
@@ -24,7 +30,7 @@ export interface DateRangePickerBaseProps {
   twoStepChange?: boolean
   onInit?: (range: DateRange<undefined>) => void
   onChange?: (range: DateRange<undefined>, source?: any) => void
-  specialDays?: Array<any>
+  specialDays?: SpecialDay[]
   format?: any
   lang?: any
   showApply?: boolean

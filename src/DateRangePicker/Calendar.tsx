@@ -18,7 +18,7 @@ import startOfDay from 'date-fns/start_of_day'
 import startOfMonth from 'date-fns/start_of_month'
 import * as React from 'react'
 import { IconAngleLeft, IconAngleRight, IconButton } from './Calendar.styles'
-import { AnyDate, DateRange } from './DateRangePicker.types'
+import { AnyDate, DateRange, SpecialDay } from './DateRangePicker.types'
 import { checkEndEdge, checkRange, checkStartEdge, isOutsideMinMax } from './dateUtils'
 import DayCell from './DayCell'
 import { defaultClasses, months } from './enums'
@@ -56,7 +56,7 @@ export interface CalendarProps {
         endDate: any
       }
   linkCB: () => void
-  specialDays: Array<any>
+  specialDays: SpecialDay[]
   classNames: any
   locale: string
   dateTooltip?: any
@@ -267,8 +267,9 @@ class Calendar extends React.Component<any, CalendarState> {
       const isToday = isEqual(today, dayMoment)
       const isSunday = getDay(dayMoment) === 0
       const isInOriginalRange = originalRange && checkRange(dayMoment, originalRange)
-      const isSpecialDay =
-        specialDays && specialDays.some((specialDay: any) => isEqual(endOfDay(dayMoment), endOfDay(specialDay.date)))
+      const specialDay =
+        specialDays && specialDays.find((specialDay: any) => isEqual(endOfDay(dayMoment), endOfDay(specialDay.date)))
+      const isSpecialDay = Boolean(specialDay)
       const isOutOfRange = isOutsideMinMax(dayMoment, minDate, maxDate)
       const shouldNotApplyPassive = !isInOriginalRange && !isInRange && !isStartEdge
       const isBlockedDay = blockedDates && blockedDates.includes(formattedDay)
@@ -312,6 +313,7 @@ class Calendar extends React.Component<any, CalendarState> {
           isInRange={isInRange}
           isSunday={isSunday}
           isSpecialDay={isSpecialDay}
+          specialDay={specialDay}
           isToday={isToday}
           key={index}
           isPassive={

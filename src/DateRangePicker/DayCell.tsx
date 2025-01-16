@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import getDate from 'date-fns/get_date'
 import React, { Component } from 'react'
+import { SpecialDay } from './DateRangePicker.types'
 
 interface DayCellProps {
   dayMoment: any
@@ -13,6 +14,7 @@ interface DayCellProps {
   isFromPreviousMonth?: boolean
   isPassive: boolean
   isSpecialDay: boolean
+  specialDay?: SpecialDay
   isStartEdge: boolean
   isEndEdge: boolean
   isSunday: boolean
@@ -39,7 +41,7 @@ class DayCell extends Component<DayCellProps & any> {
     this.props.onSelect(this.props.dayMoment)
   }
 
-  getClassNames(classes: any) {
+  getClassNames(classes: any, specialDay?: SpecialDay) {
     const {
       isSelected,
       isInRange,
@@ -67,14 +69,15 @@ class DayCell extends Component<DayCellProps & any> {
       [classes.daySpecialDay]: isSpecialDay,
       [classes.dayOriginalRange]: isInOriginalRange,
       [classes.dayHasOriginalRange]: hasOriginalRange,
+      [specialDay?.className || '']: Boolean(specialDay),
     })
   }
 
   render() {
-    const { dayMoment, classNames, tooltip } = this.props
+    const { dayMoment, classNames, tooltip, specialDay } = this.props
     const Tooltip = tooltip
 
-    const classes = this.getClassNames(classNames)
+    const classes = this.getClassNames(classNames, specialDay)
 
     const date = () => {
       return <span className={classes}>{getDate(dayMoment)}</span>
